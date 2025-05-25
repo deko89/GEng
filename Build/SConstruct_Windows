@@ -1,0 +1,65 @@
+# Переменные.
+env = Environment(CC='clang', CXX='clang++', CXXFLAGS='-std=c++20 -O2 -fPIC')
+env.Append(
+	CPPDEFINES = [
+		'One_Translation_Unit',
+		'IMGUI_IMPL_OPENGL_LOADER_CUSTOM',
+		'IMGUI_DEFINE_MATH_OPERATORS',
+		'SDL_MAIN_HANDLED',
+		'__WINDOWS__'
+	]
+)
+
+# Пути системных библиотек.
+dirsIncLibSys = [
+# SDL
+	'/mingw64/include/SDL2',
+]
+
+dirsLibSys = [
+
+]
+
+# Исполняемые библотеки.
+libsAll = Split("""
+    opengl32
+    SDL2main
+    SDL2
+    SDL2_image
+""")
+
+# Исходники библиотек проекта.
+filesSrcLibProj =	Glob(	'Lib/imgui/*.cpp') + \
+					Split("""
+						Lib/Galogen/gl.c
+						Lib/imgui/backends/imgui_impl_opengl3.cpp
+						Lib/imgui/backends/imgui_impl_sdl2.cpp
+					""")
+dirsIncLibProj  = [
+    'Lib',
+    'Lib/imgui',
+    'Lib/imgui/backends'
+]
+
+# Файлы кода.
+filesSrcProj = Split("""
+    Main.cpp
+""")
+
+# Запуск.
+env.Program(
+	'RpGame',
+
+	# Исходники.
+	filesSrcLibProj + filesSrcProj,
+
+	# Папки поиска заголовочных файлов. Например #include "glm/glm.hpp" найдет в "Lib/glm/glm.hpp".
+	# Также нужно для отслеживания изменений в .h файлах (неявные зависимости).
+	CPPPATH = dirsIncLibSys + dirsIncLibProj,
+
+	# Пути поиска исполняемых библиотек.
+	LIBPATH = dirsLibSys,
+
+	# Исполнямые библотеки.
+	LIBS = libsAll
+)
