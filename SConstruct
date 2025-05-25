@@ -50,6 +50,7 @@ filesSrcLibProj =	Glob(	'Lib/imgui/*.cpp') + \
 						Lib/pugixml/src/pugixml.cpp
 					""")
 dirsIncLibProj  = [
+	'Src',
     'Lib',
     'Lib/imgui',
     'Lib/imgui/backends'
@@ -57,12 +58,13 @@ dirsIncLibProj  = [
 
 # Файлы кода.
 filesSrcProj = Split("""
-    Main.cpp
+    Src/GEng.cpp
 """)
 
 # Запуск.
-env.Program(
-	'RpGame',
+#env.SharedLibrary()
+env.StaticLibrary(
+	'GEng',
 
 	# Исходники.
 	filesSrcLibProj + filesSrcProj,
