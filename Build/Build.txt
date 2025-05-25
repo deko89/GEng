@@ -1,0 +1,72 @@
+Cборка в Linux.
+
+Возможно, придётся поменять пути до системных библиотек вашей ОС в файле SConstruct.
+
+В терминале перейти в каталог с исходниками, и выполнить:
+
+1. Установка зависимостей (в Linux Mint 21.2 Cinnamon).
+sudo apt install clang-15 libc++-15-dev libc++abi-15-dev libsdl2-dev libsdl2-image-dev scons
+
+2. Сборка.
+scons
+
+3. Запуск.
+./RpGame
+
+4. Очистка (при пересборке).
+scons -c
+
+
+
+
+
+Cборка в Windows.
+
+1. Скачать и установить msys2:
+https://www.msys2.org
+
+2. Запустить:
+C:\msys64\msys2_shell.cmd
+
+3. Ввести команду (обновить основные пакеты):
+pacman --needed --noconfirm -Sy bash pacman pacman-mirrors msys2-runtime
+
+4. ВАЖНО: закройте оболочку и снова откройте её, прежде чем делать что-либо еще.
+C:\msys64\msys2_shell.cmd
+
+5. Ввести команды (обновить все пакеты, установить необходимые).
+pacman --noconfirm -Su
+pacman --noconfirm -S scons mingw-w64-x86_64-{clang,SDL2,SDL2_image,freeglut,glew}
+
+7. Переименовать и переместить файл из "Build/SConstruct_Windows" в "SConstruct" (в корень проекта).
+
+8. Запустить MSYS2 MINGW64 (из меню пуск). Ввести команду (указав в ней свой путь):
+cd "D:\ПутьДоПроекта\RpGame"
+scons
+
+9. Запуск полученного приложения.
+./RpGame.exe
+
+Для очистки файлов сборки:
+scons -c
+
+
+
+
+
+Сборка для web.
+
+1. Скачать и установить Emscripten:
+	1.1. Инструкция по установке:
+https://emscripten.org/docs/getting_started/downloads.html
+		 (Дополнительно можно посмотреть example_sdl2_opengl3.)
+	1.2. Инструкция по настройке переменных окружения:
+https://emscripten.org/docs/getting_started/downloads.html#installation-instructions
+		 Можно просто запустить команду (каждый раз при открытии терминала):
+source "<Путь до Emscripten>/emsdk/emsdk_env.sh"
+2. Сборка (не должно быть файлов от других сборок). Сайт будет в папке web.
+make -f Makefile.emscripten
+3. Очистка.
+make -f Makefile.emscripten clean
+4. Запуск сервера (если надо).
+make -f Makefile.emscripten serve
