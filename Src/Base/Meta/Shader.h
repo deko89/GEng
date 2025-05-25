@@ -2,7 +2,7 @@
 #define Shader_H
 
 #include <array>
-#include "GEng/Base/Meta/MemG.h"
+#include "Base/Meta/MemG.h"
 
 namespace GEng
 {

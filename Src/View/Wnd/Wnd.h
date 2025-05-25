@@ -1,7 +1,7 @@
 #ifndef WND_H
 #define WND_H
 
-#include "GEng/Base/Environment.h"
+#include "Base/Environment.h"
 
 namespace GEng
 {

@@ -1,7 +1,7 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#include "GEng/Base/Meta/Texture.h"
+#include "Base/Meta/Texture.h"
 
 namespace GEng
 {

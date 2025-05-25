@@ -2,7 +2,7 @@
 #define EnGreen_Math_H
 
 #include <vector>
-#include "GEng/Base/Meta/Meta.h"
+#include "Base/Meta/Meta.h"
 
 namespace glm
 {

@@ -6,8 +6,8 @@
 	Даёт доступ к графической библиотеке (можно считать что это она и есть).
 */
 
-#include "GEng/Base/Meta/Meta.h"
-#include "GEng/View/Wnd/Wnd.h"
+#include "Base/Meta/Meta.h"
+#include "View/Wnd/Wnd.h"
 
 namespace GEng
 {

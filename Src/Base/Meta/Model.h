@@ -1,7 +1,7 @@
 #ifndef Model_H
 #define Model_H
 
-#include "GEng/Base/Types.h"
+#include "Base/Types.h"
 
 namespace GEng
 {

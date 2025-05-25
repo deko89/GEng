@@ -1,9 +1,9 @@
 #ifndef View_H
 #define View_H
 
-#include "GEng/World/World.h"
-#include "GEng/View/Camera.h"
-#include "GEng/World/Shapes.h"
+#include "World/World.h"
+#include "View/Camera.h"
+#include "World/Shapes.h"
 
 namespace GEng
 {

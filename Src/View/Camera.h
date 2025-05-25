@@ -1,7 +1,7 @@
 #ifndef Camera_H
 #define Camera_H
 
-#include "GEng/Base/Meta/MemG.h"
+#include "Base/Meta/MemG.h"
 
 namespace GEng
 {
