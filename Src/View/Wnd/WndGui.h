@@ -1,7 +1,7 @@
 #ifndef WNDGUI_H
 #define WNDGUI_H
 
-#include "imgui.h"
+#include "imgui/imgui.h"
 #include "View/Wnd/WndG.h"
 
 namespace GEng
