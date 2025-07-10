@@ -4,8 +4,8 @@ Cборка в Linux.
 
 В терминале перейти в каталог с исходниками, и выполнить:
 
-1. Установка зависимостей (в Linux Mint 21.2 Cinnamon).
-sudo apt install clang-15 libc++-15-dev libc++abi-15-dev libsdl2-dev libsdl2-image-dev scons
+1. Установка зависимостей (в Linux Mint 22).
+sudo apt install scons clang libc++-dev libsdl2-dev libsdl2-image-dev
 
 2. Сборка.
 scons

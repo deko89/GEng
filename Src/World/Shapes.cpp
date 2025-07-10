@@ -23,7 +23,7 @@ void Line::Draw() const
 void ShPath::Draw() const
 {
 	using namespace Svg;
-	auto Draw = [=](int flag = 0)
+	auto Draw = [this](int flag = 0)
 	{	if (style.col)
 		{	gDrawL->PathFillConvex(style.col);
 		} else
@@ -59,7 +59,7 @@ void ShPath::Draw() const
 void Shapes::LoadSvg(FilePath path)
 {
 	using namespace Svg;
-	auto ReadShape = [=](const ShapeData& d)
+	auto ReadShape = [this](const ShapeData& d)
 	{	switch ( d.vShape.index() )
 		{
 			case stLine:
