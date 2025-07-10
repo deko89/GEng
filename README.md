@@ -1,4 +1,5 @@
 # GEng
+<img width="1280" height="748" alt="GEng" src="https://github.com/user-attachments/assets/e413194e-5797-4cad-9915-ca9429e1b7df" />
 Простой движок для запуска 2d/3d графики на OpenGL.
 Большое внимание уделено качеству и простоте кода.
 
