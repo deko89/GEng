@@ -51,6 +51,14 @@ filesSrcProj = Split("""
     Src/GEng.cpp
 """)
 
+# Экспорт переменным сборкам выше (в SConstruct).
+exportVars = {
+	"envGEng": env,
+	"dirsIncLibGEng": dirsIncLibSys,
+	"libsGEng": libsAll
+}
+Export(exportVars)
+
 # Запуск.
 #env.SharedLibrary()
 env.StaticLibrary(
