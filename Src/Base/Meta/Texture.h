@@ -1,7 +1,7 @@
 #ifndef Texture_H
 #define Texture_H
 
-#include "Base/Meta/Meta.h"
+#include "GEng/Base/Meta/Meta.h"
 
 namespace GEng
 {

@@ -1,10 +1,10 @@
 #ifndef GEng_H
 #define GEng_H
 
-#include "Base/Meta/Shader.h"
-#include "Base/Context.h"
-#include "View/Wnd/WndGui.h"
-#include "World/World.h"
+#include "GEng/Base/Meta/Shader.h"
+#include "GEng/Base/Context.h"
+#include "GEng/View/Wnd/WndGui.h"
+#include "GEng/World/World.h"
 
 namespace GEng
 {

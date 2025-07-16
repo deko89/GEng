@@ -9,8 +9,8 @@
 
 #include <vector>
 #include "Std/MassivPtr.h"
-#include "Base/Meta/Meta.h"
-#include "Base/Math.hpp"
+#include "GEng/Base/Meta/Meta.h"
+#include "GEng/Base/Math.hpp"
 
 namespace GEng
 {

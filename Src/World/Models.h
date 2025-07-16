@@ -2,8 +2,8 @@
 #define Models_H
 
 #include "Std/MassivPtr.h"
-#include "Base/Meta/Texture.h"
-#include "Base/Meta/Model.h"
+#include "GEng/Base/Meta/Texture.h"
+#include "GEng/Base/Meta/Model.h"
 
 namespace GEng
 {

@@ -2,7 +2,7 @@
 #define WNDGUI_H
 
 #include "imgui/imgui.h"
-#include "View/Wnd/WndG.h"
+#include "GEng/View/Wnd/WndG.h"
 
 namespace GEng
 {

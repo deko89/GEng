@@ -2,8 +2,8 @@
 #define WndG_H
 
 #include "Std/MassivPtr.h"
-#include "View/Wnd/Wnd.h"
-#include "View/View.h"
+#include "GEng/View/Wnd/Wnd.h"
+#include "GEng/View/View.h"
 
 namespace GEng
 {
