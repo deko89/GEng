@@ -40,7 +40,7 @@ filesSrcLib =	Glob(	'Lib/imgui/*.cpp') + \
 						Lib/pugixml/src/pugixml.cpp
 				""")
 dirsIncProj = [
-	'Src',
+	'.',
     'Lib',
     'Lib/imgui',
     'Lib/imgui/backends'
@@ -48,7 +48,7 @@ dirsIncProj = [
 
 # Файлы кода.
 filesSrcProj = Split("""
-    Src/GEng.cpp
+    GEng/GEng.cpp
 """)
 
 # Экспорт переменным сборкам выше (в SConstruct).
