@@ -1,36 +1,61 @@
-# Переменные.
-env = Environment(CC='clang', CXX='clang', CXXFLAGS='-std=c++20 -O2 -fPIC')
-env.Append(
-	CPPDEFINES = [
-		'One_Translation_Unit',
-		'IMGUI_IMPL_OPENGL_LOADER_CUSTOM',
-		'IMGUI_DEFINE_MATH_OPERATORS',
+import sys
+
+# Среда.
+if sys.platform == 'cygwin':	EnvCxx = 'clang++'
+else:							EnvCxx = 'clang'
+env = Environment(CC='clang', CXX=EnvCxx, CXXFLAGS='-std=c++20 -O2 -fPIC')
+
+# Define.
+EnvCppDef = [
+	'One_Translation_Unit',
+	'IMGUI_IMPL_OPENGL_LOADER_CUSTOM',
+	'IMGUI_DEFINE_MATH_OPERATORS',
+]
+if sys.platform == 'cygwin':
+	EnvCppDef += [
+		'SDL_MAIN_HANDLED',
+		'__WINDOWS__'
 	]
-)
+env.Append(CPPDEFINES = EnvCppDef)
 
 # Пути системных библиотек.
-dirsIncLibSys = [
-# C
-   #'/usr/include',                         # /usr/include/math.h (libc GNU)
-# C++
-# SDL
-    '/usr/include/SDL2',
-]
+if sys.platform == 'cygwin':
+	dirsIncLibSys = [
+	# SDL
+		'/mingw64/include/SDL2',
+	]
+else:
+	dirsIncLibSys = [
+	# C
+	   #'/usr/include',                         # /usr/include/math.h (libc GNU)
+	# C++
+	# SDL
+		'/usr/include/SDL2',
+	]
 
 dirsLibSys = [
 ]
 
 # Исполняемые библотеки.
 libsAll = [
-    'dl',
-    'GL',
-    'libm',
-    #'libc',
-	'libstdc++',
-    'libc++',
-    'SDL2',
-    'SDL2_image',
+	'SDL2',
+	'SDL2_image',
 ]
+
+if sys.platform == 'cygwin':
+	libsAll += [
+		'opengl32',
+		'SDL2main',
+	]
+else:
+	libsAll += [
+		'dl',
+		'GL',
+		'libm',
+		#'libc',
+		'libstdc++',
+		'libc++',
+	]
 
 # Исходники библиотек.
 filesSrcLib =	Glob(	'Lib/imgui/*.cpp') + \
@@ -39,6 +64,9 @@ filesSrcLib =	Glob(	'Lib/imgui/*.cpp') + \
 						Lib/imgui/backends/imgui_impl_sdl2.cpp
 						Lib/pugixml/src/pugixml.cpp
 				""")
+if sys.platform == 'cygwin':
+	filesSrcLib += ['Lib/Galogen/gl.c']
+
 dirsIncProj = [
 	'.',
     'Lib',
