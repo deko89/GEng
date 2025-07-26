@@ -18,11 +18,12 @@ CXX = em++
 RootDir = .
 WEB_DIR = web
 EXE = $(WEB_DIR)/index.html
-IMGUI_DIR = $(RootDir)/Lib/imgui
+IMGUI_DIR = $(RootDir)/Lib/GEng/Lib/imgui
 SOURCES = $(RootDir)/Main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 SOURCES += $(IMGUI_DIR)/backends/imgui_impl_sdl2.cpp $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp
-SOURCES += $(RootDir)/Lib/pugixml/src/pugixml.cpp
+SOURCES += $(RootDir)/Lib/GEng/Lib/pugixml/src/pugixml.cpp
+SOURCES += $(RootDir)/Lib/GEng/GEng/GEng.cpp
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 CPPFLAGS = -DOne_Translation_Unit
@@ -68,7 +69,7 @@ endif
 ## FINAL BUILD FLAGS
 ##---------------------------------------------------------------------
 
-CPPFLAGS += -I$(RootDir)/Lib -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
+CPPFLAGS += -I$(RootDir)/Lib/GEng/Lib -I$(RootDir)/Lib/GEng -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
 #CPPFLAGS += -g
 CPPFLAGS += -Wall -Wformat -Os $(EMS)
 LDFLAGS += --shell-file $(IMGUI_DIR)/examples/libs/emscripten/shell_minimal.html
@@ -87,7 +88,10 @@ LDFLAGS += $(EMS)
 %.o:$(IMGUI_DIR)/backends/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
-%.o:$(RootDir)/Lib/pugixml/src/%.cpp
+%.o:$(RootDir)/Lib/GEng/Lib/pugixml/src/%.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
+
+%.o:$(RootDir)/Lib/GEng/GEng/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 all: $(EXE)
