@@ -1,0 +1,12 @@
+-xc++
+-std=c++20 
+-O2
+-fPIC
+-DOne_Translation_Unit
+-DIMGUI_IMPL_OPENGL_LOADER_CUSTOM
+-DIMGUI_DEFINE_MATH_OPERATORS
+-I/usr/include/SDL2
+-I.
+-ILib
+-ILib/imgui
+-ILib/imgui/backends
