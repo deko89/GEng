@@ -114,6 +114,12 @@ WndGui& Engine::GetWnd()
 {   return wnd;
 }
 
+Camera& Engine::GetCam()
+{   View* view = GetWnd().view;
+    assert(view);
+    return view->cam;
+}
+
 Context& GetContext()
 {	return eng.context;
 }

@@ -19,6 +19,7 @@ class Engine : public Environment
     void Clear();               ///< Очистка.
     int Execute();              ///< Запуск.
     WndGui& GetWnd();           ///< Получить активное окно.
+    Camera& GetCam();           ///< Получить текущую камеру.
 protected:
 	// Переменные.
     bool bRun = false;	///< Запущен ли.
@@ -31,6 +32,8 @@ protected:
 };
 
 extern Engine eng;
+/// Получить текущий движок.
+inline Engine& GetEng() {return eng;}
 
 }
 
