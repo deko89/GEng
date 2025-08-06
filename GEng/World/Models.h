@@ -32,13 +32,13 @@ protected:
 	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
 };
 
-/// Модель цилинда.
+/// Модель цилиндра.
 class ModelCylinder : public ModelStd
 {	public:
 	Val d = 0.1;	///< Диаметр.
 	Val len = 1;	///< Длина.
 	ValN sgmC = 16;	///< Число сегментов в окружности.
-	ValN sgmL = 1;	///< Число сигментов по длине.
+	ValN sgmL = 1;	///< Число сегментов по длине.
 	bool bCloseB = 1;	///< Закрыто начало.
 	bool bCloseE = 1;	///< Закрыт конец.
 	Points::Modifs modif;	///< Модификаторы.
