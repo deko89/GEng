@@ -24,6 +24,7 @@
 #endif
 
 #include "glm/glm.hpp"
+#include "Std/Base.h"
 
 namespace GEng
 {

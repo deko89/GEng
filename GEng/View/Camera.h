@@ -1,7 +1,8 @@
 #ifndef Camera_H
 #define Camera_H
 
-#include "GEng/Base/Meta/MemG.h"
+#include "SDL_events.h"
+#include "GEng/View/Wnd/Wnd.h"
 
 namespace GEng
 {

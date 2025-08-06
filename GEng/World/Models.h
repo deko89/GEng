@@ -2,6 +2,7 @@
 #define Models_H
 
 #include "Std/MassivPtr.h"
+#include "GEng/Base/Meta/Shader.h"
 #include "GEng/Base/Meta/Texture.h"
 #include "GEng/Base/Meta/Model.h"
 
