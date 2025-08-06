@@ -103,6 +103,10 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB, bo
 		pVert->x = len; pVert->y = 0; pVert->z = 0;
 	}
 }
+void Points::Move(const Vec3& v)
+{	for (Pos& point: *this)
+		point += v;
+}
 void Points::Rotate(const Angle& angle)
 {
 	Mat4 mat(1);

@@ -91,6 +91,9 @@ class Points : public vector<Pos>
 	void MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB = 1, bool bCloseE = 1);
 
 	// Модификаторы. Собственно выполняют преобразование своих точек.
+	/// Смещение.
+	void Move(const Vec3& v);
+
 	/// Поворот.
 	void Rotate(const Angle& angle);
 
