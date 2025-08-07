@@ -25,11 +25,19 @@ class ModelStd: public ModelVi
 	void Print() const;
 protected:
 	Pos pos = Pos(0, 0, 0);
-	Angle angle = Angle(0, 0, 0);
+	mutable Angle angle = Angle(0, 0, 0);
 	Scale scale = Scale(1, 1, 1);
 	ShaderRef shader;
 	TextureRef texture;
 	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
+};
+
+/** Плоская модель из текстуры, которая всегда развёрнута к камере (например растение).
+	@note Метод SetAngle здесь не работает. */
+class Model2d: public ModelStd
+{	public:
+	Model2d();
+	void Draw() const override;
 };
 
 /// Модель цилиндра.
