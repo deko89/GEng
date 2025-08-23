@@ -50,9 +50,12 @@ bool Context::Create(Wnd& wnd)
 	printf("GL_VERSION: %s\n", version);
 	SDL_GL_SetSwapInterval(1); // Enable vsync
 
-	glEnable(GL_DEPTH_TEST);    // Включить тест глубины.
-	glDisable(GL_DEPTH_CLAMP);  // Включить отсечение по расстоянию от камеры.
-	glEnable(GL_CULL_FACE);		// Отсекать грани которые по часовой стрелки.
+	glEnable(GL_DEPTH_TEST);	// Включить тест глубины.
+	glDisable(GL_DEPTH_CLAMP);	// Включить отсечение по расстоянию от камеры.
+	glEnable(GL_CULL_FACE);	// Отсекать грани которые по часовой стрелки.
+	// Прозрачность.
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	return 1;
 }

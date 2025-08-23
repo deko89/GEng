@@ -92,7 +92,7 @@ in vec2 posTex;
 out vec4 color;
 void main()
 {	vec4 colorTex = texture(tex, posTex);
-	if (colorTex.a < 0.4) discard;
+	if (colorTex.a < 0.07) discard;
 	color = colorTex;
 }
 )";
