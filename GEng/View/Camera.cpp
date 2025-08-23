@@ -8,6 +8,9 @@ namespace GEng
 GLfloat sensitivityMouse = 0.005f;
 
 // Camera ///////////////////////////////////////////////////////////
+Vec3 Camera::GetLook() const
+{	return vLook;
+}
 Mat4 Camera::GetMatrix() const
 {
 	Mat4 mCam = glm::perspective(fFov, fAspect, fNear, fFar) *

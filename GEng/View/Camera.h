@@ -16,12 +16,13 @@ class Camera
 			fAspect = gSzWndDef.Ratio(),	///< Соотношение сторон.
 			fNear = 0.04f,					///< Ближнее отсечение.
 			fFar = 512;						///< Дальнее отсечение.
+	Vec3 GetLook() const;	///< Получить направление взгляда (единичный вектор).
 	Mat4 GetMatrix() const;	///< Получить матрицу положения камеры.
 	void ProcessEventInput(SDL_Event& event); /// Обработка событий клавиатуры / мыши.
 	void ProcessStateInput(Val timeDelta); ///< Обработка состояния клавиатуры / мыши.
 private:
 	const Vec3 vUp = {0.0f, 0.0f, 1.0f};    ///< Мировая ось вверх.
-	Vec3 vLook; ///< Направление куда смотрит камера. Вычисляется из angle.
+	Vec3 vLook; ///< Направление куда смотрит камера. Вычисляется из angle. Вектор единичный.
 	void UpdateLook(); ///< Обновление вектора направления.
 };
 
