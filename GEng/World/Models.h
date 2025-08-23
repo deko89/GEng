@@ -36,7 +36,7 @@ protected:
 	@note Метод SetAngle здесь не работает. */
 class Model2d: public ModelStd
 {	public:
-	Model2d();
+	Model2d(ShaderType shT = shPosTex, Texture* tex = nullptr);
 	void Draw() const override;
 };
 

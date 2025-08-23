@@ -68,12 +68,13 @@ Mat4 ModelStd::GetMatTrans() const
 	return mat;
 }
 // Model2d /////////////////////////////////////////////////////////////////////
-Model2d::Model2d()
+Model2d::Model2d(ShaderType shT, Texture* tex) :
+	ModelStd(shT, tex)
 {
     Mesh mesh;
     mesh.MakePlane(1, 1, 1, 1);
-	mesh.aVert.Rotate( Angle(0, pi2, 0) );
-	mesh.aVert.Move( Vec3(0, -0.5, 1) );
+	mesh.aVert.Rotate( Angle(pi2, 0, pi2) );
+	mesh.aVert.Move( Vec3(0, -0.5, 0) );
 
     PlaceTex plTex;
     plTex.SetPlane(1, 1, 1, 1);
@@ -83,22 +84,24 @@ Model2d::Model2d()
 void Model2d::Draw() const
 {
 	const Camera& cam = GetEng().GetCam();
-	const Vec3 v = cam.pos - GetPos();
-	//const Pos p = GetPos();
+	const Scale s = GetScale();
+	// Вектор на камеру.
+	const Vec3 v = cam.pos - GetPos()
+		// Небольшой отступ назад, чтобы меньше вращалось, когда близко.
+		- cam.GetLook() * (s.y / 10);
 	// Небольшой наклон (если смотрим сверху).
-	const Val l = glm::length(Vec2(v.x, v.y) );
-	angle.y = atan2(v.z, l) / -5;
+		// Если смотрим на уровне модели, то не наклоняем.
+	Val h;
+	if		(v.z > s.z) h = v.z - s.z;
+	else if	(v.z < 0  ) h = v.z;
+	else h = 0;
+		// Вычисление угла.
+	const Val l = glm::length( Vec2(v.x, v.y) );
+	angle.y = atan2(h, l) / -9;
 	// Поворот всегда к камере.
 	angle.z = atan2(v.y, v.x);
-	// Маленькое смещение к камере, когда идёт наклон.
-	//v.z = 0;
-	//v = glm::normalize(v);
-	//v *= scale.y * (angle.y / -pi2) / 5;
-	//pos += v;
 	// Рисование.
 	ModelStd::Draw();
-	// Возврат позиции.
-	//pos = p;
 }
 // ModelCylinder /////////////////////////////////////////////////////
 ModelCylinder::ModelCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB, bool bCloseE) :
