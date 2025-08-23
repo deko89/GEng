@@ -53,7 +53,7 @@ class Shaders : public std::array<Shader, gShaderCount>
 };
 
 /// Получить шейдеры.
-Shaders& GetShaders(); // Реализовано в Engine.cpp
+Shaders& GetShaders(); // Реализовано в GEng.cpp
 
 /// Сссылка на шеёдер.
 class ShaderRef
