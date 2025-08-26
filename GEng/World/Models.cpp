@@ -81,6 +81,9 @@ Model2d::Model2d(ShaderType shT, Texture* tex) :
 
     ModelStd::Make(mesh, plTex);
 }
+void Model2d::SetSize(Val x, Val y)
+{	SetScale( Scale(1, x, y) );
+}
 void Model2d::Draw() const
 {
 	const Camera& cam = GetEng().GetCam();

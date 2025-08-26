@@ -2,6 +2,7 @@
 #define Models_H
 
 #include "Std/MassivPtr.h"
+#include "GEng/Base/Meta/Meta.h"
 #include "GEng/Base/Meta/Shader.h"
 #include "GEng/Base/Meta/Texture.h"
 #include "GEng/Base/Meta/Model.h"
@@ -37,6 +38,7 @@ protected:
 class Model2d: public ModelStd
 {	public:
 	Model2d(ShaderType shT = shPosTex, Texture* tex = nullptr);
+	void SetSize(Val x, Val y);
 	void Draw() const override;
 };
 
