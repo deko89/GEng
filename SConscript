@@ -62,6 +62,7 @@ filesSrcLib =	Glob(	'Lib/imgui/*.cpp') + \
 				Split("""
 						Lib/imgui/backends/imgui_impl_opengl3.cpp
 						Lib/imgui/backends/imgui_impl_sdl2.cpp
+						Lib/ImGuizmo/ImGuizmo.cpp
 						Lib/pugixml/src/pugixml.cpp
 				""")
 if sys.platform == 'cygwin':
