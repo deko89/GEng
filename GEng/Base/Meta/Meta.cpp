@@ -5,10 +5,6 @@
 namespace GEng
 {
 
-Val Vec2I::Ratio() const
-{   return ( (Val) x ) / y;
-}
-
 std::ostream& operator<<(std::ostream& os, const Vec2& v)
 {
 	return os << glm::to_string(v);

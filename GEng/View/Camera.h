@@ -12,10 +12,10 @@ class Camera
 {	public:
 	Pos     pos;    ///< Позиция.
 	Angle   angle;	///< Углы последовательного поворота x, y, z.
-	float	fFov = pi4,						///< Обзор камеры.
-			fAspect = gSzWndDef.Ratio(),	///< Соотношение сторон.
-			fNear = 0.04f,					///< Ближнее отсечение.
-			fFar = 512;						///< Дальнее отсечение.
+	float	fFov = pi4,									///< Обзор камеры.
+			fAspect = (float)gSzWndDef.x / gSzWndDef.y,	///< Соотношение сторон.
+			fNear = 0.04f,								///< Ближнее отсечение.
+			fFar = 512;									///< Дальнее отсечение.
 	Vec3 GetLook() const;	///< Получить направление взгляда (единичный вектор).
 	Mat4 GetMatrix() const;	///< Получить матрицу положения камеры.
 	void ProcessEventInput(SDL_Event& event); /// Обработка событий клавиатуры / мыши.

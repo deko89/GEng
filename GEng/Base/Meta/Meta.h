@@ -70,11 +70,7 @@ struct Color
 };
 
 // Простые 2d типы.
-    /// Вектор 2d целочисленный.
-struct Vec2I : public glm::ivec2
-{   using glm::ivec2::ivec2;
-    Val Ratio() const;      ///< Соотношение x / y.
-};
+typedef glm::vec<2, ValI> Vec2I;	///< Вектор 2d целочисленный.
 typedef glm::vec2 Vec2;		///< Вектор с 2 числами.
 
     /// Прямоугольник.
