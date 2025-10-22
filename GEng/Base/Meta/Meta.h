@@ -73,11 +73,17 @@ struct Color
 typedef glm::vec<2, ValI> Vec2I;	///< Вектор 2d целочисленный.
 typedef glm::vec2 Vec2;		///< Вектор с 2 числами.
 
-    /// Прямоугольник.
-struct RectI
-{   ValI x, y;  ///< Позиция.
-    Size w, h;  ///< Ширина, высота.
+	/// Прямоугольник.
+template<typename T>
+struct RectT
+{	union
+	{	struct {T x, y, w, h;}; ///< Позиция, ширина, высота.
+		struct {glm::vec<2, T> pos, size;};
+	};
 };
+
+using RectI = RectT<ValI>;
+using Rect = RectT<Val>;
 
 	/// Координата текстуры.
 struct PosTex
