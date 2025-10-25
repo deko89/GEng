@@ -73,6 +73,14 @@ struct Color
 typedef glm::vec<2, ValI> Vec2I;	///< Вектор 2d целочисленный.
 typedef glm::vec2 Vec2;		///< Вектор с 2 числами.
 
+	/// Луч.
+struct Ray2
+{	union
+	{	struct {Vec2 pos, dir;}; ///< Позиция начала. Направление.
+		struct {Val x, y, dx, dy;};
+	};
+};
+
 	/// Прямоугольник.
 template<typename T>
 struct RectT
@@ -88,6 +96,15 @@ using Rect = RectT<Val>;
 	/// Координата текстуры.
 struct PosTex
 {	Val u, v;
+};
+
+	/// Прямоугольник заданный 2-мя позициями.
+struct Rect2
+{	union
+	{	struct {Vec2 a, b;}; ///< Позиция начального и конечного угла.
+		struct {Val x1, y1, x2, y2;};
+	};
+	bool IsIntersect(Ray2 ray) const; ///< Пересекает ли луч.
 };
 
 // Простые 3d типы.
