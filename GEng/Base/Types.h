@@ -17,6 +17,20 @@ namespace GEng
 
 using std::vector;
 
+/// Луч.
+struct Ray
+{	Pos pos;	///< Позиция начала.
+	Vec3 dir;	///< Направление.
+};
+
+/// Параллелепипед.
+struct Box
+{	Pos a, b;	///< Позиция начального и конечного угла.
+	bool IsIn(Pos p) const; ///< Находится ли точка внутри.
+	bool IsIntersect(const Ray& ray) const; ///< Пересекает ли луч.
+};
+extern Box box0;
+
 /// Вершины.
 class Points : public vector<Pos>
 {	public:

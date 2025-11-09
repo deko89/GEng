@@ -2,6 +2,31 @@
 
 namespace GEng
 {
+// Box ///////////////////////////////////////////////////////////////
+Box box0;
+bool Box::IsIn(Pos p) const
+{	return	p.x > a.x && p.y > a.y && p.z > a.z &&
+			p.x < b.x && p.y < b.y && p.z < b.z;
+}
+bool Box::IsIntersect(const Ray& ray) const
+{	// Проверка пересечения на плоскости XY.
+	Rect2 rect2{.a.x = a.x, .a.y = a.y, .b.x = b.x, .b.y = b.y};
+	Ray2  ray2{	.pos.x = ray.pos.x, .pos.y = ray.pos.y,
+				.dir.x = ray.dir.x, .dir.y = ray.dir.y};
+	if ( !rect2.IsIntersect(ray2) ) return false;
+	// Проверка пересечения на плоскости XZ.
+	rect2.a.y = a.z;
+	rect2.b.y = b.z;
+	ray2.pos.y = ray.pos.z;
+	ray2.dir.y = ray.dir.z;
+	if ( !rect2.IsIntersect(ray2) ) return false;
+	// Проверка пересечения на плоскости YZ.
+	rect2.a.x = a.y;
+	rect2.b.x = b.y;
+	ray2.pos.x = ray.pos.y;
+	ray2.dir.x = ray.dir.y;
+	return rect2.IsIntersect(ray2);
+}
 // Points ////////////////////////////////////////////////////////////
 	// Data //////////////////////////////////////////////////////////
 Points::Data::Data(Points& p) :

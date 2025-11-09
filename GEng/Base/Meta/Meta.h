@@ -75,10 +75,7 @@ typedef glm::vec2 Vec2;		///< Вектор с 2 числами.
 
 	/// Луч.
 struct Ray2
-{	union
-	{	struct {Vec2 pos, dir;}; ///< Позиция начала. Направление.
-		struct {Val x, y, dx, dy;};
-	};
+{	Vec2 pos, dir; ///< Позиция начала. Направление.
 };
 
 	/// Прямоугольник.
@@ -100,10 +97,7 @@ struct PosTex
 
 	/// Прямоугольник заданный 2-мя позициями.
 struct Rect2
-{	union
-	{	struct {Vec2 a, b;}; ///< Позиция начального и конечного угла.
-		struct {Val x1, y1, x2, y2;};
-	};
+{	Vec2 a, b; ///< Позиция начального и конечного угла.
 	bool IsIntersect(Ray2 ray) const; ///< Пересекает ли луч.
 };
 

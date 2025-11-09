@@ -3,7 +3,14 @@ import sys
 # Среда.
 if sys.platform == 'cygwin':	EnvCxx = 'clang++'
 else:							EnvCxx = 'clang'
-env = Environment(CC='clang', CXX=EnvCxx, CXXFLAGS='-std=c++20 -O2 -fPIC')
+env = Environment(CC='clang', CXX=EnvCxx,
+	CXXFLAGS=[
+		'-std=c++20',
+		'-O2',
+		'-fPIC',
+		'-Wno-c99-designator',
+	]
+)
 
 # Define.
 EnvCppDef = [
@@ -103,6 +110,6 @@ env.StaticLibrary(
 	# Пути поиска исполняемых библиотек.
 	LIBPATH = dirsLibSys,
 
-	# Исполнямые библотеки.
+	# Исполняемые библиотеки.
 	LIBS = libsAll
 )
