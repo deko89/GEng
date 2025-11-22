@@ -75,6 +75,14 @@ void Points::MakeCube(Val s)
 {   *(Base*) this = {   {-s,-s,-s},  { s,-s,-s},  {-s, s,-s},  {s,s,-s},     // Низ.
                         {-s,-s, s},  { s,-s, s},  {-s, s, s},  {s,s, s}   }; // Верх.
 }
+void Points::MakeBox(Pos a, Pos b)
+{	*(Base*) this =
+	{	// Низ.
+		{a.x, a.y, a.z},  {b.x, a.y, a.z},	{a.x, b.y, a.z},  {b.x, b.y, a.z},
+		// Верх.
+		{a.x, a.y, b.z},  {b.x, a.y, b.z},	{a.x, b.y, b.z},  {b.x, b.y, b.z}
+	};
+}
 void Points::MakePlane(Val szX, Val szY, ValN sgmX, ValN sgmY)
 {	// Вычисление размера и выделение памяти.
 	Ind nVertX = sgmX + 1, nVertY = sgmY + 1;
@@ -190,6 +198,16 @@ void Mesh::MakeQuad(Val szX, Val szY)
 	aVert.MakeQuad(szX, szY);
 	aInd = {0, 1, 2, 1, 3, 2};
 }
+void Mesh::MakeBox(Pos a, Pos b)
+{	aVert.MakeBox(a, b);
+    aInd =  {   0,	3,	1,		0,	2,	3,	// Низ.
+				4,	5,	7,		4,	7,	6,	// Верх.
+				0,	1,	4,		1,	5,	4,	// Сзади.
+                2,	7,	3,		2,	6,	7,	// Спереди.
+				0,	6,	2,		0,	4,	6,	// Лево.
+				1,	3,	5,		3,	7,	5,	// Право.
+            };
+}
 void Mesh::MakeCubeIn(Val s)
 {
     aVert.MakeCube(s);
@@ -279,6 +297,17 @@ void PlaceTex::SetPlane(ValN sgmX, ValN sgmY, Val u, Val v)
 			pPos->v = vPos;
 		}
 	}
+}
+void PlaceTex::SetBox()
+{	*(Base*) this =	{	{0, 0},
+						{1, 0},
+						{0, 1},
+						{1, 1},
+						{0, 1},
+						{0, 0},
+						{1, 1},
+						{1, 0}
+					};
 }
 void PlaceTex::SetCylinder(ValN sgmC, ValN sgmL, Val u, Val v)
 {	assert(sgmC % 2 == 0);

@@ -98,6 +98,10 @@ class Points : public vector<Pos>
 		param[in] s - размер. */
 	void MakeCube(Val s);
 
+	/** Создать параллелепипед.
+		param[in] a, b - позиция начала и конца. */
+	void MakeBox(Pos a = {0, 0, 0}, Pos b = {1, 1, 1});
+
 	/** Создать цилиндр
 		param[in] d, len - диаметр и длина;
 		param[in] sgmC, sgmL - количество сегментов в круге, и по длине;
@@ -139,6 +143,7 @@ class Mesh
 	/// Создание фигур, см Points.
 	void MakeQuad(Val szX, Val szY);
 	void MakePlane(Val szX, Val szY, ValN sgmX, ValN sgmY);
+	void MakeBox(Pos a = {0, 0, 0}, Pos b = {1, 1, 1});
 	void MakeCubeIn(Val s); ///< Создать куб, который виден изнутри.
 	void MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB = 1, bool bCloseE = 1);
 };
@@ -155,6 +160,10 @@ class PlaceTex: public vector<PosTex>
 		param[in] sgmX, sgmY - количество сегментов по осям X, Y.
 		param[in] u, v - число повторений текстуры по осям X, Y. */
 	void SetPlane(ValN sgmX, ValN sgmY, Val u, Val v);
+
+	/** Параллелепипед.
+		Подходит только для текстур допускающих отражение по диагонали. */
+	void SetBox();
 
 	/** Цилиндр.
 		param[in] sgmC - количество сегментов в круге. Должен быть чётным.
