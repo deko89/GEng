@@ -108,6 +108,8 @@ class Points : public vector<Pos>
 		param[in] bCloseB, bCloseE - закрыть кругом начало, и конец. */
 	void MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB = 1, bool bCloseE = 1);
 
+	Box CalcBoundBox() const; ///< Получить границы.
+
 	// Модификаторы. Собственно выполняют преобразование своих точек.
 	/// Смещение.
 	void Move(const Vec3& v);

@@ -57,6 +57,9 @@ void ModelStd::Print() const
 {
 	std::cout << "ModelStd " << this << ": pos " << pos << ", angle " << angle << ", scale " << scale << std::endl;
 }
+const Box& ModelStd::GetBoundBox() const
+{	return boundBox;
+}
 Mat4 ModelStd::GetMatTrans() const
 {
 	Mat4 mat(1);

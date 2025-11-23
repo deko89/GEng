@@ -136,6 +136,23 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB, bo
 		pVert->x = len; pVert->y = 0; pVert->z = 0;
 	}
 }
+Box Points::CalcBoundBox() const
+{	Box box;
+	if ( empty() ) return box;
+	box.a = box.b = front();
+	for (const Pos& p : *this)
+	{
+		if (p.x < box.a.x) box.a.x = p.x;
+		else if (p.x > box.b.x) box.b.x = p.x;
+
+		if (p.y < box.a.y) box.a.y = p.y;
+		else if (p.y > box.b.y) box.b.y = p.y;
+
+		if (p.z < box.a.z) box.a.z = p.z;
+		else if (p.z > box.b.z) box.b.z = p.z;
+	}
+	return box;
+}
 void Points::Move(const Vec3& v)
 {	for (Pos& point: *this)
 		point += v;

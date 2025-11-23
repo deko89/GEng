@@ -18,6 +18,7 @@ class Model
 	virtual void  SetAngle(const Angle& a) {}			///< Установить углы.
 	virtual Scale GetScale() const {return Scale();}	///< Получить масштаб.
 	virtual void  SetScale(const Scale& s) {}			///< Установить масштаб.
+	virtual const Box& GetBoundBox() const {return box0;}	///< Получить границы.
 	virtual void Update() {};		///< Обновить в видеокарте.
 	virtual void Draw() const = 0;	///< Рисование.
 };

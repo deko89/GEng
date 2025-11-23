@@ -24,6 +24,7 @@ class ModelStd: public ModelVi
 	void SetTexture(Texture& tex);
 	virtual void Draw() const override;
 	void Print() const;
+	const Box& GetBoundBox() const override;
 protected:
 	Pos pos = Pos(0, 0, 0);
 	mutable Angle angle = Angle(0, 0, 0);
@@ -31,6 +32,7 @@ protected:
 	ShaderRef shader;
 	TextureRef texture;
 	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
+	Box boundBox; ///< Ограничивающая область.
 };
 
 /** Плоская модель из текстуры, которая всегда развёрнута к камере (например растение).
