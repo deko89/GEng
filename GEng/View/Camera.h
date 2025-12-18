@@ -17,7 +17,9 @@ class Camera
 			fNear = 0.04f,								///< Ближнее отсечение.
 			fFar = 512;									///< Дальнее отсечение.
 	Vec3 GetLook() const;	///< Получить направление взгляда (единичный вектор).
-	Mat4 GetMatrix() const;	///< Получить матрицу положения камеры.
+	Mat4 GetMatrix() const;	///< Получить общую матрицу положения камеры.
+	Mat4 GetView() const;	///< Получить матрицу вида камеры.
+	Mat4 GetProjection() const;	///< Получить матрицу проекции камеры.
 	void ProcessEventInput(SDL_Event& event); /// Обработка событий клавиатуры / мыши.
 	void ProcessStateInput(Val timeDelta); ///< Обработка состояния клавиатуры / мыши.
 private:

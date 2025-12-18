@@ -13,9 +13,16 @@ Vec3 Camera::GetLook() const
 }
 Mat4 Camera::GetMatrix() const
 {
-	Mat4 mCam = glm::perspective(fFov, fAspect, fNear, fFar) *
-				glm::lookAt(pos, pos + vLook, vUp);
+	Mat4 mCam = GetProjection() * GetView();
 	return mCam;
+}
+Mat4 Camera::GetView() const
+{
+	return glm::lookAt(pos, pos + vLook, vUp);
+}
+Mat4 Camera::GetProjection() const
+{
+	return glm::perspective(fFov, fAspect, fNear, fFar);
 }
 void Camera::ProcessEventInput(SDL_Event& event)
 {
