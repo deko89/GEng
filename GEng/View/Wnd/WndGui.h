@@ -10,7 +10,7 @@ namespace GEng
 class WndGui : public WndG
 {	public:
 	~WndGui();
-	void Clear();					///< Очистить.
+	void Clear();		///< Очистить.
 	void CreateGui();	///< Создать интерфейс.
 	void ClearGui();	///< Удалить интерфейс.
 	void ProcessEvent(SDL_Event& event); ///< Обработка события.

@@ -14,8 +14,8 @@ using std::make_unique;
 /// Мир.
 class World
 {	public:
-    Models models; ///< Модели.
-    unique_ptr<SkyBox> sky;    ///< Небо.
+    unique_ptr<SkyBox> sky;     ///< Небо.
+    Models models;              ///< Модели.
 };
 
 }
