@@ -24,6 +24,24 @@ Mat4 Camera::GetProjection() const
 {
 	return glm::perspective(fFov, fAspect, fNear, fFar);
 }
+Vec3 Camera::CalcVecPoint(Vec2 p) const
+{	// Ось X экрана (вправо).
+	Vec3 oX = glm::cross(vLook, vUp);
+	oX = glm::normalize(oX);
+	// Ось Y экрана (вниз).
+	Vec3 oY = glm::cross(vLook, oX);
+	// Высота и ширина экрана (на расстоянии 1).
+	const float h = tan(fFov / 2) * 2;
+	const float w = fAspect * h;
+	// Преобразуем x и y в диапазон: от -0.5 до 0.5.
+	p.x -= 0.5; p.y -= 0.5;
+	// Находим положение мыши на экране (в мире).
+	Vec3 pM = pos + vLook;
+	pM += oX * (p.x * w);
+	pM += oY * (p.y * h);
+	// Получаем итоговый вектор.
+	return pM - pos;
+}
 void Camera::ProcessEventInput(SDL_Event& event)
 {
     if (event.type == SDL_MOUSEMOTION && SDL_GetRelativeMouseMode())

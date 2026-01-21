@@ -12,7 +12,7 @@ class Camera
 {	public:
 	Pos     pos;    ///< Позиция.
 	Angle   angle;	///< Углы последовательного поворота x, y, z.
-	float	fFov = pi4,									///< Обзор камеры.
+	float	fFov = pi4,									///< Обзор камеры (вертикальный угол).
 			fAspect = (float)gSzWndDef.x / gSzWndDef.y,	///< Соотношение сторон.
 			fNear = 0.04f,								///< Ближнее отсечение.
 			fFar = 512;									///< Дальнее отсечение.
@@ -20,6 +20,9 @@ class Camera
 	Mat4 GetMatrix() const;	///< Получить общую матрицу положения камеры.
 	Mat4 GetView() const;	///< Получить матрицу вида камеры.
 	Mat4 GetProjection() const;	///< Получить матрицу проекции камеры.
+	/** Получить вектор от взгляда, до точки на экране (не единичной длины).
+		param[in] p - координаты точки от 0 до 1, от левого верхнего угла. */
+	Vec3 CalcVecPoint(Vec2 p) const;
 	void ProcessEventInput(SDL_Event& event); /// Обработка событий клавиатуры / мыши.
 	void ProcessStateInput(Val timeDelta); ///< Обработка состояния клавиатуры / мыши.
 private:
