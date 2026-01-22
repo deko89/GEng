@@ -51,6 +51,7 @@ void TexPar::Set() const
         glTexParameteri( texType, GL_TEXTURE_MAG_FILTER, filtHighGl[(size_t)filtHigh] );
 }
 // Texture //////////////////////////////////////////////////////////
+Texture texNull;
 Texture::Texture()
 {
 	glGenTextures(1, &id); // 1 - кол-во текстур для генерации. Второй параметр массив id.

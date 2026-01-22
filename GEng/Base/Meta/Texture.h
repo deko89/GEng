@@ -76,6 +76,8 @@ protected:
     Texture& operator=(const Texture& t) = delete;
 };
 
+extern Texture texNull;
+
 /// Ссылка на текстуру.
 class TextureRef
 {	public:
