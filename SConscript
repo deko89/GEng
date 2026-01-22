@@ -61,7 +61,7 @@ else:
 		'libm',
 		#'libc',
 		'libstdc++',
-		'libc++',
+		#'libc++',
 	]
 
 # Исходники библиотек.
