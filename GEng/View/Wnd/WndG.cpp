@@ -13,7 +13,7 @@ void WndG::ProcessEvent(SDL_Event& event)
 {
 	for (View* v : aView)
 		v->ProcessEvent(event);
-	if (view && event.type == SDL_MOUSEMOTION)
+	if (view)
 		view->ProcessEventInput(event);
     if (event.type == SDL_KEYDOWN)
     {
