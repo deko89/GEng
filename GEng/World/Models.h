@@ -14,6 +14,7 @@ namespace GEng
 class ModelStd: public ModelVi
 {	public:
 	ModelStd(ShaderType shT = shPosTex, Texture* tex = nullptr);
+	void Make(const Mesh& mesh, const PlaceTex& placeTex = PlaceTex());
 	virtual Pos   GetPos() const override;					///< Получить позицию.
 	virtual void  SetPos(const Pos& p) override;			///< Установить позицию.
 	virtual void  Move(const Vec3& v) override;				///< Передвинуть.
@@ -36,6 +37,7 @@ protected:
 };
 
 /** Плоская модель из текстуры, которая всегда развёрнута к камере (например растение).
+	Точка привязки у текстуры - снизу по центру.
 	@note Метод SetAngle здесь не работает. */
 class Model2d: public ModelStd
 {	public:

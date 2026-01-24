@@ -14,17 +14,25 @@ ModelStd::ModelStd(ShaderType shT, Texture* tex) :
 	texture(tex)
 {
 }
+void ModelStd::Make(const Mesh& mesh, const PlaceTex& placeTex)
+{	ModelVi::Make(mesh, placeTex);
+	boundBox = mesh.aVert.CalcBoundBox();
+}
 Pos ModelStd::GetPos() const
 {
 	return pos;
 }
 void ModelStd::SetPos(const Pos& p)
-{
+{	Pos d = p - pos;
 	pos = p;
+	boundBox.a += d;
+	boundBox.b += d;
 }
 void ModelStd::Move(const Pos& p)
 {
 	pos += p;
+	boundBox.a += p;
+	boundBox.b += p;
 }
 Angle  ModelStd::GetAngle() const
 {
@@ -86,6 +94,14 @@ Model2d::Model2d(ShaderType shT, Texture* tex) :
 }
 void Model2d::SetSize(Val x, Val y)
 {	SetScale( Scale(1, x, y) );
+	const Pos pos = GetPos();
+	x *= 0.5;
+	boundBox.a.x = pos.x - x;
+	boundBox.a.y = pos.y - x;
+	boundBox.a.z = pos.z;
+	boundBox.b.x = pos.x + x;
+	boundBox.b.y = pos.y + x;
+	boundBox.b.z = pos.z + y;
 }
 void Model2d::Draw() const
 {
