@@ -78,6 +78,12 @@ Mat4 ModelStd::GetMatTrans() const
 	mat = glm::scale(mat, scale);
 	return mat;
 }
+Mat4 ModelStd::GetMatTransPos() const
+{
+	Mat4 mat(1);
+	mat = glm::translate(mat, pos);
+	return mat;
+}
 // Model2d /////////////////////////////////////////////////////////////////////
 Model2d::Model2d(ShaderType shT, Texture* tex) :
 	ModelStd(shT, tex)

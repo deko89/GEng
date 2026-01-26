@@ -27,6 +27,7 @@ class ModelStd: public ModelVi
 	void Print() const;
 	const Box& GetBoundBox() const override;
 	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
+	Mat4 GetMatTransPos() const; ///< Получить матрицу трансформации (только позиция).
 protected:
 	Pos pos = Pos(0, 0, 0);
 	mutable Angle angle = Angle(0, 0, 0);
