@@ -17,6 +17,7 @@ class View
 	View(World* w, const RectI& pos);
 	const RectI& GetPos() const;
 	void SetPos(const RectI& r);
+	Vec2I WndToView(Vec2I p) const; ///< Позиция в окне -> позиция в виде.
 	void Update(Val timeDelta); ///< Обновить.
 	void Draw();
 	void ProcessEvent(SDL_Event& event); ///< Обработка события.

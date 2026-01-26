@@ -15,6 +15,9 @@ const RectI& View::GetPos() const
 void View::SetPos(const RectI& r)
 {   pos = r;
 }
+Vec2I View::WndToView(Vec2I p) const
+{	return p - pos.pos;
+}
 void View::Update(Val timeDelta)
 {
 }
