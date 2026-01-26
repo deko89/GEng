@@ -26,13 +26,13 @@ class ModelStd: public ModelVi
 	virtual void Draw() const override;
 	void Print() const;
 	const Box& GetBoundBox() const override;
+	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
 protected:
 	Pos pos = Pos(0, 0, 0);
 	mutable Angle angle = Angle(0, 0, 0);
 	Scale scale = Scale(1, 1, 1);
 	ShaderRef shader;
 	TextureRef texture;
-	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
 	Box boundBox; ///< Ограничивающая область.
 };
 
