@@ -62,6 +62,26 @@ void View::ProcessEvent(SDL_Event& event)
 }
 void View::ProcessEventInput(SDL_Event& event)
 {
+	if (event.type == SDL_MOUSEBUTTONDOWN)
+    {	if (event.button.button == SDL_BUTTON_LEFT)
+		{	if (world)
+			{	world->sel.aMod.clear();
+				for (Model* m : world->models)
+				{	const Box& box = m->GetBoundBox();
+					Vec2 p = WndToView(Vec2I(event.button.x, event.button.y));
+					p.x /= pos.w; p.y /= pos.h;
+					Ray ray {.pos = cam.pos, .dir = cam.CalcVecPoint(p)};
+					if ( box.IsIntersect(ray) )
+					{	world->sel.aMod.push_back(m);
+						world->sel.pos = m->GetPos();
+						world->sel.angle = m->GetAngle();
+						world->sel.scale = m->GetScale();
+						break;
+					}
+				}
+			}
+		}
+    }
     cam.ProcessEventInput(event);
 }
 void View::ProcessStateInput(Val timeDelta)
