@@ -110,7 +110,7 @@ void View::DrawTransform()
 	float* mTrans = glm::value_ptr(mTransform);
 	ImGuizmo::RecomposeMatrixFromComponents(&sel.pos.x, &sel.angle.x,
 											&sel.scale.x, mTrans);
-	ImGuizmo::SetDrawlist();
+	//ImGuizmo::SetDrawlist();
 	ImGuizmo::SetRect(View::pos.x, View::pos.y, View::pos.w, View::pos.h);
 	Mat4 mView = cam.GetView();
 	Mat4 mProj = cam.GetProjection();
