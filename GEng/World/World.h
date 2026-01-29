@@ -19,7 +19,6 @@ class Selection
     Pos pos;
 	Angle angle;
 	Scale scale;
-    Mat4 mTransform;        ///< Матрица трансформации для выделенного.
 };
 
 /// Мир.
