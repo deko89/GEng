@@ -1,5 +1,9 @@
 #include "View.h"
+#include "glm/gtc/type_ptr.hpp"
 #include "imgui.h"
+#include "ImGuizmo/ImGuizmo.h"
+#include "GEng/Base/Meta/Meta.h"
+#include "GEng/World/Models.h"
 
 namespace GEng
 {
@@ -33,6 +37,7 @@ void View::Draw()
 		if (world->sky)
 			world->sky->Draw();
 		world->models.Draw();
+		DrawTransform();
     }
 	if (aShape.empty() == false)
 	{
@@ -87,6 +92,39 @@ void View::ProcessEventInput(SDL_Event& event)
 void View::ProcessStateInput(Val timeDelta)
 {
     cam.ProcessStateInput(timeDelta);
+}
+void View::DrawTransform()
+{
+	static_assert(	sizeof(float) == sizeof(Val) &&
+					sizeof(float[3]) == sizeof(Pos), "" );
+	Selection& sel = world->sel;
+	if ( sel.aMod.empty() ) return;
+	Model* mod = sel.aMod.front();
+	// Рисование окна.
+	ImGui::Begin(_("Трансформация"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::InputFloat3(_("Позиция"), &sel.pos.x);
+	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
+	//ImGui::InputFloat3(_("Масштаб"), &sel.scale.x);
+	// Рисование ImGuizmo.
+	Mat4 mTransform;
+	float* mTrans = glm::value_ptr(mTransform);
+	ImGuizmo::RecomposeMatrixFromComponents(&sel.pos.x, &sel.angle.x,
+											&sel.scale.x, mTrans);
+	ImGuizmo::SetDrawlist();
+	ImGuizmo::SetRect(View::pos.x, View::pos.y, View::pos.w, View::pos.h);
+	Mat4 mView = cam.GetView();
+	Mat4 mProj = cam.GetProjection();
+	ImGuizmo::Manipulate(glm::value_ptr(mView),
+						 glm::value_ptr(mProj),
+						 ImGuizmo::TRANSLATE, ImGuizmo::WORLD,
+						 mTrans);
+	ImGuizmo::DecomposeMatrixToComponents(mTrans, &sel.pos.x, &sel.angle.x,
+										  &sel.scale.x);
+	ImGui::End();
+	// Обновление позиции.
+	mod->SetPos(sel.pos);
+	//mod->SetAngle(sel.angle);
+	//mod->SetScale(sel.scale);
 }
 
 }

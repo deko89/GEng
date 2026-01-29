@@ -25,6 +25,7 @@ class View
 	void ProcessStateInput(Val timeDelta); ///< Обработка состояния клавиатуры / мыши.
 private:
 	RectI pos;              ///< Позиция в окне.
+	void DrawTransform();	///< Вывести инструменты трансформации выделенного.
 };
 
 }

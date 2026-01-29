@@ -1,6 +1,7 @@
 #include "WndGui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
+#include "ImGuizmo/ImGuizmo.h"
 #include "GEng/Base/Context.h"
 
 namespace GEng
@@ -20,7 +21,7 @@ void WndGui::CreateGui()
 {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    ImGuiContext* ctxImGui = ImGui::CreateContext();
     pIO = &ImGui::GetIO();
     pIO->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     pIO->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -56,6 +57,8 @@ void WndGui::CreateGui()
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
     pIO->IniFilename = nullptr;
 #endif
+
+	ImGuizmo::SetImGuiContext(ctxImGui);
 }
 
 void WndGui::ClearGui()
@@ -94,6 +97,7 @@ void WndGui::UpdateUI()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 
 	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
 	if (show_demo_window)
