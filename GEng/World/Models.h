@@ -37,6 +37,17 @@ protected:
 	Box boundBox; ///< Ограничивающая область.
 };
 
+/// Модель параллелепипеда.
+class ModelBox : public ModelStd
+{	public:
+	ModelBox(ShaderType shT = shPosTex, Texture* tex = nullptr);
+	ModelBox(Pos a, Pos b);
+	void Update() override; ///< Обновить модель (применить параметры, модификаторы).
+protected:
+	Pos a = Pos(0, 0, 0),	///< Позиция начала.
+		b = Pos(1, 1, 1);	///< Позиция конца.
+};
+
 /** Плоская модель из текстуры, которая всегда развёрнута к камере (например растение).
 	Точка привязки у текстуры - снизу по центру.
 	@note Метод SetAngle здесь не работает. */

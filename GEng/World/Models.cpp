@@ -84,6 +84,22 @@ Mat4 ModelStd::GetMatTransPos() const
 	mat = glm::translate(mat, pos);
 	return mat;
 }
+// ModelBox //////////////////////////////////////////////////////////
+ModelBox::ModelBox(ShaderType shT, Texture* tex) :
+	ModelStd(shT, tex)
+{	Update();
+}
+ModelBox::ModelBox(Pos a, Pos b) :
+	a(a), b(b)
+{	Update();
+}
+void ModelBox::Update()
+{	Mesh mesh;
+	mesh.MakeBox(a, b);
+	PlaceTex plTex;
+	plTex.SetBox();
+	ModelStd::Make(mesh, plTex);
+}
 // Model2d /////////////////////////////////////////////////////////////////////
 Model2d::Model2d(ShaderType shT, Texture* tex) :
 	ModelStd(shT, tex)
