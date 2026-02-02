@@ -39,10 +39,11 @@ enum ShaderType
 {
 	shPosTex,		///< Позиция (x,y,z) + текстура (u,v).
 	shPosTexA,		///< Позиция (x,y,z) + прозрачная текстура (u,v).
+	shCube,			///< Куб.
 	shCubeIn,		///< Куб изнутри (заднего плана, неба).
 };
 
-const size_t gShaderCount = 3; ///< Число шейдеров.
+const size_t gShaderCount = 4; ///< Число шейдеров.
 
 /// Стандартные шейдеры. Последовательность в массиве соответствует ShaderType.
 class Shaders : public std::array<Shader, gShaderCount>

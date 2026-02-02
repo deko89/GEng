@@ -97,6 +97,23 @@ void main()
 }
 )";
 
+const char* codeCubeVert =
+M_GlslVer
+"\nprecision highp float;"
+R"(
+layout (location = 0) in vec3 pos;
+layout (std140) uniform uCam
+{	mat4 mCamera;
+};
+uniform mat4 matTrans;
+out vec3 posTex;
+void main()
+{	posTex = pos;
+	gl_Position = mCamera * matTrans * vec4(pos, 1.0);
+}
+)";
+
+
 const char* codeCubeInVert =
 M_GlslVer
 "\nprecision highp float;"
@@ -112,7 +129,7 @@ void main()
 }
 )";
 
-const char* codeCubeInFrag =
+const char* codeCubeFrag =
 M_GlslVer
 "\nprecision mediump float;"
 R"(
@@ -120,7 +137,7 @@ uniform samplerCube tex;
 in vec3 posTex;
 out vec4 color;
 void main()
-{   color = texture(tex, posTex);
+{	color = texture(tex, posTex);
 }
 )";
 
@@ -136,8 +153,11 @@ void Shaders::Compile()
 	sh = data() + shPosTexA;
 	sh->Compile(codePosTexVert, 0, codePosTexFragA);
 	sh->LinkMemG("uCam", uCamSlot);
+	sh = data() + shCube;
+	sh->Compile(codeCubeVert, 0, codeCubeFrag);
+	sh->LinkMemG("uCam", uCamSlot);
 	sh = data() + shCubeIn;
-	sh->Compile(codeCubeInVert, 0, codeCubeInFrag);
+	sh->Compile(codeCubeInVert, 0, codeCubeFrag);
 	sh->LinkMemG("uCam", uCamSlot);
 }
 // ShaderRef /////////////////////////////////////////////////////////
