@@ -55,6 +55,33 @@ void ShPath::Draw() const
 	}
 	Draw();
 }
+// Menu //////////////////////////////////////////////////////////////
+void Menu::Draw() const
+{	if ( ImGui::BeginMenuBar() )
+    {	for (const Fold& f : aFold)
+			f.Draw();
+        ImGui::EndMenuBar();
+    }
+}
+void Menu::Fold::Draw() const
+{	if ( ImGui::BeginMenu( name.c_str() ) )
+    {	for (const auto& v : aItem)
+		{	if ( std::holds_alternative<Separator>(v) )
+			{	ImGui::Separator();
+			} else if ( std::holds_alternative<Item>(v) )
+			{	const Item& i = std::get<Item>(v);
+				if ( ImGui::MenuItem( i.name.c_str(), i.key.c_str(), false, i.enable) )
+				{	if (i.action)
+						i.action();
+				}
+			} else
+			{	const Fold& f = std::get<Fold>(v);
+				f.Draw();
+			}
+		}
+        ImGui::EndMenu();
+    }
+}
 // Shapes ////////////////////////////////////////////////////////////
 void Shapes::LoadSvg(FilePath path)
 {
