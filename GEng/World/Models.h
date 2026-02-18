@@ -1,6 +1,7 @@
 #ifndef Models_H
 #define Models_H
 
+#include <filesystem>
 #include "Std/MassivPtr.h"
 #include "GEng/Base/Meta/Meta.h"
 #include "GEng/Base/Meta/Shader.h"
@@ -79,6 +80,42 @@ class Models : public MassivPtr<Model>
 {	public:
     typedef MassivPtr<Model> Base;
     void Draw() const;
+};
+
+/// Класс модели.
+class ClassModel
+{	public:
+	virtual ~ClassModel() {}
+	/// Удалить экземпляр класса.
+	void Delete(Model* m)	{models.Del(m);}
+protected:
+	Models models;
+};
+
+/// Класс модели (шаблон).
+template<typename TypeModel>
+class ClassModelT : public ClassModel
+{	public:
+	Texture tex;
+	/// Создать экземпляр класса.
+	TypeModel* Instance()		{return models.Make<TypeModel>();}
+};
+
+/// Класс модели 2d.
+class ClassModel2d : public ClassModelT<Model2d>
+{	public:
+	typedef ClassModelT<Model2d> Base;
+	static constexpr Str nameType = "2d";
+	Vec2 size;
+	Model2d* Instance();
+};
+
+/// Классы моделей.
+class ClassModels : public MassivPtr<ClassModel>
+{	public:
+    typedef MassivPtr<ClassModel> Base;
+	/// Загрузить из папки.
+	void Load(const std::filesystem::path& path);
 };
 
 }

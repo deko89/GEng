@@ -16,6 +16,10 @@ template<class C> class MassivPtr: public std::vector<C*>
 		for (C* e: *this) delete e;
 		Base::clear();
 	}
+	void Del(C* p)
+	{	std::erase(*this, p);
+		delete p;
+	}
 
 	MassivPtr& operator= (const MassivPtr& B) = delete;
 	typename Base::iterator erase(typename Base::const_iterator i) = delete;

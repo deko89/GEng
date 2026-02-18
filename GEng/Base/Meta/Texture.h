@@ -72,7 +72,7 @@ class Texture
 	void Use() const;
 protected:
 	GLenum texType = GL_TEXTURE_2D; ///< Тип текстуры.
-	GLuint id = 0; ///< Идентификатор текустуры.
+	GLuint id = 0; ///< Идентификатор текстуры.
     Texture& operator=(const Texture& t) = delete;
 };
 

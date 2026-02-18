@@ -2,6 +2,7 @@
 #include <iostream>
 #include "glm/geometric.hpp"
 #include "glm/ext/matrix_transform.hpp"
+#include "pugixml/src/pugixml.hpp"
 #include "GEng/View/Camera.h"
 #include "GEng/GEng.h"
 
@@ -167,10 +168,42 @@ void ModelCylinder::Update()
 
     ModelStd::Make(mesh, plTex);
 }
-// BaseEngine ///////////////////////////////////////////////////////
+// Models ////////////////////////////////////////////////////////////
 void Models::Draw() const
 {   for (Model* m : *this)
         m->Draw();
+}
+// ClassModel2d //////////////////////////////////////////////////////
+Model2d* ClassModel2d::Instance()
+{	Model2d* m = Base::Instance();
+	m->SetSize(size.x, size.y);
+	return m;
+}
+// ClassModels ///////////////////////////////////////////////////////
+void ClassModels::Load(const std::filesystem::path& path)
+{
+	namespace fs = std::filesystem;
+	using namespace pugi;
+	for (const fs::directory_entry& dirEntry : fs::directory_iterator(path))
+	{
+		if ( dirEntry.is_directory() )
+		{	// Открытие.
+			fs::path p = dirEntry.path() / "set.xml";
+			xml_document doc;
+			xml_parse_result result = doc.load_file( p.c_str() );
+			if (!result)
+			{	std::cerr << "No load " << p << std::endl;
+				continue;
+			}
+			xml_node ndSet = doc.child("set");
+			// Разбор.
+			Str type = ndSet.attribute("type").value();
+			if (type == ClassModel2d::nameType)
+			{	ClassModel2d* c = Make<ClassModel2d>();
+				c->size.y = ndSet.child("size").attribute("h").as_double();
+			}
+		}
+	}
 }
 
 }
