@@ -10,6 +10,10 @@ class Image
     static void Init();
     static void DeInit();
     Image() {}
+    Image(const Image& i) = delete;
+    Image& operator=(const Image& i) = delete;
+    Image(Image&& i);
+    Image& operator=(Image&& i);
     Image(const Str& path);     ///< Загрузить из файла.
 	~Image();
 	void Load(const Str& path); ///< Загрузить из файла.

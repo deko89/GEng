@@ -17,6 +17,14 @@ void Image::DeInit()
 Image::Image(const Str& path)
 {   Load(path);
 }
+Image::Image(Image&& i) : pSurf(i.pSurf)
+{   i.pSurf = nullptr;
+}
+Image& Image::operator=(Image&& i)
+{   pSurf = i.pSurf;
+    i.pSurf = nullptr;
+    return *this;
+}
 Image::~Image()
 {	Clear();
 }
