@@ -2,6 +2,7 @@
 #define Texture_H
 
 #include "GEng/Base/Meta/Meta.h"
+#include "Std/Media/Image.h"
 
 namespace GEng
 {
@@ -64,7 +65,7 @@ class Texture
 		param[in] pathF - шаблон пути нумерованных текстур. Формат: "<Path>/<Name>%zu.<Ext>".
 		param[in] count - число текстур.
 		param[in] par - параметры создания текстуры. */
-	void Load(const Str& path, const TexPar& par = texPar);
+	Image Load(const Str& path, const TexPar& par = texPar);
     void LoadArray(const Str& pathF, size_t count, const TexPar& par = texParArray);
     void LoadCube(const Str& pathF, const TexPar& par = texParCube);
 

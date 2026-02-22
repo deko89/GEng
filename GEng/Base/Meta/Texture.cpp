@@ -1,5 +1,4 @@
 #include "Texture.h"
-#include "Std/Media/Image.h"
 
 namespace GEng
 {
@@ -60,7 +59,7 @@ Texture::~Texture()
 {
 	glDeleteTextures(1, &id);
 }
-void Texture::Load(const Str& path, const TexPar& par)
+Image Texture::Load(const Str& path, const TexPar& par)
 {	// Подготовка текстуры.
 	texType = GL_TEXTURE_2D;
 	glBindTexture(GL_TEXTURE_2D, id); // Использование своей текстуры.
@@ -81,6 +80,8 @@ void Texture::Load(const Str& path, const TexPar& par)
 
 	// Освобождение памяти.
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return img;
 }
 void Texture::LoadArray(const Str& pathF, size_t count, const TexPar& par)
 {	// Подготовка текстуры.
