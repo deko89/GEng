@@ -12,6 +12,7 @@ namespace GEng
 /// Движок.
 class Engine : public Environment
 {	public:
+    ClassModels aClass;
     Engine();
     ~Engine();
     bool Init();                ///< Инициализация.
