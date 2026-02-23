@@ -52,6 +52,10 @@ class Menu : public Shape
 	{	Str name;
 		std::vector< std::variant<Separator, Item, Fold> > aItem;
 		Fold(StrR name) : name(name) {}
+		Fold& AddFold(StrR name)
+		{	auto& v = aItem.emplace_back(std::in_place_type<Menu::Fold>, name);
+			return std::get<Menu::Fold>(v);
+		}
 		void Draw() const;
 	};
 	Fold& Add(StrR name) {return aFold.emplace_back(name);}
