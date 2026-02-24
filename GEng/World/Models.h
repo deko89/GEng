@@ -86,6 +86,8 @@ class Models : public MassivPtr<Model>
 class ClassModel
 {	public:
 	virtual ~ClassModel() {}
+	/// Создать экземпляр класса.
+	virtual Model* Instance() = 0;
 	/// Удалить экземпляр класса.
 	void Delete(Model* m)	{models.Del(m);}
 protected:
@@ -98,7 +100,7 @@ class ClassModelT : public ClassModel
 {	public:
 	Texture tex;
 	/// Создать экземпляр класса.
-	TypeModel* Instance()		{return models.Make<TypeModel>();}
+	Model* Instance() override	{return models.Make<TypeModel>();}
 };
 
 /// Класс модели 2d.
@@ -107,7 +109,7 @@ class ClassModel2d : public ClassModelT<Model2d>
 	typedef ClassModelT<Model2d> Base;
 	static constexpr Str nameType = "2d";
 	Vec2 size;
-	Model2d* Instance();
+	Model* Instance() override;
 };
 
 /// Классы моделей.
