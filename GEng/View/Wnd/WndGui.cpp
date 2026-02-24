@@ -59,6 +59,7 @@ void WndGui::CreateGui()
 #endif
 
 	ImGuizmo::SetImGuiContext(ctxImGui);
+	//ImGuizmo::AllowAxisFlip(false);
 }
 
 void WndGui::ClearGui()

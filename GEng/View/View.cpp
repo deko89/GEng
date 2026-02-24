@@ -70,7 +70,7 @@ void View::ProcessEventInput(SDL_Event& event)
 {
 	if (event.type == SDL_MOUSEBUTTONDOWN)
     {	if (event.button.button == SDL_BUTTON_LEFT)
-		{	if (world)
+		{	if ( world && (world->sel.aMod.empty() || !ImGuizmo::IsOver()) )
 			{	world->sel.aMod.clear();
 				for (Model* m : world->models)
 				{	const Box& box = m->GetBoundBox();
