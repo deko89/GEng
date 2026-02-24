@@ -87,14 +87,13 @@ class ClassModel
 {	public:
 	virtual ~ClassModel() {}
 	/// Создать экземпляр класса.
-	virtual Model* Instance() = 0;
+	virtual Model* Instance(Models& models) = 0;
 	/// Удалить экземпляр класса.
-	void Delete(Model* m)	{models.Del(m);}
+	//void Delete(Model* m)	{models.Del(m);}
 	const Str& Name() const {return name;}
 	void SetName(const Str& n) {name = n;}
 protected:
 	Str name;
-	Models models;
 };
 
 /// Класс модели (шаблон).
@@ -103,7 +102,7 @@ class ClassModelT : public ClassModel
 {	public:
 	Texture tex;
 	/// Создать экземпляр класса.
-	Model* Instance() override	{return models.Make<TypeModel>();}
+	Model* Instance(Models& models) override {return models.Make<TypeModel>();}
 };
 
 /// Класс модели 2d.
@@ -112,7 +111,7 @@ class ClassModel2d : public ClassModelT<Model2d>
 	typedef ClassModelT<Model2d> Base;
 	static constexpr Str nameType = "2d";
 	Vec2 size;
-	Model* Instance() override;
+	Model* Instance(Models& models) override;
 };
 
 /// Классы моделей.

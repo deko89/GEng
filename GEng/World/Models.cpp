@@ -174,8 +174,8 @@ void Models::Draw() const
         m->Draw();
 }
 // ClassModel2d //////////////////////////////////////////////////////
-Model* ClassModel2d::Instance()
-{	Model2d* m = (Model2d*) Base::Instance();
+Model* ClassModel2d::Instance(Models& models)
+{	Model2d* m = (Model2d*) Base::Instance(models);
 	m->SetSize(size.x, size.y);
 	return m;
 }
