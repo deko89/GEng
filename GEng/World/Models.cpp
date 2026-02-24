@@ -175,7 +175,7 @@ void Models::Draw() const
 }
 // ClassModel2d //////////////////////////////////////////////////////
 Model* ClassModel2d::Instance(Models& models)
-{	Model2d* m = models.Make<Model2d>(shPosTexA);
+{	Model2d* m = models.Make<Model2d>(shPosTexA, &tex);
 	m->SetSize(size.x, size.y);
 	return m;
 }
