@@ -90,7 +90,10 @@ class ClassModel
 	virtual Model* Instance() = 0;
 	/// Удалить экземпляр класса.
 	void Delete(Model* m)	{models.Del(m);}
+	const Str& Name() const {return name;}
+	void SetName(const Str& n) {name = n;}
 protected:
+	Str name;
 	Models models;
 };
 
