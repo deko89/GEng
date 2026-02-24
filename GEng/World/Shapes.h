@@ -64,6 +64,13 @@ private:
 	std::vector<Fold> aFold;
 };
 
+/// Окно.
+class ShWnd : public Shape
+{	public:
+	Str name;							///< Имя.
+	void Draw() const override;
+};
+
 /// 2д фигуры.
 class Shapes : public MassivPtr<Shape>
 {	public:
