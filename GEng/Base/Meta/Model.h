@@ -6,10 +6,14 @@
 namespace GEng
 {
 
+class ClassModel;
+
 /// Базовый 3d объект.
 class Model
 {	public:
 	virtual ~Model() {}
+	virtual ClassModel* Class() const {return nullptr;}
+	virtual void SetClass(ClassModel* c) {}
 	// Позиция.
 	virtual Pos   GetPos() const {return Pos();}		///< Получить позицию.
 	virtual void  SetPos(const Pos& p) {}				///< Установить позицию.

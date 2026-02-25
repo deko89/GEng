@@ -16,6 +16,8 @@ class ModelStd: public ModelVi
 {	public:
 	ModelStd(ShaderType shT = shPosTex, Texture* tex = nullptr);
 	void Make(const Mesh& mesh, const PlaceTex& placeTex = PlaceTex());
+	ClassModel* Class() const override {return pClass;}
+	void SetClass(ClassModel* c) override {pClass = c;}
 	virtual Pos   GetPos() const override;					///< Получить позицию.
 	virtual void  SetPos(const Pos& p) override;			///< Установить позицию.
 	virtual void  Move(const Vec3& v) override;				///< Передвинуть.
@@ -30,6 +32,7 @@ class ModelStd: public ModelVi
 	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
 	Mat4 GetMatTransPos() const; ///< Получить матрицу трансформации (только позиция).
 protected:
+	ClassModel* pClass = nullptr; ///< Класс/тип модели.
 	Pos pos = Pos(0, 0, 0);
 	mutable Angle angle = Angle(0, 0, 0);
 	Scale scale = Scale(1, 1, 1);
