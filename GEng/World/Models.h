@@ -2,6 +2,7 @@
 #define Models_H
 
 #include <filesystem>
+#include "pugixml/src/pugixml.hpp"
 #include "Std/MassivPtr.h"
 #include "GEng/Base/Meta/Meta.h"
 #include "GEng/Base/Meta/Shader.h"
@@ -18,6 +19,7 @@ class ModelStd: public ModelVi
 	void Make(const Mesh& mesh, const PlaceTex& placeTex = PlaceTex());
 	ClassModel* Class() const override {return pClass;}
 	void SetClass(ClassModel* c) override {pClass = c;}
+	void SetShader(ShaderType shT) {shader.Set(shT);}
 	virtual Pos   GetPos() const override;					///< Получить позицию.
 	virtual void  SetPos(const Pos& p) override;			///< Установить позицию.
 	virtual void  Move(const Vec3& v) override;				///< Передвинуть.
@@ -82,7 +84,7 @@ protected:
 class Models : public MassivPtr<Model>
 {	public:
     typedef MassivPtr<Model> Base;
-    void Draw() const;
+	void Draw() const;
 };
 
 /// Класс модели.
@@ -105,7 +107,12 @@ class ClassModelT : public ClassModel
 {	public:
 	Texture tex;
 	/// Создать экземпляр класса.
-	Model* Instance(Models& models) override {return models.Make<TypeModel>();}
+	Model* Instance(Models& models) override
+	{	TypeModel* m = models.Make<TypeModel>();
+		m->SetClass(this);
+		m->SetTexture(tex);
+		return m;
+	}
 };
 
 /// Класс модели 2d.
