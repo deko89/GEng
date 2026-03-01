@@ -5,7 +5,7 @@ if sys.platform == 'cygwin':	EnvCxx = 'clang++'
 else:							EnvCxx = 'clang'
 env = Environment(CC='clang', CXX=EnvCxx,
 	CXXFLAGS=[
-		'-std=c++20',
+		'-std=c++23',
 		'-O2',
 		'-fPIC',
 		'-Wno-c99-designator',

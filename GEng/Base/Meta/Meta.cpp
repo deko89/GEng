@@ -57,6 +57,22 @@ std::ostream& operator<<(std::ostream& os, const Mat4& m)
 	return os << glm::to_string(m);
 }
 
+void Save(const Vec3& v, FileNode n)
+{	n.append_attribute("x").set_value(v.x);
+	n.append_attribute("y").set_value(v.y);
+	n.append_attribute("z").set_value(v.z);
+}
+
+template <>
+Vec3 Load(const FileNode n)
+{	static_assert(typeid(Val) == typeid(float));
+	Vec3 v;
+	v.x = n.attribute("x").as_float();
+	v.y = n.attribute("y").as_float();
+	v.z = n.attribute("z").as_float();
+	return v;
+}
+
 void SetPolygonMode(PolygonMode mode)
 {
 #if !defined(IMGUI_IMPL_OPENGL_ES2) && !defined(IMGUI_IMPL_OPENGL_ES3)

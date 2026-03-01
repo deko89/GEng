@@ -24,6 +24,7 @@
 #endif
 
 #include "glm/glm.hpp"
+#include "pugixml/src/pugixml.hpp"
 #include "Std/Base.h"
 
 namespace GEng
@@ -115,6 +116,12 @@ std::ostream& operator<<(std::ostream& os, const Vec2& v);
 std::ostream& operator<<(std::ostream& os, const Vec3& v);
 std::ostream& operator<<(std::ostream& os, const Vec4& v);
 std::ostream& operator<<(std::ostream& os, const Mat4& m);
+
+// Файлы.
+using FileNode = pugi::xml_node;
+void Save(const Vec3& v, FileNode n);
+template<typename T>	T Load(const FileNode n) {return T();}
+template<>				Vec3 Load(const FileNode n);
 
 // Константы.
 static_assert(std::numeric_limits<Val>::has_quiet_NaN);
