@@ -27,6 +27,9 @@ class World
     unique_ptr<SkyBox> sky;     ///< Небо.
     Models models;              ///< Модели.
     Selection sel;              ///< Выделенные модели.
+    std::filesystem::path path; ///< Путь до файла.
+    void Save();
+    void Load();
 };
 
 }

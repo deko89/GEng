@@ -84,6 +84,8 @@ protected:
 class Models : public MassivPtr<Model>
 {	public:
     typedef MassivPtr<Model> Base;
+    void Save(pugi::xml_node ndModels);
+    void Load(pugi::xml_node ndModels);
 	void Draw() const;
 };
 
@@ -130,6 +132,8 @@ class ClassModels : public MassivPtr<ClassModel>
     typedef MassivPtr<ClassModel> Base;
 	/// Загрузить из папки.
 	void Load(const std::filesystem::path& path);
+	/// Получить класс по имени.
+	ClassModel* Get(const Str& name) const;
 };
 
 }

@@ -1,8 +1,8 @@
 #include "Models.h"
 #include <iostream>
+#include <map>
 #include "glm/geometric.hpp"
 #include "glm/ext/matrix_transform.hpp"
-#include "pugixml/src/pugixml.hpp"
 #include "GEng/View/Camera.h"
 #include "GEng/GEng.h"
 
@@ -169,6 +169,39 @@ void ModelCylinder::Update()
     ModelStd::Make(mesh, plTex);
 }
 // Models ////////////////////////////////////////////////////////////
+void Models::Save(pugi::xml_node ndModels)
+{	using namespace pugi;
+	// Группировка.
+	std::map<std::string, std::vector<Model*>> mapMod;
+    for (Model* m : *this)
+    {	ClassModel* c = m->Class();
+		assert(c);
+		mapMod[c->Name()].push_back(m);
+    }
+	// Запись.
+    for (const auto& p : mapMod)
+    {	auto& [nameMod, aMod] = p;
+		xml_node ndGrMod = ndModels.append_child(nameMod);
+		for (Model* m : aMod)
+		{	xml_node ndM = ndGrMod.append_child("m");
+			GEng::Save(m->GetPos(), ndM.append_child("pos"));
+		}
+    }
+}
+void Models::Load(pugi::xml_node ndModels)
+{	using namespace pugi;
+    for (xml_node ndGrMod : ndModels.children())
+    {   ClassModel* c = GetEng().aClass.Get( ndGrMod.name() );
+        if (!c)
+        {	std::cerr << "No class " << ndGrMod.name() << std::endl;
+            continue;
+        }
+        for (xml_node ndM : ndGrMod.children("m"))
+        {   Model* m = c->Instance(*this);
+            m->SetPos( GEng::Load<Pos>( ndM.child("pos") ) );
+        }
+    }
+}
 void Models::Draw() const
 {   for (Model* m : *this)
         m->Draw();
@@ -208,6 +241,16 @@ void ClassModels::Load(const std::filesystem::path& path)
 			}
 		}
 	}
+}
+ClassModel* ClassModels::Get(const Str& name) const
+{
+	auto isName = [&name](const ClassModel* mod)
+	{	return mod->Name() == name;
+	};
+	auto it = std::find_if(begin(), end(), isName);
+	if (it == end())
+		return nullptr;
+	return *it;
 }
 
 }
