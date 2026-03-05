@@ -88,7 +88,9 @@ int Engine::Execute()
 #else
     while (bRun)
 #endif
-    {	// Обработка списка событий.
+    {	
+		wnd.UpdateTimeDelta();
+		// Обработка списка событий.
 		while ( SDL_PollEvent(&event) )
 		{	wnd.ProcessEvent(event);
 			// Событие выхода.

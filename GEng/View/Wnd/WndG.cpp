@@ -46,11 +46,6 @@ void WndG::UpdateTimeDelta()
 
 void WndG::Draw()
 {
-	// Прошедшее время.
-	Time timeNow = system_clock::now();
-	duration<Val> dur = timeNow - timePrev;
-	timePrev = timeNow;
-	Val timeDelta = dur.count();
 	// Обновление активного вида.
 	if (view)
 		view->ProcessStateInput(timeDelta);
