@@ -36,6 +36,14 @@ void WndG::ProcessEvent(SDL_Event& event)
     }
 }
 
+void WndG::UpdateTimeDelta()
+{
+	Time timeNow = system_clock::now();
+	duration<Val> dur = timeNow - timePrev;
+	timePrev = timeNow;
+	timeDelta = dur.count();
+}
+
 void WndG::Draw()
 {
 	// Прошедшее время.

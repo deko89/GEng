@@ -16,8 +16,10 @@ class WndG : public Wnd
     WndG();
     void ProcessEvent(SDL_Event& event); ///< Обработка события.
     void Draw(); ///< Рисование.
+    void UpdateTimeDelta(); ///< Обновить timeDelta.
 private:
     Time timePrev;          ///< Время последнего рисования.
+    Val timeDelta;          ///< Разница во времени с предыдущим кадром.
 };
 
 }
