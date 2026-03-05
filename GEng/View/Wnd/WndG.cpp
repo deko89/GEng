@@ -14,7 +14,10 @@ void WndG::ProcessEvent(SDL_Event& event)
 	for (View* v : aView)
 		v->ProcessEvent(event);
 	if (view)
+	{
 		view->ProcessEventInput(event);
+		view->ProcessStateInput(timeDelta);
+	}
     if (event.type == SDL_KEYDOWN)
     {
     	switch (event.key.keysym.scancode)
@@ -46,9 +49,6 @@ void WndG::UpdateTimeDelta()
 
 void WndG::Draw()
 {
-	// Обновление активного вида.
-	if (view)
-		view->ProcessStateInput(timeDelta);
 	// Рисование
 	for (View* v : aView)
 	{
