@@ -42,7 +42,7 @@ void View::Draw()
 	if (aShape.empty() == false)
 	{
 		ImGui::SetNextWindowPos( ImVec2(pos.x, pos.y) );
-		ImGui::SetNextWindowSize( ImVec2(pos.w, pos.h) );
+		//ImGui::SetNextWindowSize( ImVec2(pos.w, pos.h) );
 		ImGui::Begin("_", NULL,
 			ImGuiWindowFlags_NoBackground |
 			ImGuiWindowFlags_NoTitleBar |
