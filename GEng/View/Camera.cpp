@@ -42,7 +42,7 @@ Vec3 Camera::CalcVecPoint(Vec2 p) const
 	// Получаем итоговый вектор.
 	return pM - pos;
 }
-void Camera::ProcessEventInput(SDL_Event& event)
+void Camera::ProcessEventMouse(SDL_Event& event)
 {
     if (event.type == SDL_MOUSEMOTION && SDL_GetRelativeMouseMode())
     {
@@ -52,7 +52,7 @@ void Camera::ProcessEventInput(SDL_Event& event)
 		UpdateLook();
     }
 }
-void Camera::ProcessStateInput(Val timeDelta)
+void Camera::ProcessEventKeyboard(Val timeDelta)
 {
 	// Обновление позиции.
 	Val dist = 1.0f * timeDelta;

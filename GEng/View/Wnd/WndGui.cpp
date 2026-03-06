@@ -75,8 +75,13 @@ void WndGui::ClearGui()
 
 void WndGui::ProcessEvent(SDL_Event& event)
 {
-	WndG::ProcessEvent(event);
 	ImGui_ImplSDL2_ProcessEvent(&event);
+	WndG::ProcessEvent(event);
+	assert(pIO);
+	if (pIO->WantCaptureMouse == false)
+		WndG::ProcessEventMouse(event);
+	if (pIO->WantCaptureKeyboard == false)
+		WndG::ProcessEventKeyboard(event);
 }
 
 void WndGui::Draw()

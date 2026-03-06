@@ -13,11 +13,18 @@ void WndG::ProcessEvent(SDL_Event& event)
 {
 	for (View* v : aView)
 		v->ProcessEvent(event);
+}
+
+void WndG::ProcessEventMouse(SDL_Event& event)
+{
 	if (view)
-	{
-		view->ProcessEventInput(event);
-		view->ProcessStateInput(timeDelta);
-	}
+		view->ProcessEventMouse(event);
+}
+
+void WndG::ProcessEventKeyboard(SDL_Event& event)
+{
+	if (view)
+		view->ProcessEventKeyboard(timeDelta);
     if (event.type == SDL_KEYDOWN)
     {
     	switch (event.key.keysym.scancode)

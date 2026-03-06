@@ -23,8 +23,8 @@ class Camera
 	/** Получить вектор от взгляда, до точки на экране (не единичной длины).
 		param[in] p - координаты точки от 0 до 1, от левого верхнего угла. */
 	Vec3 CalcVecPoint(Vec2 p) const;
-	void ProcessEventInput(SDL_Event& event); /// Обработка событий клавиатуры / мыши.
-	void ProcessStateInput(Val timeDelta); ///< Обработка состояния клавиатуры / мыши.
+	void ProcessEventMouse(SDL_Event& event); /// Обработка событий мыши.
+	void ProcessEventKeyboard(Val timeDelta); ///< Обработка состояния клавиатуры.
 private:
 	const Vec3 vUp = {0.0f, 0.0f, 1.0f};    ///< Мировая ось вверх.
 	Vec3 vLook; ///< Направление куда смотрит камера. Вычисляется из angle. Вектор единичный.

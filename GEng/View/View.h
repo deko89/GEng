@@ -20,9 +20,9 @@ class View
 	Vec2I WndToView(Vec2I p) const; ///< Позиция в окне -> позиция в виде.
 	void Update(Val timeDelta); ///< Обновить.
 	void Draw();
-	void ProcessEvent(SDL_Event& event); ///< Обработка события.
-	void ProcessEventInput(SDL_Event& event); ///< Обработка события клавиатуры / мыши.
-	void ProcessStateInput(Val timeDelta); ///< Обработка состояния клавиатуры / мыши.
+	void ProcessEvent(SDL_Event& event); ///< Обработка общего события.
+	void ProcessEventMouse(SDL_Event& event); ///< Обработка события мыши.
+	void ProcessEventKeyboard(Val timeDelta); ///< Обработка состояния клавиатуры.
 private:
 	RectI pos;              ///< Позиция в окне.
 	void DrawTransform();	///< Вывести инструменты трансформации выделенного.

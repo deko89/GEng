@@ -66,7 +66,7 @@ void View::ProcessEvent(SDL_Event& event)
 		}
 	}
 }
-void View::ProcessEventInput(SDL_Event& event)
+void View::ProcessEventMouse(SDL_Event& event)
 {
 	if (event.type == SDL_MOUSEBUTTONDOWN)
     {	if (event.button.button == SDL_BUTTON_LEFT)
@@ -88,11 +88,11 @@ void View::ProcessEventInput(SDL_Event& event)
 			}
 		}
     }
-    cam.ProcessEventInput(event);
+    cam.ProcessEventMouse(event);
 }
-void View::ProcessStateInput(Val timeDelta)
+void View::ProcessEventKeyboard(Val timeDelta)
 {
-    cam.ProcessStateInput(timeDelta);
+    cam.ProcessEventKeyboard(timeDelta);
 }
 void View::DrawTransform()
 {
