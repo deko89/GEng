@@ -8,5 +8,6 @@
 -I/usr/include/SDL2
 -I.
 -ILib
+-ILib/nativefiledialog/src/include
 -ILib/imgui
 -ILib/imgui/backends

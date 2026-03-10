@@ -67,6 +67,8 @@ else:
 # Исходники библиотек.
 filesSrcLib =	Glob(	'Lib/imgui/*.cpp') + \
 				Split("""
+						Lib/nativefiledialog/src/nfd_common.c
+						Lib/nativefiledialog/src/nfd_zenity.c
 						Lib/imgui/backends/imgui_impl_opengl3.cpp
 						Lib/imgui/backends/imgui_impl_sdl2.cpp
 						Lib/ImGuizmo/ImGuizmo.cpp
@@ -78,6 +80,7 @@ if sys.platform == 'cygwin':
 dirsIncProj = [
 	'.',
     'Lib',
+	'Lib/nativefiledialog/src/include',
     'Lib/imgui',
     'Lib/imgui/backends'
 ]
