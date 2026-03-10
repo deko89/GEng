@@ -11,6 +11,7 @@ void World::Save()
     xml_node ndModels = ndWorld.append_child("models");
     models.Save(ndModels);
     doc.save_file(path.c_str());
+    std::cout << _("Сохранено в ") << path << std::endl;
 }
 void World::Load()
 {	using namespace pugi;
