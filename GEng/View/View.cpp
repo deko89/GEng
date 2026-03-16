@@ -48,6 +48,8 @@ void View::Draw()
 			ImGuiWindowFlags_NoTitleBar |
 			ImGuiWindowFlags_NoSavedSettings |
 			ImGuiWindowFlags_NoBringToFrontOnFocus |
+			ImGuiWindowFlags_NoFocusOnAppearing |
+			ImGuiWindowFlags_NoNavInputs |
 			ImGuiWindowFlags_MenuBar |
 			0 );
 		aShape.Draw();
