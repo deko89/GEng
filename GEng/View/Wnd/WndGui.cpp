@@ -75,7 +75,8 @@ void WndGui::ClearGui()
 
 void WndGui::ProcessEvent(SDL_Event& event)
 {
-	ImGui_ImplSDL2_ProcessEvent(&event);
+	if (SDL_GetRelativeMouseMode() == SDL_FALSE)
+		ImGui_ImplSDL2_ProcessEvent(&event);
 	WndG::ProcessEvent(event);
 	assert(pIO);
 	if (pIO->WantCaptureMouse == false)
