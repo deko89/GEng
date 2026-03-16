@@ -47,7 +47,7 @@ bool Context::Create(Wnd& wnd)
 	{	printf( "Unable to get OpenGL ES version string: %d\n", glGetError() );
 		return 0;
 	}
-	printf("GL_VERSION: %s\n", version);
+	//printf("GL_VERSION: %s\n", version);
 	SDL_GL_SetSwapInterval(1); // Enable vsync
 
 	glEnable(GL_DEPTH_TEST);	// Включить тест глубины.
