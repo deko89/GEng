@@ -43,6 +43,19 @@ protected:
 	Box boundBox; ///< Ограничивающая область.
 };
 
+/// Модель плоскости.
+class ModelPlane: public ModelStd
+{	public:
+	Vec2 size{1, 1};			///< Размеры.
+	Vec2N sgm{1, 1};			///< Число сегментов.
+	PosTex texN{1, 1};			///< Число повторений текстуры.
+	ModelPlane(ShaderType shT = shPosTex, Texture* tex = nullptr);
+	void Update() override;
+	void SetSize(Vec2 s);
+	void SetSgm(Vec2N s);		///< Задать число сегментов.
+	void SetTexN(PosTex n);		///< Задать число повторений текстуры.
+};
+
 /// Модель параллелепипеда.
 class ModelBox : public ModelStd
 {	public:

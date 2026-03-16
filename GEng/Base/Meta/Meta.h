@@ -72,6 +72,7 @@ struct Color
 
 // Простые 2d типы.
 typedef glm::vec<2, ValI> Vec2I;	///< Вектор 2d целочисленный.
+typedef glm::vec<2, ValN> Vec2N;
 typedef glm::vec2 Vec2;		///< Вектор с 2 числами.
 
 	/// Луч.

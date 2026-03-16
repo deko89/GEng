@@ -85,6 +85,31 @@ Mat4 ModelStd::GetMatTransPos() const
 	mat = glm::translate(mat, pos);
 	return mat;
 }
+// ModelPlane ////////////////////////////////////////////////////////
+ModelPlane::ModelPlane(ShaderType shT, Texture* tex) :
+	ModelStd(shT, tex)
+{	Update();
+}
+void ModelPlane::Update()
+{
+    Mesh mesh;
+    mesh.MakePlane(size.x, size.y, sgm.x, sgm.y);
+    PlaceTex plTex;
+    plTex.SetPlane(sgm.x, sgm.y, texN.u, texN.v);
+    ModelStd::Make(mesh, plTex);
+}
+void ModelPlane::SetSize(Vec2 s)
+{	size = s;
+	Update();
+}
+void ModelPlane::SetSgm(Vec2N s)
+{	sgm = s;
+	Update();
+}
+void ModelPlane::SetTexN(PosTex n)
+{	texN = n;
+	Update();
+}
 // ModelBox //////////////////////////////////////////////////////////
 ModelBox::ModelBox(ShaderType shT, Texture* tex) :
 	ModelStd(shT, tex)
@@ -175,7 +200,7 @@ void Models::Save(pugi::xml_node ndModels)
 	std::map<std::string, std::vector<Model*>> mapMod;
     for (Model* m : *this)
     {	ClassModel* c = m->Class();
-		assert(c);
+		if (c == nullptr) continue;
 		mapMod[c->Name()].push_back(m);
     }
 	// Запись.
