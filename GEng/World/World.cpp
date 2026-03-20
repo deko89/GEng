@@ -25,5 +25,11 @@ void World::Load()
     xml_node ndModels = ndWorld.child("models");
     models.Load(ndModels);
 }
+void World::Delete()
+{
+    for (Model* m: sel.aMod)
+        models.Del(m);
+    sel.aMod.clear();
+}
 
 }

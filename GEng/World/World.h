@@ -30,6 +30,7 @@ class World
     std::filesystem::path path; ///< Путь до файла.
     void Save();
     void Load();
+    void Delete();              ///< Удалить выделенные модели.
 };
 
 }
