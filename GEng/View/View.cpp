@@ -105,7 +105,7 @@ void View::DrawTransform()
 	Model* mod = sel.aMod.front();
 	// Рисование окна.
 	ImGui::Begin(_("Трансформация"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::InputFloat3(_("Позиция"), &sel.pos.x);
+	ImGui::InputFloat2(_("Позиция"), &sel.pos.x);
 	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
 	//ImGui::InputFloat3(_("Масштаб"), &sel.scale.x);
 	// Рисование ImGuizmo.
@@ -119,7 +119,8 @@ void View::DrawTransform()
 	Mat4 mProj = cam.GetProjection();
 	ImGuizmo::Manipulate(glm::value_ptr(mView),
 						 glm::value_ptr(mProj),
-						 ImGuizmo::TRANSLATE, ImGuizmo::WORLD,
+						 ImGuizmo::TRANSLATE_X | ImGuizmo::TRANSLATE_Y,
+						 ImGuizmo::WORLD,
 						 mTrans);
 	ImGuizmo::DecomposeMatrixToComponents(mTrans, &sel.pos.x, &sel.angle.x,
 										  &sel.scale.x);
