@@ -19,6 +19,7 @@ class Engine : public Environment
     View* CreateViewWorld();    ///< Создать мир и вид по умолчанию.
     void Clear();               ///< Очистка.
     int Execute();              ///< Запуск.
+    void Exit();                ///< Выход.
     WndGui& GetWnd();           ///< Получить активное окно.
     Camera& GetCam();           ///< Получить текущую камеру.
 protected:

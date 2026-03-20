@@ -100,7 +100,7 @@ int Engine::Execute()
 					event.window.windowID == SDL_GetWindowID( wnd.NativeWnd() )
 				)
 			   )
-			{	bRun = false;
+			{	Exit();
 			}
 		}
 		// Рисование.
@@ -110,6 +110,11 @@ int Engine::Execute()
     EMSCRIPTEN_MAINLOOP_END;
 #endif
     return 0;
+}
+
+void Engine::Exit()
+{
+	bRun = false;
 }
 
 WndGui& Engine::GetWnd()
