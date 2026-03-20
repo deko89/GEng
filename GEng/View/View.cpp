@@ -36,6 +36,8 @@ void View::Draw()
     {
 		if (world->sky)
 			world->sky->Draw();
+		if (world->ground)
+			world->ground->Draw();
 		world->models.Draw();
 		DrawTransform();
     }

@@ -24,13 +24,14 @@ class Selection
 /// Мир.
 class World
 {	public:
-    unique_ptr<SkyBox> sky;     ///< Небо.
-    Models models;              ///< Модели.
-    Selection sel;              ///< Выделенные модели.
-    std::filesystem::path path; ///< Путь до файла.
+    unique_ptr<SkyBox> sky;         ///< Небо.
+    unique_ptr<ModelPlane> ground;  ///< Земля.
+    Models models;                  ///< Модели.
+    Selection sel;                  ///< Выделенные модели.
+    std::filesystem::path path;     ///< Путь до файла.
     void Save();
     void Load();
-    void Delete();              ///< Удалить выделенные модели.
+    void Delete();                  ///< Удалить выделенные модели.
 };
 
 }
