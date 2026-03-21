@@ -28,9 +28,8 @@ class World
     unique_ptr<ModelPlane> ground;  ///< Земля.
     Models models;                  ///< Модели.
     Selection sel;                  ///< Выделенные модели.
-    std::filesystem::path path;     ///< Путь до файла.
-    void Save();
-    void Load();
+    void Save(pugi::xml_node ndWorld);
+    void Load(pugi::xml_node ndWorld);
     void Delete();                  ///< Удалить выделенные модели.
 };
 

@@ -4,7 +4,7 @@
 #include "GEng/Base/Meta/Shader.h"
 #include "GEng/Base/Context.h"
 #include "GEng/View/Wnd/WndGui.h"
-#include "GEng/World/World.h"
+#include "GEng/Project.h"
 
 namespace GEng
 {
@@ -13,6 +13,7 @@ namespace GEng
 class Engine : public Environment
 {	public:
     ClassModels aClass;
+    Project proj;
     Engine();
     ~Engine();
     bool Init();                ///< Инициализация.
@@ -27,7 +28,6 @@ protected:
     bool bRun = false;	///< Запущен ли.
     Context context;
     Shaders shaders;	///< Шейдеры.
-    MassivPtr<World> aWorld;
     WndGui wnd;
     friend Context& GetContext();
     friend Shaders& GetShaders();

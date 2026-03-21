@@ -63,11 +63,9 @@ bool Engine::Init()
 
 View* Engine::CreateViewWorld()
 {
-    // Создание мира.
-    World* world = aWorld.Add();
     // Создание вида.
     RectI posView {0, 0, gSzWndDef.x, gSzWndDef.y};
-    wnd.view = wnd.aView.Make(world, posView);
+    wnd.view = wnd.aView.Make(&proj.world, posView);
     return wnd.view;
 }
 
