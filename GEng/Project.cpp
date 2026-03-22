@@ -10,7 +10,7 @@ void Project::Load()
 {
 	DlgFile d{.path = path, .filter = "xml"};
 	if ( d.Open() )
-		Load(path);
+		Load(d.path);
 }
 
 void Project::Load(const std::filesystem::path& path)
