@@ -29,6 +29,7 @@
 	#include "View/View.cpp"
 	#include "View/Wnd/WndG.cpp"
 	#include "View/Wnd/WndGui.cpp"
+	#include "Project.cpp"
 #endif
 
 namespace GEng
