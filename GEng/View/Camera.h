@@ -16,6 +16,8 @@ class Camera
 			fAspect = (float)gSzWndDef.x / gSzWndDef.y,	///< Соотношение сторон.
 			fNear = 0.04f,								///< Ближнее отсечение.
 			fFar = 512;									///< Дальнее отсечение.
+    void Save(pugi::xml_node ndCamera);
+    void Load(pugi::xml_node ndCamera);
 	Vec3 GetLook() const;	///< Получить направление взгляда (единичный вектор).
 	Mat4 GetMatrix() const;	///< Получить общую матрицу положения камеры.
 	Mat4 GetView() const;	///< Получить матрицу вида камеры.

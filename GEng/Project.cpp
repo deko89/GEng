@@ -1,6 +1,7 @@
 #include "GEng/Project.h"
 #include <iostream>
 #include "GEng/View/Wnd/Dialog/DlgFile.h"
+#include "GEng/GEng.h"
 
 namespace GEng
 {
@@ -23,6 +24,8 @@ void Project::Load(const std::filesystem::path& path)
     }
 	this->path = path;
 	xml_node ndProj = doc.child("project");
+	xml_node ndWnd = ndProj.child("wnd");
+    GetEng().GetWnd().Load(ndWnd);
 	xml_node ndWorld = ndProj.child("world");
     world.Load(ndWorld);
 }
@@ -35,6 +38,8 @@ void Project::Save()
 	}
     xml_document doc;
     xml_node ndProj = doc.append_child("project");
+	xml_node ndWnd = ndProj.append_child("wnd");
+	GetEng().GetWnd().Save(ndWnd);
 	xml_node ndWorld = ndProj.append_child("world");
 	world.Save(ndWorld);
     doc.save_file(path.c_str());

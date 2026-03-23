@@ -14,6 +14,10 @@ class WndG : public Wnd
     MassivPtr<View> aView;      ///< Области.
     View* view = nullptr;       ///< Активная область.
     WndG();
+    void Save(pugi::xml_node ndWnd);
+    /** \brief Загрузка.
+        \warning Пока только для 1 активного вида. */
+    void Load(pugi::xml_node ndWnd);
     void ProcessEvent(SDL_Event& event); ///< Обработка общего события.
     void ProcessEventMouse(SDL_Event& event); ///< Обработка мыши.
     void ProcessEventKeyboard(SDL_Event& event); ///< Обработка клавиатуры.

@@ -9,6 +9,20 @@ WndG::WndG()
     //SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
+void WndG::Save(pugi::xml_node ndWnd)
+{	using namespace pugi;
+    xml_node ndView = ndWnd.append_child("view");
+	for (View* v : aView)
+    	v->Save(ndView);
+}
+
+void WndG::Load(pugi::xml_node ndWnd)
+{	using namespace pugi;
+    xml_node ndView = ndWnd.child("view");
+	assert(view);
+    view->Load(ndView);
+}
+
 void WndG::ProcessEvent(SDL_Event& event)
 {
 	for (View* v : aView)

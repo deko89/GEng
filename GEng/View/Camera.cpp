@@ -8,6 +8,18 @@ namespace GEng
 GLfloat sensitivityMouse = 0.005f;
 
 // Camera ///////////////////////////////////////////////////////////
+void Camera::Save(pugi::xml_node ndCamera)
+{
+	GEng::Save( pos,	ndCamera.append_child("pos")	);
+	GEng::Save( angle,	ndCamera.append_child("angle")	);
+}
+void Camera::Load(pugi::xml_node ndCamera)
+{
+	if (!ndCamera) return;
+	pos		= GEng::Load<Pos	>( ndCamera.child("pos")	);
+	angle	= GEng::Load<Angle	>( ndCamera.child("angle")	);
+	UpdateLook();
+}
 Vec3 Camera::GetLook() const
 {	return vLook;
 }

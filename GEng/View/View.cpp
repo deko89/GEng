@@ -13,6 +13,16 @@ View::View(World* w, const RectI& pos) :
     pos(pos)
 {
 }
+void View::Save(pugi::xml_node ndView)
+{	using namespace pugi;
+    xml_node ndCamera = ndView.append_child("camera");
+    cam.Save(ndCamera);
+}
+void View::Load(pugi::xml_node ndView)
+{	using namespace pugi;
+    xml_node ndCamera = ndView.child("camera");
+    cam.Load(ndCamera);
+}
 const RectI& View::GetPos() const
 {   return pos;
 }
