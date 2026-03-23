@@ -23,10 +23,9 @@ void Project::Load(const std::filesystem::path& path)
         return;
     }
 	this->path = path;
-	xml_node ndProj = doc.child("project");
-	xml_node ndWnd = ndProj.child("wnd");
+	xml_node ndWnd = doc.child("wnd");
     GetEng().GetWnd().Load(ndWnd);
-	xml_node ndWorld = ndProj.child("world");
+	xml_node ndWorld = doc.child("world");
     world.Load(ndWorld);
 }
 
@@ -37,10 +36,9 @@ void Project::Save()
 		return;
 	}
     xml_document doc;
-    xml_node ndProj = doc.append_child("project");
-	xml_node ndWnd = ndProj.append_child("wnd");
+	xml_node ndWnd = doc.append_child("wnd");
 	GetEng().GetWnd().Save(ndWnd);
-	xml_node ndWorld = ndProj.append_child("world");
+	xml_node ndWorld = doc.append_child("world");
 	world.Save(ndWorld);
     doc.save_file(path.c_str());
     std::cout << _("Сохранено в ") << path << std::endl;
