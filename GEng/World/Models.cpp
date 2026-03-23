@@ -215,6 +215,7 @@ void Models::Save(pugi::xml_node ndModels)
 }
 void Models::Load(pugi::xml_node ndModels)
 {	using namespace pugi;
+	clear();
     for (xml_node ndGrMod : ndModels.children())
     {   ClassModel* c = GetEng().aClass.Get( ndGrMod.name() );
         if (!c)
