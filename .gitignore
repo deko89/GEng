@@ -6,4 +6,6 @@
 
 # Имена.
 web/
+Lib/SDL2
+Lib/SDL2_image
 .sconsign.dblite

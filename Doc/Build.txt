@@ -32,6 +32,31 @@ scons -c
 
 
 
+Cборка для Windows из Linux.
+
+1. Установка доп. зависимостей (в Linux Mint 22).
+sudo apt install scons mingw-w64
+
+1.1 Скачать сборки SDL2 и SDL2_image для mingw:
+https://github.com/libsdl-org/SDL/releases/download/release-2.32.10/SDL2-devel-2.32.10-mingw.tar.gz
+https://github.com/libsdl-org/SDL_image/releases/download/release-2.8.6/SDL2_image-devel-2.8.6-mingw.tar.gz
+
+Если не работают, можно поискать здесь: 
+https://github.com/libsdl-org/SDL
+https://github.com/libsdl-org/SDL_image
+
+И распаковать их в Lib/SDL2 и Lib/SDL2_image.
+
+2. Сборка.
+scons target=windows
+
+3. Очистка (при пересборке).
+scons -c target=windows
+
+
+
+
+
 Cборка в Windows.
 
 1. Скачать и установить msys2:
