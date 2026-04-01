@@ -10,9 +10,9 @@ bool Box::IsIn(Pos p) const
 }
 bool Box::IsIntersect(const Ray& ray) const
 {	// Проверка пересечения на плоскости XY.
-	Rect2 rect2{.a.x = a.x, .a.y = a.y, .b.x = b.x, .b.y = b.y};
-	Ray2  ray2{	.pos.x = ray.pos.x, .pos.y = ray.pos.y,
-				.dir.x = ray.dir.x, .dir.y = ray.dir.y};
+	Rect2 rect2{.a = a, .b = b};
+	Ray2  ray2{	.pos = ray.pos,
+				.dir = ray.dir};
 	if ( !rect2.IsIntersect(ray2) ) return false;
 	// Проверка пересечения на плоскости XZ.
 	rect2.a.y = a.z;

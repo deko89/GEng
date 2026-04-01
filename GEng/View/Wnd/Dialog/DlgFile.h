@@ -21,7 +21,7 @@ private:
 	template<nfdresult_t (*F)(const nfdchar_t*, const nfdchar_t*, nfdchar_t**)>
 	bool ShowDlg()
 	{   nfdchar_t* outPath = nullptr;
-		nfdresult_t result = F(filter.c_str(), path.c_str(), &outPath);
+		nfdresult_t result = F(filter.c_str(), path.string().c_str(), &outPath);
 		if (result == NFD_OKAY)
 		{   path = outPath;
 			free(outPath);

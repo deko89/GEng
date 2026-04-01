@@ -260,9 +260,11 @@ void ClassModels::Load(const std::filesystem::path& path)
 			Str type = ndSet.attribute("type").value();
 			if (type == ClassModel2d::nameType)
 			{	ClassModel2d* c = Make<ClassModel2d>();
-				c->SetName( dirEntry.path().filename() );
+				c->SetName( dirEntry.path().filename().string() );
 				c->size.y = ndSet.child("size").attribute("h").as_double();
-				Image img = c->tex.Load(dirEntry.path() / "img.png", TexPar{.alpha = true});
+				Image img = c->tex.Load(
+					(dirEntry.path() / "img.png").string(),
+					TexPar{.alpha = true});
 				c->size.x = c->size.y * img.X() / img.Y();
 			}
 		}
