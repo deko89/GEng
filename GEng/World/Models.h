@@ -31,6 +31,7 @@ class ModelStd: public ModelVi
 	virtual void Draw() const override;
 	void Print() const;
 	const Box& GetBoundBox() const override;
+	bool IsIntersect(const Ray& ray) const override;
 	Mat4 GetMatTrans() const; ///< Получить матрицу трансформации.
 	Mat4 GetMatTransPos() const; ///< Получить матрицу трансформации (только позиция).
 protected:

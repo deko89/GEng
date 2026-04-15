@@ -23,6 +23,8 @@ class Model
 	virtual Scale GetScale() const {return Scale();}	///< Получить масштаб.
 	virtual void  SetScale(const Scale& s) {}			///< Установить масштаб.
 	virtual const Box& GetBoundBox() const {return box0;}	///< Получить границы.
+	/// Пересекает ли луч.
+	virtual bool IsIntersect(const Ray& ray) const {return 0;}
 	virtual void Update() {};		///< Обновить в видеокарте.
 	virtual void Draw() const = 0;	///< Рисование.
 };

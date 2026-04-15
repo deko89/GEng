@@ -69,6 +69,10 @@ void ModelStd::Print() const
 const Box& ModelStd::GetBoundBox() const
 {	return boundBox;
 }
+bool ModelStd::IsIntersect(const Ray& ray) const
+{
+	return boundBox.IsIntersect(ray);
+}
 Mat4 ModelStd::GetMatTrans() const
 {
 	Mat4 mat(1);

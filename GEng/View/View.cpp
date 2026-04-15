@@ -87,11 +87,11 @@ void View::ProcessEventMouse(SDL_Event& event)
 		{	if ( world && (world->sel.aMod.empty() || !ImGuizmo::IsOver()) )
 			{	world->sel.aMod.clear();
 				for (Model* m : world->models)
-				{	const Box& box = m->GetBoundBox();
+				{
 					Vec2 p = WndToView(Vec2I(event.button.x, event.button.y));
 					p.x /= pos.w; p.y /= pos.h;
 					Ray ray {.pos = cam.pos, .dir = cam.CalcVecPoint(p)};
-					if ( box.IsIntersect(ray) )
+					if ( m->IsIntersect(ray) )
 					{	world->sel.aMod.push_back(m);
 						world->sel.pos = m->GetPos();
 						world->sel.angle = m->GetAngle();
