@@ -236,6 +236,61 @@ void Models::Draw() const
 {   for (Model* m : *this)
         m->Draw();
 }
+// GroupLine /////////////////////////////////////////////////////////
+void GroupLine::Update()
+{
+	assert(n > 0);
+	assert(pClass);
+	// Рассчёт.
+	Vec3 c = b - a;
+	Val len = glm::length(c);
+	Val stepLen = len / (n - 1);
+	c = glm::normalize(c);
+	Vec3 step = c * stepLen;
+	// Очистка.
+	models.clear();
+	// Создание.
+	Vec3 pos = a;
+	for (size_t i = 0; i < n; ++i)
+	{
+		Model* m = pClass->Instance(models);
+		m->SetPos(pos);
+		pos += step;
+	}
+}
+void GroupLine::UpdatePos()
+{
+
+}
+void GroupLine::Save(pugi::xml_node ndGroup)
+{
+	
+}
+void GroupLine::Load(pugi::xml_node ndGroup)
+{
+	
+}
+Pos GroupLine::GetPos() const
+{
+	Vec3 c = b - a;
+	c *= 0.5;
+	return a + c;
+}
+void GroupLine::SetPos(const Pos& p)
+{
+	Vec3 c = b - a;
+	c *= 0.5;
+	a = p - c;
+	b = p + c;
+}
+void GroupLine::Draw() const
+{
+	models.Draw();
+}
+bool GroupLine::IsIntersect(const Ray& ray) const
+{
+	return 0;
+}
 // ClassModel2d //////////////////////////////////////////////////////
 Model* ClassModel2d::Instance(Models& models)
 {	Model2d* m = (Model2d*) Base::Instance(models);

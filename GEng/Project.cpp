@@ -57,4 +57,13 @@ void Project::Clear()
 
 }
 
+void Project::AddGroupLine()
+{
+	if ( GetEng().aClass.empty() ) return;
+	ClassModel* pClass = GetEng().aClass.front();
+	GroupLine* group = world.models.Make<GroupLine>();
+	group->pClass = pClass;
+	group->Update();
+}
+
 }

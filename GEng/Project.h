@@ -15,6 +15,7 @@ class Project
     void Save();
     void SaveAs();
     void Clear();               ///< Очистка.
+    void AddGroupLine();
 protected:
     std::filesystem::path path; ///< Путь до файла.
 };

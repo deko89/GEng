@@ -103,6 +103,25 @@ class Models : public MassivPtr<Model>
 	void Draw() const;
 };
 
+/// Группа моделей в виде линии.
+class GroupLine : public Model
+{	public:
+	Pos a = Pos(0, 0, 0);	///< Позиция начала.
+	Pos b = Pos(1, 0, 0);	///< Позиция конца.
+	size_t n = 3;			///< Количество моделей.
+	ClassModel* pClass = nullptr; ///< Класс/тип модели.
+	void Update() override; ///< Обновить модель (применить параметры).
+	void UpdatePos();		///< Обновить только позиции.
+    void Save(pugi::xml_node ndGroup);
+    void Load(pugi::xml_node ndGroup);
+	Pos GetPos() const override;		///< Получить позицию.
+	void SetPos(const Pos& p) override;	///< Установить позицию.
+	void Draw() const override;
+	bool IsIntersect(const Ray& ray) const override;
+protected:
+	Models models;
+};
+
 /// Класс модели.
 class ClassModel
 {	public:
