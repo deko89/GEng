@@ -236,6 +236,12 @@ void Models::Draw() const
 {   for (Model* m : *this)
         m->Draw();
 }
+bool Models::IsIntersect(const Ray& ray) const
+{   for (Model* m : *this)
+        if ( m->IsIntersect(ray) )
+			return 1;
+	return 0;
+}
 // GroupLine /////////////////////////////////////////////////////////
 void GroupLine::Update()
 {
@@ -289,7 +295,7 @@ void GroupLine::Draw() const
 }
 bool GroupLine::IsIntersect(const Ray& ray) const
 {
-	return 0;
+	return models.IsIntersect(ray);
 }
 // ClassModel2d //////////////////////////////////////////////////////
 Model* ClassModel2d::Instance(Models& models)
