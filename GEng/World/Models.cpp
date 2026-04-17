@@ -245,28 +245,25 @@ bool Models::IsIntersect(const Ray& ray) const
 // GroupLine /////////////////////////////////////////////////////////
 void GroupLine::Update()
 {
-	assert(n > 0);
 	assert(pClass);
-	// Рассчёт.
-	Vec3 c = b - a;
-	Val len = glm::length(c);
-	Val stepLen = len / (n - 1);
-	c = glm::normalize(c);
-	Vec3 step = c * stepLen;
 	// Очистка.
 	models.clear();
 	// Создание.
-	Vec3 pos = a;
 	for (size_t i = 0; i < n; ++i)
-	{
-		Model* m = pClass->Instance(models);
-		m->SetPos(pos);
-		pos += step;
-	}
+		pClass->Instance(models);
+	// Расстановка.
+	UpdatePos();
 }
 void GroupLine::UpdatePos()
 {
-
+	assert(n > 0);
+	Vec3 d = b - a;
+	d /= n - 1;
+	Vec3 pos = a;
+	for (Model* m : models)
+	{	m->SetPos(pos);
+		pos += d;
+	}
 }
 void GroupLine::Save(pugi::xml_node ndGroup)
 {
@@ -288,6 +285,7 @@ void GroupLine::SetPos(const Pos& p)
 	c *= 0.5;
 	a = p - c;
 	b = p + c;
+	UpdatePos();
 }
 void GroupLine::Draw() const
 {
