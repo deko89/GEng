@@ -49,6 +49,7 @@ void View::Draw()
 		if (world->ground)
 			world->ground->Draw();
 		world->models.Draw();
+		DrawProperties();
 		DrawTransform();
     }
 	if (aShape.empty() == false)
@@ -108,6 +109,19 @@ void View::ProcessEventKeyboard(Val timeDelta)
 {
     cam.ProcessEventKeyboard(timeDelta);
 }
+void View::DrawProperties()
+{
+	Selection& sel = world->sel;
+	if ( sel.aMod.empty() ) return;
+	Model* mod = sel.aMod.front();
+	// Рисование окна.
+	ImGui::Begin(_("Свойства"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	if ( ImGui::InputFloat2(_("Позиция"), &sel.pos.x) )
+		mod->SetPos(sel.pos);
+	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
+	//ImGui::InputFloat3(_("Масштаб"), &sel.scale.x);
+	ImGui::End();
+}
 void View::DrawTransform()
 {
 	static_assert(	sizeof(float) == sizeof(Val) &&
@@ -115,11 +129,6 @@ void View::DrawTransform()
 	Selection& sel = world->sel;
 	if ( sel.aMod.empty() ) return;
 	Model* mod = sel.aMod.front();
-	// Рисование окна.
-	ImGui::Begin(_("Трансформация"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::InputFloat2(_("Позиция"), &sel.pos.x);
-	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
-	//ImGui::InputFloat3(_("Масштаб"), &sel.scale.x);
 	// Рисование ImGuizmo.
 	Mat4 mTransform;
 	float* mTrans = glm::value_ptr(mTransform);
@@ -136,7 +145,6 @@ void View::DrawTransform()
 						 mTrans);
 	ImGuizmo::DecomposeMatrixToComponents(mTrans, &sel.pos.x, &sel.angle.x,
 										  &sel.scale.x);
-	ImGui::End();
 	// Обновление позиции.
 	mod->SetPos(sel.pos);
 	//mod->SetAngle(sel.angle);

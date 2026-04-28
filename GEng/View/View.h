@@ -27,6 +27,7 @@ class View
 	void ProcessEventKeyboard(Val timeDelta); ///< Обработка состояния клавиатуры.
 private:
 	RectI pos;              ///< Позиция в окне.
+	void DrawProperties();	///< Вывести свойства.
 	void DrawTransform();	///< Вывести инструменты трансформации выделенного.
 };
 
