@@ -19,6 +19,7 @@ class Selection
     Pos pos;
 	Angle angle;
 	Scale scale;
+    void UpdateData(); ///< Обновить данные из моделей.
 };
 
 /// Мир.

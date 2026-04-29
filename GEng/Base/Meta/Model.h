@@ -27,6 +27,7 @@ class Model
 	virtual bool IsIntersect(const Ray& ray) const {return 0;}
 	virtual void Update() {};		///< Обновить в видеокарте.
 	virtual void Draw() const = 0;	///< Рисование.
+	virtual void DrawUi() {}		///< Рисование UI (свойств и т.п.).
 };
 
 /** Модель с вершинами, и 3 индексами на треугольник.

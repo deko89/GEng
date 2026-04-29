@@ -120,6 +120,8 @@ void View::DrawProperties()
 		mod->SetPos(sel.pos);
 	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
 	//ImGui::InputFloat3(_("Масштаб"), &sel.scale.x);
+	mod->DrawUi();
+	sel.UpdateData();
 	ImGui::End();
 }
 void View::DrawTransform()

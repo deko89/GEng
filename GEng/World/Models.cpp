@@ -3,6 +3,7 @@
 #include <map>
 #include "glm/geometric.hpp"
 #include "glm/ext/matrix_transform.hpp"
+#include "imgui.h"
 #include "GEng/View/Camera.h"
 #include "GEng/GEng.h"
 
@@ -290,6 +291,17 @@ void GroupLine::SetPos(const Pos& p)
 void GroupLine::Draw() const
 {
 	models.Draw();
+}
+void GroupLine::DrawUi()
+{
+	if ( ImGui::InputFloat2(_("Начало"), &a.x) )
+		UpdatePos();
+	if ( ImGui::InputFloat2(_("Конец"), &b.x) )
+		UpdatePos();
+	if ( ImGui::InputInt(_("Количество"), &n) )
+	{	Limit(n, 1, 10000);
+		Update();
+	}
 }
 bool GroupLine::IsIntersect(const Ray& ray) const
 {

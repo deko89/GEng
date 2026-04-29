@@ -109,7 +109,7 @@ class GroupLine : public Model
 {	public:
 	Pos a = Pos(0, 0, 0);	///< Позиция начала.
 	Pos b = Pos(1, 0, 0);	///< Позиция конца.
-	size_t n = 3;			///< Количество моделей.
+	int n = 3;				///< Количество моделей.
 	ClassModel* pClass = nullptr; ///< Класс/тип модели.
 	void Update() override; ///< Обновить модель (применить параметры).
 	void UpdatePos();		///< Обновить только позиции.
@@ -118,6 +118,7 @@ class GroupLine : public Model
 	Pos GetPos() const override;		///< Получить позицию.
 	void SetPos(const Pos& p) override;	///< Установить позицию.
 	void Draw() const override;
+	void DrawUi() override;
 	bool IsIntersect(const Ray& ray) const override;
 protected:
 	Models models;
