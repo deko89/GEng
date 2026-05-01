@@ -8,6 +8,11 @@
 namespace GEng
 {
 
+class WndProperties
+{	public:
+	void Draw(Selection& sel);
+};
+
 /// Вид. Область в окне показывающая мир.
 class View
 {	public:
@@ -27,7 +32,7 @@ class View
 	void ProcessEventKeyboard(Val timeDelta); ///< Обработка состояния клавиатуры.
 private:
 	RectI pos;              ///< Позиция в окне.
-	void DrawProperties();	///< Вывести свойства.
+	WndProperties wndProperties;
 	void DrawTransform();	///< Вывести инструменты трансформации выделенного.
 };
 

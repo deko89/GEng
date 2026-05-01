@@ -8,6 +8,22 @@
 namespace GEng
 {
 
+// WndProperties /////////////////////////////////////////////////////
+void WndProperties::Draw(Selection& sel)
+{
+	if ( sel.aMod.empty() ) return;
+	Model* mod = sel.aMod.front();
+	// Рисование окна.
+	ImGui::Begin(_("Свойства"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	if ( ImGui::InputFloat2(_("Позиция"), &sel.pos.x) )
+		mod->SetPos(sel.pos);
+	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
+	//ImGui::InputFloat3(_("Масштаб"), &sel.scale.x);
+	mod->DrawUi();
+	sel.UpdateData();
+	ImGui::End();
+}
+// View //////////////////////////////////////////////////////////////
 View::View(World* w, const RectI& pos) :
     world(w),
     pos(pos)
@@ -49,7 +65,7 @@ void View::Draw()
 		if (world->ground)
 			world->ground->Draw();
 		world->models.Draw();
-		DrawProperties();
+		wndProperties.Draw(world->sel);
 		DrawTransform();
     }
 	if (aShape.empty() == false)
@@ -108,21 +124,6 @@ void View::ProcessEventMouse(SDL_Event& event)
 void View::ProcessEventKeyboard(Val timeDelta)
 {
     cam.ProcessEventKeyboard(timeDelta);
-}
-void View::DrawProperties()
-{
-	Selection& sel = world->sel;
-	if ( sel.aMod.empty() ) return;
-	Model* mod = sel.aMod.front();
-	// Рисование окна.
-	ImGui::Begin(_("Свойства"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
-	if ( ImGui::InputFloat2(_("Позиция"), &sel.pos.x) )
-		mod->SetPos(sel.pos);
-	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
-	//ImGui::InputFloat3(_("Масштаб"), &sel.scale.x);
-	mod->DrawUi();
-	sel.UpdateData();
-	ImGui::End();
 }
 void View::DrawTransform()
 {
