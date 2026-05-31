@@ -6,6 +6,7 @@
 #ifndef BASE_H
 #define BASE_H
 
+#include <cstdint>
 #include <string_view>
 #include <string>
 #include <sstream>
@@ -40,6 +41,17 @@ template<class C> C Max(C a, C b)
 
 template<typename V> V ToVal(StrR s) {std::istringstream ss(s);  V v;  ss >> v;  return v;}
 template<typename V> V ToVal(StrV s) {Str a(s);  return ToVal<V>(a);}
+
+template<typename A, typename V>
+size_t FindIndex(const A& array,
+                 const V value,
+                 const size_t indexNone = SIZE_MAX)
+{
+	const auto it = std::find(array.begin(), array.end(), value);
+	if (it != array.end())
+		return it - array.begin();
+	return indexNone;
+}
 
 /// Печать в строку (обёртка printf).
 template<typename... Arg> Str PrintF(const Str& fmt, Arg... arg)
