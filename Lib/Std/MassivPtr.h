@@ -7,6 +7,7 @@
 template<class C> class MassivPtr: public std::vector<C*>
 {   public:
     typedef std::vector<C*> Base;
+	MassivPtr() {}
 	~MassivPtr() { clear(); }
 	C* Add() { C* p = new C;   Base::push_back(p);   return p; }
 	C* Add(C* p) { Base::push_back(p);   return p; }
@@ -21,7 +22,14 @@ template<class C> class MassivPtr: public std::vector<C*>
 		delete p;
 	}
 
+	// Запрет копирования.
+	MassivPtr(const MassivPtr&) = delete;
 	MassivPtr& operator= (const MassivPtr& B) = delete;
+
+    // Запрет перемещения.
+    MassivPtr(MassivPtr&&) = delete;
+    MassivPtr& operator=(MassivPtr&&) = delete;
+
 	typename Base::iterator erase(typename Base::const_iterator i) = delete;
 	typename Base::iterator erase(typename Base::const_iterator first, typename Base::const_iterator last) = delete;
 };
