@@ -8,6 +8,17 @@
 namespace GEng
 {
 
+class ClassModelComboBox
+{	public:
+	std::function<void()> onChange;	///< Событие смены модели пользователем.
+	void Set(ClassModel* c);
+	ClassModel* Get() const;
+	void Draw();
+private:
+	int iClass = 0;
+	ClassModels& GetClassModels() const;
+};
+
 class WndProperties
 {	public:
 	void Draw(Selection& sel);

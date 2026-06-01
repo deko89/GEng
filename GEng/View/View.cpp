@@ -8,6 +8,47 @@
 namespace GEng
 {
 
+// ClassModelComboBox ////////////////////////////////////////////////
+void ClassModelComboBox::Set(ClassModel* c)
+{
+	ClassModels& aClass = GetClassModels();
+	iClass = FindIndex(aClass, c, 0);
+}
+ClassModel* ClassModelComboBox::Get() const
+{
+	ClassModels& aClass = GetClassModels();
+	return aClass[iClass];
+}
+void ClassModelComboBox::Draw()
+{
+	ClassModels& aClass = GetClassModels();
+	const char* combo_preview_value = aClass[iClass]->Name().c_str();
+	if (ImGui::BeginCombo(_("Модель"), combo_preview_value, 0))
+	{
+		static ImGuiTextFilter filter;
+		if (ImGui::IsWindowAppearing())
+		{
+			ImGui::SetKeyboardFocusHere();
+			filter.Clear();
+		}
+		ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+		filter.Draw("##Filter", -FLT_MIN);
+
+		for (size_t i = 0; i < aClass.size(); ++i)
+		{
+			const bool is_selected = (iClass == i);
+			if (filter.PassFilter(aClass[i]->Name().c_str()))
+				if (ImGui::Selectable(aClass[i]->Name().c_str(), is_selected))
+				{	iClass = i;
+					if (onChange) onChange();
+				}
+		}
+		ImGui::EndCombo();
+	}
+}
+ClassModels& ClassModelComboBox::GetClassModels() const
+{	return GetEng().aClass;
+}
 // WndProperties /////////////////////////////////////////////////////
 void WndProperties::Draw(Selection& sel)
 {
