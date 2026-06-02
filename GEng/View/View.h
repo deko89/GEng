@@ -8,7 +8,7 @@
 namespace GEng
 {
 
-class ClassModelComboBox
+class ComboBoxClassModel
 {	public:
 	std::function<void()> onChange;	///< Событие смены модели пользователем.
 	void Set(ClassModel* c);
@@ -21,7 +21,7 @@ private:
 
 class WndProperties
 {	public:
-	ClassModelComboBox cbClass;
+	ComboBoxClassModel cbClass;
 	WndProperties(Selection& sel);
 	void OnChangeObj();
 	void Draw();

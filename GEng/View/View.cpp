@@ -10,17 +10,17 @@ namespace GEng
 {
 
 // ClassModelComboBox ////////////////////////////////////////////////
-void ClassModelComboBox::Set(ClassModel* c)
+void ComboBoxClassModel::Set(ClassModel* c)
 {
 	ClassModels& aClass = GetClassModels();
 	iClass = FindIndex(aClass, c, 0);
 }
-ClassModel* ClassModelComboBox::Get() const
+ClassModel* ComboBoxClassModel::Get() const
 {
 	ClassModels& aClass = GetClassModels();
 	return aClass[iClass];
 }
-void ClassModelComboBox::Draw()
+void ComboBoxClassModel::Draw()
 {
 	ClassModels& aClass = GetClassModels();
 	const char* combo_preview_value = aClass[iClass]->Name().c_str();
@@ -47,7 +47,7 @@ void ClassModelComboBox::Draw()
 		ImGui::EndCombo();
 	}
 }
-ClassModels& ClassModelComboBox::GetClassModels() const
+ClassModels& ComboBoxClassModel::GetClassModels() const
 {	return GetEng().aClass;
 }
 // WndProperties /////////////////////////////////////////////////////
