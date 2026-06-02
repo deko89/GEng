@@ -103,6 +103,7 @@ void WndGui::UpdateUI()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
+    //ImGui::ShowDemoWindow(0);
 }
 
 }
