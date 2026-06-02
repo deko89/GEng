@@ -21,7 +21,13 @@ private:
 
 class WndProperties
 {	public:
-	void Draw(Selection& sel);
+	ClassModelComboBox cbClass;
+	WndProperties(Selection& sel);
+	void OnChangeObj();
+	void Draw();
+private:
+	Selection& sel;
+	void SetClassToModelFromComboBox();
 };
 
 /// Вид. Область в окне показывающая мир.

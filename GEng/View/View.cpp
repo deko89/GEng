@@ -4,6 +4,7 @@
 #include "ImGuizmo/ImGuizmo.h"
 #include "GEng/Base/Meta/Meta.h"
 #include "GEng/World/Models.h"
+#include "GEng/GEng.h"
 
 namespace GEng
 {
@@ -50,12 +51,24 @@ ClassModels& ClassModelComboBox::GetClassModels() const
 {	return GetEng().aClass;
 }
 // WndProperties /////////////////////////////////////////////////////
-void WndProperties::Draw(Selection& sel)
+WndProperties::WndProperties(Selection& sel) :
+	sel(sel)
+{
+	cbClass.onChange = [this] () {SetClassToModelFromComboBox();};
+}
+void WndProperties::OnChangeObj()
+{
+	if ( sel.aMod.empty() ) return;
+	Model* mod = sel.aMod.front();
+	cbClass.Set(mod? mod->Class(): 0);
+}
+void WndProperties::Draw()
 {
 	if ( sel.aMod.empty() ) return;
 	Model* mod = sel.aMod.front();
 	// Рисование окна.
 	ImGui::Begin(_("Свойства"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	cbClass.Draw();
 	if ( ImGui::InputFloat2(_("Позиция"), &sel.pos.x) )
 		mod->SetPos(sel.pos);
 	//ImGui::InputFloat3(_("Вращение"), &sel.angle.x);
@@ -64,11 +77,18 @@ void WndProperties::Draw(Selection& sel)
 	sel.UpdateData();
 	ImGui::End();
 }
+void WndProperties::SetClassToModelFromComboBox()
+{
+	if ( sel.aMod.empty() ) return;
+	Model* mod = sel.aMod.front();
+	mod->SetClass(cbClass.Get());
+}
 // View //////////////////////////////////////////////////////////////
 View::View(World* w, const RectI& pos) :
     world(w),
-    pos(pos)
-{
+    pos(pos),
+	wndProperties(w->sel)
+{	assert(w);
 }
 void View::Save(pugi::xml_node ndView)
 {	using namespace pugi;
@@ -106,7 +126,7 @@ void View::Draw()
 		if (world->ground)
 			world->ground->Draw();
 		world->models.Draw();
-		wndProperties.Draw(world->sel);
+		wndProperties.Draw();
 		DrawTransform();
     }
 	if (aShape.empty() == false)
@@ -154,6 +174,7 @@ void View::ProcessEventMouse(SDL_Event& event)
 						world->sel.pos = m->GetPos();
 						world->sel.angle = m->GetAngle();
 						world->sel.scale = m->GetScale();
+						wndProperties.OnChangeObj();
 						break;
 					}
 				}
