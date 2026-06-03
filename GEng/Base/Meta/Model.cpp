@@ -3,6 +3,16 @@
 namespace GEng
 {
 
+// Model /////////////////////////////////////////////////////////////
+void Model::Save(pugi::xml_node ndParent) const
+{
+	pugi::xml_node ndM = ndParent.append_child("m");
+	GEng::Save(GetPos(), ndM.append_child("pos"));
+}
+void Model::Load(pugi::xml_node ndModel)
+{
+	SetPos( GEng::Load<Pos>( ndModel.child("pos") ) );
+}
 // ModelVi //////////////////////////////////////////////////////////
 ModelVi::ModelVi()
 {	glGenVertexArrays(1, &vao);

@@ -213,9 +213,7 @@ void Models::Save(pugi::xml_node ndModels)
     {	auto& [nameMod, aMod] = p;
 		xml_node ndGrMod = ndModels.append_child(nameMod);
 		for (Model* m : aMod)
-		{	xml_node ndM = ndGrMod.append_child("m");
-			GEng::Save(m->GetPos(), ndM.append_child("pos"));
-		}
+			m->Save(ndGrMod);
     }
 }
 void Models::Load(pugi::xml_node ndModels)
@@ -229,7 +227,7 @@ void Models::Load(pugi::xml_node ndModels)
         }
         for (xml_node ndM : ndGrMod.children("m"))
         {   Model* m = c->Instance(*this);
-            m->SetPos( GEng::Load<Pos>( ndM.child("pos") ) );
+			m->Load(ndM);
         }
     }
 }

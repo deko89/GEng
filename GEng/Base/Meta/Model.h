@@ -12,6 +12,8 @@ class ClassModel;
 class Model
 {	public:
 	virtual ~Model() {}
+    virtual void Save(pugi::xml_node ndParent) const;
+    virtual void Load(pugi::xml_node ndModel);
 	virtual ClassModel* Class() const {return nullptr;}
 	virtual void SetClass(ClassModel* c) {}
 	// Позиция.
