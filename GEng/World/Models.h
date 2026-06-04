@@ -111,12 +111,12 @@ class GroupLine : public Model
 	Pos b = Pos(1, 0, 0);	///< Позиция конца.
 	int n = 3;				///< Количество моделей.
 	ClassModel* pClass = nullptr; ///< Класс/тип модели.
+    void Save(pugi::xml_node ndParent) const override;
+    void Load(pugi::xml_node ndModel) override;
 	ClassModel* Class() const override {return pClass;}
 	void SetClass(ClassModel* c) override {pClass = c; Update();}
 	void Update() override; ///< Обновить модель (применить параметры).
 	void UpdatePos();		///< Обновить только позиции.
-    void Save(pugi::xml_node ndGroup);
-    void Load(pugi::xml_node ndGroup);
 	Pos GetPos() const override;		///< Получить позицию.
 	void SetPos(const Pos& p) override;	///< Установить позицию.
 	void Draw() const override;

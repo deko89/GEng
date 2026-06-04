@@ -229,6 +229,10 @@ void Models::Load(pugi::xml_node ndModels)
         {   Model* m = c->Instance(*this);
 			m->Load(ndM);
         }
+        for (xml_node ndM : ndGrMod.children("GroupLine"))
+        {	GroupLine* m = Make<GroupLine>();
+			m->Load(ndM);
+        }
     }
 }
 void Models::Draw() const
@@ -242,6 +246,29 @@ bool Models::IsIntersect(const Ray& ray) const
 	return 0;
 }
 // GroupLine /////////////////////////////////////////////////////////
+void GroupLine::Save(pugi::xml_node ndParent) const
+{
+	pugi::xml_node ndGroup = ndParent.append_child("GroupLine");
+	GEng::Save(a, ndGroup.append_child("a"));
+	GEng::Save(b, ndGroup.append_child("b"));
+	if (pClass)
+		ndGroup.append_attribute("class").set_value(pClass->Name());
+	ndGroup.append_attribute("n").set_value(n);
+}
+void GroupLine::Load(pugi::xml_node ndModel)
+{
+	a = GEng::Load<Pos>( ndModel.child("a") );
+	b = GEng::Load<Pos>( ndModel.child("b") );
+
+	Str sClass = ndModel.attribute("class").as_string();
+	pClass = GetEng().aClass.Get(sClass);
+	if (!pClass)
+		std::cerr << "No class " << sClass << std::endl;
+
+	n = ndModel.attribute("n").as_int();
+
+	Update();
+}
 void GroupLine::Update()
 {
 	assert(pClass);
@@ -263,14 +290,6 @@ void GroupLine::UpdatePos()
 	{	m->SetPos(pos);
 		pos += d;
 	}
-}
-void GroupLine::Save(pugi::xml_node ndGroup)
-{
-	
-}
-void GroupLine::Load(pugi::xml_node ndGroup)
-{
-	
 }
 Pos GroupLine::GetPos() const
 {
