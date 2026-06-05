@@ -16,6 +16,7 @@ class Model
     virtual void Load(pugi::xml_node ndModel);
 	virtual ClassModel* Class() const {return nullptr;}
 	virtual void SetClass(ClassModel* c) {}
+	virtual bool IsGroup() const {return 0;}
 	// Позиция.
 	virtual Pos   GetPos() const {return Pos();}		///< Получить позицию.
 	virtual void  SetPos(const Pos& p) {}				///< Установить позицию.

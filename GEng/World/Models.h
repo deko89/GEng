@@ -115,6 +115,7 @@ class GroupLine : public Model
     void Load(pugi::xml_node ndModel) override;
 	ClassModel* Class() const override {return pClass;}
 	void SetClass(ClassModel* c) override {pClass = c; Update();}
+	bool IsGroup() const override {return 1;}
 	void Update() override; ///< Обновить модель (применить параметры).
 	void UpdatePos();		///< Обновить только позиции.
 	Pos GetPos() const override;		///< Получить позицию.
