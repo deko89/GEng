@@ -125,7 +125,7 @@ void View::Draw()
 			world->sky->Draw();
 		if (world->ground)
 			world->ground->Draw();
-		world->models.Draw();
+		world->models.Draw(cam.pos);
 		wndProperties.Draw();
 		DrawTransform();
     }

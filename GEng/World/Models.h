@@ -100,7 +100,7 @@ class Models : public MassivPtr<Model>
     typedef MassivPtr<Model> Base;
     void Save(pugi::xml_node ndModels);
     void Load(pugi::xml_node ndModels);
-	void Draw() const;
+	void Draw(Pos posCamera) const;
 	bool IsIntersect(const Ray& ray) const;
 };
 

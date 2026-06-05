@@ -235,7 +235,7 @@ void Models::Load(pugi::xml_node ndModels)
         }
     }
 }
-void Models::Draw() const
+void Models::Draw(Pos posCamera) const
 {   for (Model* m : *this)
         m->Draw();
 }
