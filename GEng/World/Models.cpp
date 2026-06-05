@@ -305,10 +305,6 @@ void GroupLine::SetPos(const Pos& p)
 	b = p + c;
 	UpdatePos();
 }
-void GroupLine::Draw() const
-{
-	models.Draw();
-}
 void GroupLine::DrawUi()
 {
 	if ( ImGui::InputFloat2(_("Начало"), &a.x) )

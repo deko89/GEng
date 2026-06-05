@@ -120,7 +120,6 @@ class GroupLine : public Model
 	void UpdatePos();		///< Обновить только позиции.
 	Pos GetPos() const override;		///< Получить позицию.
 	void SetPos(const Pos& p) override;	///< Установить позицию.
-	void Draw() const override;
 	void DrawUi() override;
 	bool IsIntersect(const Ray& ray) const override;
 protected:
