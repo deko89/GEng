@@ -122,6 +122,7 @@ class GroupLine : public Model
 	void SetPos(const Pos& p) override;	///< Установить позицию.
 	void DrawUi() override;
 	bool IsIntersect(const Ray& ray) const override;
+	const Models& GetModels() const {return models;}
 protected:
 	Models models;
 };
