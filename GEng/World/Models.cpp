@@ -236,8 +236,35 @@ void Models::Load(pugi::xml_node ndModels)
     }
 }
 void Models::Draw(Pos posCamera) const
-{   for (Model* m : *this)
-        m->Draw();
+{
+	struct ModelDist
+	{	Model* m;
+		Val dist; ///< Дистанция до камеры.
+		bool operator<(const ModelDist& dm) const
+		{	return dist > dm.dist;
+		}
+	};
+	// Сбор моделей.
+	vector<ModelDist> models;
+	models.reserve(size() * 7);
+	for (Model* m : *this)
+	{
+		if ( m->IsGroup() )
+		{
+			if ( typeid(*m) == typeid(GroupLine) )
+			{	GroupLine* g = static_cast<GroupLine*>(m);
+				const Models& a = g->GetModels();
+				for (Model* m : a)
+					models.push_back( {m, glm::distance(m->GetPos(), posCamera)} );
+			}
+		} else
+			models.push_back( {m, glm::distance(m->GetPos(), posCamera)} );
+	}
+	// Сортировка по дальности.
+	std::sort(models.begin(), models.end());
+	// Рисование.
+	for (const ModelDist& m : models)
+        m.m->Draw();
 }
 bool Models::IsIntersect(const Ray& ray) const
 {   for (Model* m : *this)
