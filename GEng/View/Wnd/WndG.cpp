@@ -46,14 +46,18 @@ void WndG::ProcessEventKeyboard(SDL_Event& event)
     	switch (event.key.keysym.scancode)
     	{
 			case SDL_SCANCODE_S:
-				if (keys[SDL_SCANCODE_LCTRL])
+				if (keys[SDL_SCANCODE_LCTRL] || keys[SDL_SCANCODE_RCTRL])
 					GetEng().proj.Save();
+				break;
+			case SDL_SCANCODE_O:
+				if (keys[SDL_SCANCODE_LCTRL] || keys[SDL_SCANCODE_RCTRL])
+					GetEng().proj.Load();
 				break;
 			case SDL_SCANCODE_DELETE:
 				if (view && view->world)
 					view->world->Delete();
 				break;
-    		case SDL_SCANCODE_LCTRL:
+    		case SDL_SCANCODE_SCROLLLOCK:
     			SDL_SetRelativeMouseMode(SDL_GetRelativeMouseMode()? SDL_FALSE: SDL_TRUE);
 	    		break;
     		case SDL_SCANCODE_F2:
