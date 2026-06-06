@@ -1,4 +1,5 @@
 #include "WndG.h"
+#include "GEng/GEng.h"
 
 namespace GEng
 {
@@ -37,12 +38,21 @@ void WndG::ProcessEventMouse(SDL_Event& event)
 
 void WndG::ProcessEventKeyboard(SDL_Event& event)
 {
+	const Uint8* keys = SDL_GetKeyboardState(nullptr);
 	if (view)
 		view->ProcessEventKeyboard(timeDelta);
     if (event.type == SDL_KEYDOWN)
     {
     	switch (event.key.keysym.scancode)
     	{
+			case SDL_SCANCODE_S:
+				if (keys[SDL_SCANCODE_LCTRL])
+					GetEng().proj.Save();
+				break;
+			case SDL_SCANCODE_DELETE:
+				if (view && view->world)
+					view->world->Delete();
+				break;
     		case SDL_SCANCODE_LCTRL:
     			SDL_SetRelativeMouseMode(SDL_GetRelativeMouseMode()? SDL_FALSE: SDL_TRUE);
 	    		break;

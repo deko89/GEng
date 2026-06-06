@@ -67,7 +67,10 @@ void WndProperties::Draw()
 	if ( sel.aMod.empty() ) return;
 	Model* mod = sel.aMod.front();
 	// Рисование окна.
-	ImGui::Begin(_("Свойства"), NULL, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Begin(_("Свойства"), NULL,
+		ImGuiWindowFlags_AlwaysAutoResize |
+		ImGuiWindowFlags_NoFocusOnAppearing |
+		0);
 	cbClass.Draw();
 	if ( ImGui::InputFloat2(_("Позиция"), &sel.pos.x) )
 		mod->SetPos(sel.pos);
