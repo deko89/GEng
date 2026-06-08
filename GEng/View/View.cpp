@@ -23,7 +23,7 @@ ClassModel* ComboBoxClassModel::Get() const
 void ComboBoxClassModel::Draw()
 {
 	ClassModels& aClass = GetClassModels();
-	const char* combo_preview_value = aClass[iClass]->Name().c_str();
+	const char* combo_preview_value = aClass[iClass]->Title().c_str();
 	if (ImGui::BeginCombo(_("Модель"), combo_preview_value, 0))
 	{
 		static ImGuiTextFilter filter;
@@ -38,8 +38,8 @@ void ComboBoxClassModel::Draw()
 		for (size_t i = 0; i < aClass.size(); ++i)
 		{
 			const bool is_selected = (iClass == i);
-			if (filter.PassFilter(aClass[i]->Name().c_str()))
-				if (ImGui::Selectable(aClass[i]->Name().c_str(), is_selected))
+			if (filter.PassFilter(aClass[i]->Title().c_str()))
+				if (ImGui::Selectable(aClass[i]->Title().c_str(), is_selected))
 				{	iClass = i;
 					if (onChange) onChange();
 				}

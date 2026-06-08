@@ -21,8 +21,11 @@ class ClassModel
 	//void Delete(Model* m)	{models.Del(m);}
 	const Str& Name() const {return name;}
 	void SetName(const Str& n) {name = n;}
+	const Str& Title() const {return title;}
+	void SetTitle(const Str& t) {title = t;}
 protected:
 	Str name;
+	Str title; ///< Название для пользователя.
 };
 
 /// Класс модели (шаблон).
