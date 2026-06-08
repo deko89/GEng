@@ -57,6 +57,13 @@ void Project::Clear()
 
 }
 
+void Project::AddModel()
+{
+	if ( GetEng().aClass.empty() ) return;
+	ClassModel* pClass = GetEng().aClass.front();
+	pClass->Instance(world.models);
+}
+
 void Project::AddGroupLine()
 {
 	if ( GetEng().aClass.empty() ) return;
