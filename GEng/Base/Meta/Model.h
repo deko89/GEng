@@ -1,6 +1,7 @@
 #ifndef Model_H
 #define Model_H
 
+#include "GEng/Base/Meta/Texture.h"
 #include "GEng/Base/Types.h"
 
 namespace GEng
@@ -17,6 +18,7 @@ class Model
 	virtual ClassModel* Class() const {return nullptr;}
 	virtual void SetClass(ClassModel* c) {}
 	virtual bool IsGroup() const {return 0;}
+	virtual void SetTexture(Texture& tex) {}
 	// Позиция.
 	virtual Pos   GetPos() const {return Pos();}		///< Получить позицию.
 	virtual void  SetPos(const Pos& p) {}				///< Установить позицию.

@@ -27,7 +27,7 @@ class ModelStd: public ModelVi
 	virtual void  SetAngle(const Angle& a) override;		///< Установить углы.
 	virtual Scale GetScale() const override;				///< Получить масштаб.
 	virtual void  SetScale(const Scale& s) override;		///< Установить масштаб.
-	void SetTexture(Texture& tex);
+	void SetTexture(Texture& tex) override;
 	virtual void Draw() const override;
 	void Print() const;
 	const Box& GetBoundBox() const override;
