@@ -19,6 +19,7 @@
 	#include "Base/Context.cpp"
 	#include "Base/Types.cpp"
 	#include "Base/Math.hpp"
+	#include "World/ClassModel.cpp"
 	#include "World/Models.cpp"
 	#include "World/Plant.cpp"
 	#include "World/World.cpp"

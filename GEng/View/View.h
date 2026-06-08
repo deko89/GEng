@@ -1,6 +1,7 @@
 #ifndef View_H
 #define View_H
 
+#include "GEng/World/ClassModel.h"
 #include "GEng/World/World.h"
 #include "GEng/View/Camera.h"
 #include "GEng/World/Shapes.h"

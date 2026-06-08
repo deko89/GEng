@@ -5,6 +5,7 @@
 #include "GEng/Base/Context.h"
 #include "GEng/View/Wnd/WndGui.h"
 #include "GEng/Project.h"
+#include "GEng/World/ClassModel.h"
 
 namespace GEng
 {

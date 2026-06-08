@@ -1,6 +1,7 @@
 #ifndef Project_H
 #define Project_H
 
+#include <filesystem>
 #include "GEng/World/World.h"
 
 namespace GEng
