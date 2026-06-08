@@ -354,6 +354,16 @@ Model* ClassModel2d::Instance(Models& models)
 	m->SetSize(size.x, size.y);
 	return m;
 }
+bool ClassModel2d::SetClassPar(Model* m)
+{
+	if ( typeid(*m) != typeid(Model2d) )
+		return 0;
+	Model2d* m2d = (Model2d*) m;
+	Base::SetClassPar(m2d);
+	m2d->SetShader(shPosTexA);
+	m2d->SetSize(size.x, size.y);
+	return 1;
+}
 // ClassModels ///////////////////////////////////////////////////////
 void ClassModels::Load(const std::filesystem::path& path)
 {

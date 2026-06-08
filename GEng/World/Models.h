@@ -133,6 +133,10 @@ class ClassModel
 	virtual ~ClassModel() {}
 	/// Создать экземпляр класса.
 	virtual Model* Instance(Models& models) = 0;
+	/**	\brief Установить параметры класса, но не сам класс.
+		\param[in] m - модель, куда устанавливается.
+		\return 1 - установлено; 0 - не удалось. */
+	virtual bool SetClassPar(Model* m) = 0;
 	/// Удалить экземпляр класса.
 	//void Delete(Model* m)	{models.Del(m);}
 	const Str& Name() const {return name;}
@@ -153,6 +157,10 @@ class ClassModelT : public ClassModel
 		m->SetTexture(tex);
 		return m;
 	}
+	bool SetClassPar(Model* m) override
+	{	m->SetTexture(tex);
+		return 1;
+	}
 };
 
 /// Класс модели 2d.
@@ -162,6 +170,7 @@ class ClassModel2d : public ClassModelT<Model2d>
 	static constexpr Str nameType = "2d";
 	Vec2 size;
 	Model* Instance(Models& models) override;
+	bool SetClassPar(Model* m) override;
 };
 
 /// Классы моделей.
