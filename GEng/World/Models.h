@@ -18,7 +18,7 @@ class ModelStd: public ModelVi
 	ModelStd(ShaderType shT = shPosTex, Texture* tex = nullptr);
 	void Make(const Mesh& mesh, const PlaceTex& placeTex = PlaceTex());
 	ClassModel* Class() const override {return pClass;}
-	void SetClass(ClassModel* c) override {pClass = c;}
+	void SetClass(ClassModel* c) override;
 	void SetShader(ShaderType shT) {shader.Set(shT);}
 	virtual Pos   GetPos() const override;					///< Получить позицию.
 	virtual void  SetPos(const Pos& p) override;			///< Установить позицию.
@@ -154,7 +154,6 @@ class ClassModelT : public ClassModel
 	Model* Instance(Models& models) override
 	{	TypeModel* m = models.Make<TypeModel>();
 		m->SetClass(this);
-		m->SetTexture(tex);
 		return m;
 	}
 	bool SetClassPar(Model* m) override
@@ -169,7 +168,6 @@ class ClassModel2d : public ClassModelT<Model2d>
 	typedef ClassModelT<Model2d> Base;
 	static constexpr Str nameType = "2d";
 	Vec2 size;
-	Model* Instance(Models& models) override;
 	bool SetClassPar(Model* m) override;
 };
 

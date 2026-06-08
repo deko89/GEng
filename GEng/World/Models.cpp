@@ -20,6 +20,10 @@ void ModelStd::Make(const Mesh& mesh, const PlaceTex& placeTex)
 {	ModelVi::Make(mesh, placeTex);
 	boundBox = mesh.aVert.CalcBoundBox();
 }
+void ModelStd::SetClass(ClassModel* c)
+{	pClass = c;
+	c->SetClassPar(this);
+}
 Pos ModelStd::GetPos() const
 {
 	return pos;
@@ -348,12 +352,6 @@ bool GroupLine::IsIntersect(const Ray& ray) const
 	return models.IsIntersect(ray);
 }
 // ClassModel2d //////////////////////////////////////////////////////
-Model* ClassModel2d::Instance(Models& models)
-{	Model2d* m = (Model2d*) Base::Instance(models);
-	m->SetShader(shPosTexA);
-	m->SetSize(size.x, size.y);
-	return m;
-}
 bool ClassModel2d::SetClassPar(Model* m)
 {
 	if ( typeid(*m) != typeid(Model2d) )
