@@ -167,19 +167,27 @@ void View::ProcessEventMouse(SDL_Event& event)
     {	if (event.button.button == SDL_BUTTON_LEFT)
 		{	if ( world && (world->sel.aMod.empty() || !ImGuizmo::IsOver()) )
 			{	world->sel.aMod.clear();
+				Model* modelNear = nullptr;
+				Val dist;
 				for (Model* m : world->models)
 				{
 					Vec2 p = WndToView(Vec2I(event.button.x, event.button.y));
 					p.x /= pos.w; p.y /= pos.h;
 					Ray ray {.pos = cam.pos, .dir = cam.CalcVecPoint(p)};
 					if ( m->IsIntersect(ray) )
-					{	world->sel.aMod.push_back(m);
-						world->sel.pos = m->GetPos();
-						world->sel.angle = m->GetAngle();
-						world->sel.scale = m->GetScale();
-						wndProperties.OnChangeObj();
-						break;
+					{	Val d = glm::distance(m->GetPos(), cam.pos);
+						if (modelNear == nullptr || d < dist)
+						{	modelNear = m;
+							dist = d;
+						}
 					}
+				}
+				if (modelNear)
+				{	world->sel.aMod.push_back(modelNear);
+					world->sel.pos = modelNear->GetPos();
+					world->sel.angle = modelNear->GetAngle();
+					world->sel.scale = modelNear->GetScale();
+					wndProperties.OnChangeObj();
 				}
 			}
 		}
