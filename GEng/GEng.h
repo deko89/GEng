@@ -7,6 +7,8 @@
 #include "GEng/Project.h"
 #include "GEng/World/ClassModel.h"
 
+//#define M_TreeGen
+
 namespace GEng
 {
 

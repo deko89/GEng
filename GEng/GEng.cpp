@@ -22,6 +22,9 @@
 	#include "World/ClassModel.cpp"
 	#include "World/Models.cpp"
 	#include "World/Plant.cpp"
+	#ifdef M_TreeGen
+		#include "World/TreeGen.cpp"
+	#endif
 	#include "World/World.cpp"
 	#include "World/SkyBox.cpp"
 	#include "World/Shapes.cpp"
