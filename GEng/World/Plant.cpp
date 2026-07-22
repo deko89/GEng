@@ -7,10 +7,11 @@ namespace GEng
 ValN ModelStvol::nSgmLen = 30;
 ValN ModelStvol::nSgmD = nSgmLen * pi;
 const size_t iModifSpline = 1; // Позиция Modifs::Spline.
-ModelStvol::ModelStvol(const vector<Pos>& aKey)
+ModelStvol::ModelStvol(const vector<Pos>& aKey, Os os)
 {
-	modif.Make<Modifs::Taper>(0.008 / d);
-	modif.Make<Modifs::Spline>(aKey); // Соответствует iModifSpline.
+	ModelCylinder::os = os;
+	modif.Make<Modifs::Taper>(0.008 / d, os);
+	modif.Make<Modifs::Spline>(aKey, os); // Соответствует iModifSpline.
 	Update();
 }
 void ModelStvol::Update()
@@ -25,7 +26,7 @@ void ModelStvol::Update()
 	}
 
 	// Расчёт данных.
-	len = aKey.back().x;
+	len = aKey.back()[os];
 	d = rD * len;
 	sgmL = len * nSgmLen;
 	sgmC = d * nSgmD;

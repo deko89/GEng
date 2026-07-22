@@ -86,6 +86,7 @@ class ModelCylinder : public ModelStd
 	ValN sgmL = 1;	///< Число сегментов по длине.
 	bool bCloseB = 1;	///< Закрыто начало.
 	bool bCloseE = 1;	///< Закрыт конец.
+	Os os = osX;	///< Ось вдоль которой идёт цилиндр.
 	Points::Modifs modif;	///< Модификаторы.
 	ModelCylinder() {}
 	ModelCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB = 1, bool bCloseE = 1);

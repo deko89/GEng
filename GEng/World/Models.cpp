@@ -191,10 +191,15 @@ ModelCylinder::ModelCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB,
 void ModelCylinder::Update()
 {
     Mesh mesh;
-    mesh.MakeCylinder(d, len, sgmC, sgmL, bCloseB, bCloseE);
+    mesh.MakeCylinder(d, len, sgmC, sgmL, bCloseB, bCloseE, os);
 
     Points::Data pointsData(mesh.aVert);
-    pointsData.sz = {len, d, d};
+	if (os == osX)
+		pointsData.sz = {len, d, d};
+	else if (os == osY)
+		pointsData.sz = {d, len, d};
+	else
+		pointsData.sz = {d, d, len};
     modif.Set(pointsData);
 
     PlaceTex plTex;

@@ -14,7 +14,7 @@ class ModelStvol : public ModelCylinder
 	Val rD = 0.04;			///< Коэффициент диаметра на 1 м длины.
 	/** Конструктор.
 		param[in] aKey - ключевые точки (через которые проходит). */
-	ModelStvol(const vector<Pos>& aKey);
+	ModelStvol(const vector<Pos>& aKey, Os os = osX);
 	void Update(); ///< Обновить модель (применить новые данные).
 	vector<Pos>& GetKey(); ///< Получить ключевые точки (через которые проходит).
 };
