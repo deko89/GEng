@@ -260,12 +260,9 @@ void Models::Draw(Pos posCamera) const
 	{
 		if ( m->IsGroup() )
 		{
-			if ( typeid(*m) == typeid(GroupLine) )
-			{	GroupLine* g = static_cast<GroupLine*>(m);
-				const Models& a = g->GetModels();
-				for (Model* m : a)
-					models.push_back( {m, glm::distance(m->GetPos(), posCamera)} );
-			}
+			const Models& a = m->GetModels();
+			for (Model* m : a)
+				models.push_back( {m, glm::distance(m->GetPos(), posCamera)} );
 		} else
 			models.push_back( {m, glm::distance(m->GetPos(), posCamera)} );
 	}

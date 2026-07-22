@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "GEng/World/Models.h"
 
 namespace GEng
 {
@@ -12,6 +13,11 @@ void Model::Save(pugi::xml_node ndParent) const
 void Model::Load(pugi::xml_node ndModel)
 {
 	SetPos( GEng::Load<Pos>( ndModel.child("pos") ) );
+}
+const Models& Model::GetModels() const
+{
+	static Models a;
+	return a;
 }
 // ModelVi //////////////////////////////////////////////////////////
 ModelVi::ModelVi()
