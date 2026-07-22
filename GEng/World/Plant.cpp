@@ -30,7 +30,6 @@ void ModelStvol::Update()
 	sgmL = len * nSgmLen;
 	sgmC = d * nSgmD;
 	if (sgmC < 2) sgmC = 2;
-	else if (sgmC % 2) ++sgmC; //TODO Снять ограничение цилиндра.
 
 	// Построение.
 	ModelCylinder::Update();

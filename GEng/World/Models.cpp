@@ -198,7 +198,7 @@ void ModelCylinder::Update()
     modif.Set(pointsData);
 
     PlaceTex plTex;
-    plTex.SetCylinder(sgmC, sgmL, 2, 1);
+    plTex.SetCylinder(sgmC, sgmL, 1, len / (pi * d));
 
     ModelStd::Make(mesh, plTex);
 }

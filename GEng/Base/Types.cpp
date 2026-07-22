@@ -102,11 +102,14 @@ void Points::MakePlane(Val szX, Val szY, ValN sgmX, ValN sgmY)
 }
 void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 	bool bCloseB, bool bCloseE, Os os)
-{	// Вычисление размера и выделение памяти.
-	const ValN nVertC = sgmC * (sgmL + 1);
+{	
+	const ValN tv = 1; // Дополнительная вершина для текстуры.
+	const ValN nVR = sgmC + tv; // Число вершин на 1 радиус сегмент.
+	// Вычисление размера и выделение памяти.
+	const ValN nVertC = nVR * (sgmL + 1);
 	resize(nVertC + bCloseB + bCloseE);
 	Pos *pVert = data();
-	const Pos *pEndC = pVert + sgmC,
+	const Pos *pEndC = pVert + nVR,
 			  *pEnd  = pVert + nVertC;
 	// Цикл создания, по сегментам окружности.
 	const Val rad = d * 0.5;
@@ -120,7 +123,9 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 		pVert->x = 0;
 		// Устанавливаем данные по вертикали (на уровнях выше).
 		Val l = lStep;
-		for (Pos* pVertH = pVert + sgmC; pVertH < pEnd; pVertH += sgmC, l += lStep)
+		for (Pos* pVertH = pVert + nVR;
+			 pVertH < pEnd;
+			 pVertH += nVR, l += lStep)
 		{	pVertH->y = pVert->y;
 			pVertH->z = pVert->z;
 			pVertH->x = l;
@@ -259,22 +264,26 @@ void Mesh::MakePlane(Val szX, Val szY, ValN sgmX, ValN sgmY)
 }
 void Mesh::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 	bool bCloseB, bool bCloseE, Os os)
-{	// Создание вершин.
+{	
+	const ValN tv = 1; // Дополнительная вершина для текстуры.
+	const ValN nVR = sgmC + tv; // Число вершин на 1 радиус сегмент.
+	// Создание вершин.
 	aVert.MakeCylinder(d, len, sgmC, sgmL, bCloseB, bCloseE, os);
 	// Вычисление размера и выделение памяти для индексов.
 	aInd.resize(sgmC * sgmL * 6 + ((ValN)bCloseB + bCloseE) * sgmC * 3);
 	Ind* pInd = aInd.data();
 	for (ValN i = 0; i < sgmL; ++i)
-	{	const Ind len  = sgmC * i,		// Текущая длина.
-				  lenN = len + sgmC;	// Следующая длина.
+	{	const Ind len  = nVR * i,	// Текущая длина.
+				  lenN = len + nVR;	// Следующая длина.
 		for (ValN s = 0; s < sgmC; ++s)
-		{	const Ind n = (s + 1 == sgmC)? 0: s + 1; // Следующий сегмент.
+		{	const Ind n = tv? s + 1 :
+						  (s + 1 == sgmC? 0: s + 1); // Следующий сегмент.
 			*(pInd++) = len	+ s;
 			*(pInd++) = len	+ n;
-			*(pInd++) = lenN	+ s;
-			*(pInd++) = lenN	+ s;
+			*(pInd++) = lenN + s;
+			*(pInd++) = lenN + s;
 			*(pInd++) = len	+ n;
-			*(pInd++) = lenN	+ n;
+			*(pInd++) = lenN + n;
 		}
 	}
 	// Создание дна.
@@ -282,17 +291,23 @@ void Mesh::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 	{	const Ind iV = aVert.size() - (bCloseE? 2: 1);
 		for (Ind x = 0; x < sgmC; ++x)
 		{	*(pInd++) = iV;
-			*(pInd++) = (x + 1 == sgmC)? 0: x + 1; // Следующий по x.
+			if (tv)
+				*(pInd++) = x + 1;
+			else
+				*(pInd++) = (x + 1 == sgmC)? 0: x + 1; // Следующий по x.
 			*(pInd++) = x;
 		}
 	}
 	// Создание крышки.
 	if (bCloseE)
-	{	const Ind iV = aVert.size() - 1, s = iV - bCloseB - sgmC, e = s + sgmC;
+	{	const Ind iV = aVert.size() - 1, s = iV - bCloseB - nVR, e = s + sgmC;
 		for (Ind x = s; x < e; ++x)
 		{	*(pInd++) = iV;
 			*(pInd++) = x;
-			*(pInd++) = (x + 1 == e)? s: x + 1; // Следующий по x.
+			if (tv)
+				*(pInd++) = x + 1;
+			else
+				*(pInd++) = (x + 1 == e)? s: x + 1; // Следующий по x.
 		}
 	}
 }
@@ -333,10 +348,13 @@ void PlaceTex::SetBox()
 					};
 }
 void PlaceTex::SetCylinder(ValN sgmC, ValN sgmL, Val u, Val v)
-{	assert(sgmC % 2 == 0);
-	resize(sgmC * (sgmL + 1));
+{	
+	const ValN tv = 1; // Дополнительная вершина для текстуры.
+	const ValN nVR = sgmC + tv; // Число вершин на 1 радиус сегмент.
+	assert(tv || sgmC % 2 == 0);
+	resize(nVR * (sgmL + 1));
 	PosTex* pPos = data();
-	const PosTex *pEndC = pPos + sgmC,
+	const PosTex *pEndC = pPos + nVR,
 				 *pEndH = pPos + sgmC / 2,
 				 *pEnd  = pPos + size();
 	// Цикл по сегментам окружности.
@@ -349,12 +367,17 @@ void PlaceTex::SetCylinder(ValN sgmC, ValN sgmL, Val u, Val v)
 		pPos->v = 0;
 		// Устанавливаем данные по вертикали (на уровнях выше).
 		v = vStep;
-		for (PosTex* pPosH = pPos + sgmC; pPosH < pEnd; pPosH += sgmC, v += vStep)
+		for (PosTex* pPosH = pPos + nVR;
+			 pPosH < pEnd;
+			 pPosH += nVR, v += vStep)
 		{	pPosH->u = u;
 			pPosH->v = v;
 		}
-		// После середины зеркалим текстуру, чтобы к последней вершине u была 0 (первая и последняя это одна и та же вершина).
-		u = pPos < pEndH ? u + uStep : u - uStep;
+		if (tv)
+			u += uStep;
+		else
+			// После середины зеркалим текстуру, чтобы к последней вершине u была 0 (первая и последняя это одна и та же вершина).
+			u = pPos < pEndH ? u + uStep : u - uStep;
 	}
 }
 }

@@ -171,7 +171,7 @@ class PlaceTex: public vector<PosTex>
 	void SetBox();
 
 	/** Цилиндр.
-		param[in] sgmC - количество сегментов в круге. Должен быть чётным.
+		param[in] sgmC - количество сегментов в круге.
 		param[in] sgmL - количество сегментов по длине.
 		param[in] u, v - число повторений текстуры. */
 	void SetCylinder(ValN sgmC, ValN sgmL, Val u, Val v);
