@@ -100,7 +100,8 @@ void Points::MakePlane(Val szX, Val szY, ValN sgmX, ValN sgmY)
 		}
 	}
 }
-void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB, bool bCloseE)
+void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
+	bool bCloseB, bool bCloseE, Os os)
 {	// Вычисление размера и выделение памяти.
 	const ValN nVertC = sgmC * (sgmL + 1);
 	resize(nVertC + bCloseB + bCloseE);
@@ -135,6 +136,10 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB, bo
 	{	pVert = data() + (size() - 1);
 		pVert->x = len; pVert->y = 0; pVert->z = 0;
 	}
+	if (os == osY)
+		Rotate( Angle(0, 0, pi2) );
+	else if (os == osZ)
+		Rotate( Angle(0, -pi2, 0) );
 }
 Box Points::CalcBoundBox() const
 {	Box box;
@@ -252,9 +257,10 @@ void Mesh::MakePlane(Val szX, Val szY, ValN sgmX, ValN sgmY)
 		}
 	}
 }
-void Mesh::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB, bool bCloseE)
+void Mesh::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
+	bool bCloseB, bool bCloseE, Os os)
 {	// Создание вершин.
-	aVert.MakeCylinder(d, len, sgmC, sgmL, bCloseB, bCloseE);
+	aVert.MakeCylinder(d, len, sgmC, sgmL, bCloseB, bCloseE, os);
 	// Вычисление размера и выделение памяти для индексов.
 	aInd.resize(sgmC * sgmL * 6 + ((ValN)bCloseB + bCloseE) * sgmC * 3);
 	Ind* pInd = aInd.data();

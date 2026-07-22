@@ -105,8 +105,10 @@ class Points : public vector<Pos>
 	/** Создать цилиндр
 		param[in] d, len - диаметр и длина;
 		param[in] sgmC, sgmL - количество сегментов в круге, и по длине;
-		param[in] bCloseB, bCloseE - закрыть кругом начало, и конец. */
-	void MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB = 1, bool bCloseE = 1);
+		param[in] bCloseB, bCloseE - закрыть кругом начало, и конец.
+		@param[in] os - ось вдоль которой идёт цилиндр. */
+	void MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
+		bool bCloseB = 1, bool bCloseE = 1, Os os = osX);
 
 	Box CalcBoundBox() const; ///< Получить границы.
 
@@ -147,7 +149,8 @@ class Mesh
 	void MakePlane(Val szX, Val szY, ValN sgmX, ValN sgmY);
 	void MakeBox(Pos a = {0, 0, 0}, Pos b = {1, 1, 1});
 	void MakeCubeIn(Val s); ///< Создать куб, который виден изнутри.
-	void MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL, bool bCloseB = 1, bool bCloseE = 1);
+	void MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
+		bool bCloseB = 1, bool bCloseE = 1, Os os = osX);
 };
 
 /// Координаты текстуры. Предполагается что каждая координата будет соответствовать отдельной вершине.
