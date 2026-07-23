@@ -3,7 +3,7 @@
 namespace GEng
 {
 
-// ModelStvol ////////////////////////////////////////////////////////
+// ModelTrunk ////////////////////////////////////////////////////////
 ValN ModelTrunk::nSgmLen = 30;
 ValN ModelTrunk::nSgmD = nSgmLen * pi;
 const size_t iModifSpline = 1; // Позиция Modifs::Spline.
