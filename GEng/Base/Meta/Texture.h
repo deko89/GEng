@@ -71,6 +71,8 @@ class Texture
 
     /// Сделать текстуру активной.
 	void Use() const;
+
+    operator bool() const {return id != 0;}
 protected:
 	GLenum texType = GL_TEXTURE_2D; ///< Тип текстуры.
 	GLuint id = 0; ///< Идентификатор текстуры.

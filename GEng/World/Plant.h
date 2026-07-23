@@ -19,6 +19,19 @@ class ModelStvol : public ModelCylinder
 	vector<Pos>& GetKey(); ///< Получить ключевые точки (через которые проходит).
 };
 
+class ModelTree : public Model
+{	public:
+	Val h = 10;		///< Высота.
+	Val w = 0.2;	///< Ширина.
+	ModelTree();
+	bool IsGroup() const override {return 1;}
+	const Models& GetModels() const override {return models;}
+	void Update() override; ///< Обновить модель (применить параметры).
+protected:
+	Models models;
+	static Texture texBark;
+};
+
 }
 
 #endif

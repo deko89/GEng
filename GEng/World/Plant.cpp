@@ -41,5 +41,27 @@ vector<Pos>& ModelStvol::GetKey()
 	assert(s);
 	return s->aKey;
 }
+// ModelTree /////////////////////////////////////////////////////////
+Texture ModelTree::texBark;
+ModelTree::ModelTree()
+{
+	if (!texBark)
+		texBark.Load("Res/Bark.jpg"); //tmp
+	Update();
+}
+void ModelTree::Update()
+{
+	Val hStep = h / 4;
+	vector<Pos> aTrunk
+	{
+		{0,		0,		0},
+		{0.1,	0,		hStep},
+		{0,		0.1,	hStep * 2},
+		{0.1,	0, 		hStep * 3},
+		{0.1,	0, 		hStep * 4}
+	};
+	ModelStvol* mod = models.Make<ModelStvol>(aTrunk, osZ);
+	mod->SetTexture(texBark);
+}
 
 }
