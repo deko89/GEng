@@ -4,17 +4,17 @@ namespace GEng
 {
 
 // ModelStvol ////////////////////////////////////////////////////////
-ValN ModelStvol::nSgmLen = 30;
-ValN ModelStvol::nSgmD = nSgmLen * pi;
+ValN ModelTrunk::nSgmLen = 30;
+ValN ModelTrunk::nSgmD = nSgmLen * pi;
 const size_t iModifSpline = 1; // Позиция Modifs::Spline.
-ModelStvol::ModelStvol(const vector<Pos>& aKey, Os os)
+ModelTrunk::ModelTrunk(const vector<Pos>& aKey, Os os)
 {
 	ModelCylinder::os = os;
 	modif.Make<Modifs::Taper>(0.008 / d, os);
 	modif.Make<Modifs::Spline>(aKey, os); // Соответствует iModifSpline.
 	Update();
 }
-void ModelStvol::Update()
+void ModelTrunk::Update()
 {
 	vector<Pos>& aKey = GetKey();
 
@@ -35,7 +35,7 @@ void ModelStvol::Update()
 	// Построение.
 	ModelCylinder::Update();
 }
-vector<Pos>& ModelStvol::GetKey()
+vector<Pos>& ModelTrunk::GetKey()
 {
 	Modifs::Spline* s = dynamic_cast<Modifs::Spline*>( modif[iModifSpline] );
 	assert(s);
@@ -60,7 +60,7 @@ void ModelTree::Update()
 		{0.1,	0, 		hStep * 3},
 		{0.1,	0, 		hStep * 4}
 	};
-	ModelStvol* mod = models.Make<ModelStvol>(aTrunk, osZ);
+	ModelTrunk* mod = models.Make<ModelTrunk>(aTrunk, osZ);
 	mod->SetTexture(texBark);
 }
 
