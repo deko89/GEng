@@ -16,6 +16,7 @@ class TreeGen
     void Load(const std::filesystem::path& path);
     void Save();
     void SaveAs();
+	void Generate(); ///< Создать дерево / куст по параметрам.
 protected:
     std::filesystem::path path; ///< Путь до растения.
 };

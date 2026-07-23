@@ -43,6 +43,13 @@ void TreeGen::SaveAs()
 	}
 }
 
+void TreeGen::Generate()
+{
+	World& world = GetEng().proj.world;
+	world.models.clear();
+	ModelTree* mod = world.models.Make<ModelTree>();
+}
+
 Menu* TreeGen::CreateMenu()
 {
 	Menu* menu = new Menu;
@@ -67,6 +74,11 @@ Menu* TreeGen::CreateMenu()
 		.action = []()
 		{	GetEng().Exit();
 		}
+	} );
+	Menu::Fold& mEdit = menu->Add( _("Правка") );
+	mEdit.aItem.push_back( Menu::Item
+	{	.name = _("Создать"),
+		.action = []() {GetTreeGen().Generate();}
 	} );
 	return menu;
 }
