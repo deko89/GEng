@@ -22,7 +22,7 @@ class ModelTrunk : public ModelCylinder
 class ModelTree : public Model
 {	public:
 	Val h = 10;		///< Высота.
-	Val w = 0.2;	///< Ширина.
+	Val w = h / 3;	///< Ширина.
 	ModelTree();
 	bool IsGroup() const override {return 1;}
 	const Models& GetModels() const override {return models;}
@@ -30,6 +30,16 @@ class ModelTree : public Model
 protected:
 	Models models;
 	static Texture texBark;
+	/** Создать ветку.
+		@param[in] pos - позиция начала.
+		@param[in] len - длина.
+		@param[in] angleZ - угол по оси Z. От 0 до 2*pi.
+		@param[in] angleU - угол верх / вниз. От -pi/4 до pi/4.
+		@param[in] varSize - отклонение вариации относительно длины. От 0 до 0.3.
+		@param[in] varStep - шаг вариации. От 0 до 1.
+		*/
+	void CreateBranch(Pos pos, Val len, Val angleZ, Val angleU,
+		Val varSize = 0.1, Val varStep = 0.2);
 };
 
 }

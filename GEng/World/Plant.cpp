@@ -1,4 +1,5 @@
 #include "Plant.h"
+#include <iostream>
 
 namespace GEng
 {
@@ -51,6 +52,7 @@ ModelTree::ModelTree()
 }
 void ModelTree::Update()
 {
+	// Ствол.
 	Val hStep = h / 4;
 	vector<Pos> aTrunk
 	{
@@ -60,8 +62,48 @@ void ModelTree::Update()
 		{0.1,	0, 		hStep * 3},
 		{0.1,	0, 		hStep * 4}
 	};
+
+	SplineCalc trunkCalc(aTrunk, osZ);
+	if ( !trunkCalc.Check() )
+	{
+		std::cerr << "trunkCalc.Check" << std::endl;
+		return;
+	}
+	trunkCalc.Calc();
+	Pos p{0, 0, hStep};
+	trunkCalc.CalcPos(p);
+
 	ModelTrunk* mod = models.Make<ModelTrunk>(aTrunk, osZ);
 	mod->SetTexture(texBark);
+
+	// Ветка.
+	Val wStep = w / 4;
+	Val branchVar = hStep / 2 / 4;
+	vector<Pos> aBranch
+	{
+		p,
+		{p.x += wStep,	p.y,				p.z += branchVar},
+		{p.x += wStep,	p.y + branchVar, 	p.z += branchVar * 0.3},
+		{p.x += wStep,	p.y,				p.z += branchVar},
+		{p.x += wStep,	p.y - branchVar,	p.z += branchVar * 0.2},
+	};
+
+	ModelTrunk* modBranch = models.Make<ModelTrunk>(aBranch, osX);
+	modBranch->SetTexture(texBark);
+
+	// SplineCalc branchCalc(aTrunk, osZ);
+	// if ( !branchCalc.Check() )
+	// {
+	// 	std::cerr << "branchCalc.Check" << std::endl;
+	// 	return;
+	// }
+	// branchCalc.Calc();
+	// Pos b{0, 0, hStep};
+	// branchCalc.CalcPos(b);
+}
+void ModelTree::CreateBranch(Pos pos, Val len, Val angleZ, Val angleU)
+{
+
 }
 
 }
