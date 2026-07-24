@@ -33,13 +33,14 @@ protected:
 	/** Создать ветку.
 		@param[in] pos - позиция начала.
 		@param[in] len - длина.
-		@param[in] angleZ - угол по оси Z. От 0 до 2*pi.
-		@param[in] angleU - угол верх / вниз. От -pi/4 до pi/4.
-		@param[in] varSize - отклонение вариации относительно длины. От 0 до 0.3.
-		@param[in] varStep - шаг вариации. От 0 до 1.
+		@param[in] angleZ - угол по оси Z. Диапазон: 0 <= a < 2*pi.
+		@param[in] angleU - угол верх / вниз. Диапазон: -pi/2 < a < pi/2.
+		@param[in] bendSize - максимальное отклонение изгиба относительно длины.
+		Диапазон: 0 <= b < 0.3.
+		@param[in] bendSpeed - скорость изгиба метров за 1 м.
 		*/
 	void CreateBranch(Pos pos, Val len, Val angleZ, Val angleU,
-		Val varSize = 0.1, Val varStep = 0.2);
+		Val bendSize = 0.1, Val bendSpeed = 0.2);
 };
 
 }
