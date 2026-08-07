@@ -157,7 +157,7 @@ void SetPolygonMode(PolygonMode mode);
 // Функции glm.
 //#include "glm/geometric.hpp"
 //	glm::length(Vec v) ///< Длина вектора.
-//	glm::distance(Vec v0, Vec v1) ///< length(v0 - v1).
+//	glm::distance(Vec v0, Vec v1) ///< length(v1 - v0).
 //	normalize(vec)	///< Нормализация вектора (то же направление, длина 1).
 //	float f = glm::dot(v1, v2);		///< Скалярное произведение.
 //	vec3  v = glm::cross(v1, v2);	///< Векторное произведение
