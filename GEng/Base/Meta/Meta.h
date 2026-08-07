@@ -130,9 +130,26 @@ static_assert(std::numeric_limits<Val>::has_infinity);
 const Val vNaN = std::numeric_limits<Val>::quiet_NaN();
 const Val vInf = std::numeric_limits<Val>::infinity();
 const Val pi = (Val) M_PI, pi2 = (Val) M_PI_2, pi4 = (Val) M_PI_4;
+	/// Порог погрешности. После него вычисления не устойчивы, поэтому = 0.
+constexpr float epsBase = 1e-6f;
 
 // Оси.
 enum Os : OsType {osX, osY, osZ};
+
+/// Считается 0 в пределах погрешности.
+inline bool IsApproxZero(Val x)
+{	return std::fabs(x) < epsBase;
+}
+inline bool IsApproxZero(Vec2 v)
+{	return IsApproxZero(v.x) && IsApproxZero(v.y);
+}
+inline bool IsApproxZero(Vec3 v)
+{	return IsApproxZero(v.x) && IsApproxZero(v.y) && IsApproxZero(v.z);
+}
+inline bool IsApproxZero(Vec4 v)
+{	return	IsApproxZero(v.x) && IsApproxZero(v.y) &&
+			IsApproxZero(v.z) && IsApproxZero(v.w);
+}
 
 enum class PolygonMode {Point, Line, Fill};
 void SetPolygonMode(PolygonMode mode);
