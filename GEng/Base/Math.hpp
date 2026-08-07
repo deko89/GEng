@@ -24,7 +24,7 @@ using std::vector;
 /// Калькулятор сплайна (в 3d).
 struct SplineCalc
 {
-	const bool bPrint = 0;	///< Печать отладочной информации.
+	const bool bPrint = 1;	///< Печать отладочной информации.
 	/** @brief Конструктор.
 		param[in] aKey - ключевые точки сплайна. Каждая следующая должна быть больше по X.
 		param[in] osMain - основная ось, вдоль которой идёт цилиндр для сплайна. */
@@ -44,17 +44,21 @@ struct SplineCalc
 			В неё же запишется конечная позиция сплайна. */
 	void CalcPos(Pos& vert);
 private:
-	const vector<Pos>& aKey;	///< Ключевые точки.
+	vector<Pos> aKey;	///< Ключевые точки.
+	vector<Val> aLen;	///< Длины отрезков (между ключевыми точками).
+	Val len = 0;		///< Длина.
 	/// Условные оси X, Y - относительно которых строится сплайн.
 	/// Функции всегда думают что работают с осям XY.
 	/// По факту их можно менять местами XYZ, YZX, ZXY. При этом совершенно ничего не меняется, всё остаётся также как будто XYZ.
 	/// Можно просто думать что всегда "XYZ" = XYZ, всё так же.
 	Os oX = osX, oY = osY, oZ = osZ;
 	bool bXZ = 0;				///< 0 - установлена плоскость XY, 1 - XZ. См. SetPlaneXY.
-	vector<Val> aDerY, aDerZ;	///< Производные в ключевых точках (в условных плоскостях "XY", "XZ").
+	/// Производные в ключевых точках (в условных плоскостях "XY", "XZ").
+	/// Y компонента единичного вектора указывающего направление производной.
+	vector<Val> aDerY, aDerZ;
 	size_t iKey = 0;			///< Текущая ключевая точка начала отрезка.
 	/// Переменные в текущем отрезке (для формулы сплайна).
-	Val x0, lineLen, k0, k1, d0, d1;
+	Val w, lineLen, k0, k1, d0, d1;
 	Pos vCenter{vNaN, vNaN, vNaN};	///< Последний рассчитаный центр. Если x равны то пересчитывать не надо.
 	Vec3 vOy, vOz;	///< Оси производной у последней вершины.
 	/// Дополнительная смена осей при переключении плоскостей. Чтобы функции работали только с XY.
@@ -84,6 +88,7 @@ namespace GEng
 SplineCalc::SplineCalc(const vector<Pos>& aKey, Os osMain) :
 	aKey(aKey)
 {
+	aLen.resize(  aKey.size() - 1 );
 	aDerY.resize( aKey.size() );
 	aDerZ.resize( aKey.size() );
 	// Установка осей.
@@ -96,6 +101,13 @@ bool SplineCalc::Check() const
 }
 void SplineCalc::Calc()
 {
+	// Расчёт длины.
+	len = 0;
+	for (size_t k = 0; k < aLen.size(); ++k)
+	{
+		aLen[k] = glm::distance(aKey[k], aKey[k + 1]);
+		len += aLen[k];
+	}
 	// Расчёт производных в ключевых точках.
 		// Плоскость "XY".
 	SetPlaneXY();
@@ -107,7 +119,7 @@ void SplineCalc::Calc()
 }
 Val SplineCalc::GetLen()
 {
-	return aKey.back()[oX];
+	return len;
 }
 void SplineCalc::CalcPos(Pos& vert)
 {
@@ -119,7 +131,7 @@ void SplineCalc::CalcPos(Pos& vert)
 		// 1.1. По оси Y (при "XYZ" = ZXY это X).
 		assert(bXZ == 0);
 		SelectLine(vert[oX]); // Полный поиск отрезка.
-		const Val w = (vert[oX] - x0) / lineLen,  w2 = w * w,  w3 = w2 * w;
+		const Val w2 = w * w,  w3 = w2 * w;
 		const Val	r1 = 2*w3 - 3*w2 + 1,
 					r2 = -2*w3 + 3*w2,
 					r3 = w3 - 2*w2 + w,
@@ -128,23 +140,30 @@ void SplineCalc::CalcPos(Pos& vert)
 					r6 = -6*w2 + 6*w,
 					r7 = 3*w2 - 4*w + 1,
 					r8 = 3*w2 - 2*w;
+		if (bPrint)
+			std::cout	<< " k0: " << k0
+				<< " k1: " << k1
+				<< " d0: " << d0
+				<< " d1: " << d1
+				<< std::endl;
 		vCenter[oY] = k0 * r1 + k1 * r2 + d0 * r3 + d1 * r4; // Центр цилиндра.
 		Val dy		= k0 * r5 + k1 * r6 + d0 * r7 + d1 * r8; // Производная (за lineLen).
-		dy /= lineLen; // Приводим к обычной производной за 1.
 		// 1.2. По оси Z (Y при ZXY).
 		SetPlaneXZ(); // (При ZXY - это плоскость ZY.)
 		GetKD(); // Отрезок тот-же, просто берём переменные.
 		SetPlaneXY();
 		vCenter[oZ] = k0 * r1 + k1 * r2 + d0 * r3 + d1 * r4; // Центр цилиндра.
 		Val dz		= k0 * r5 + k1 * r6 + d0 * r7 + d1 * r8;
-		dz /= lineLen;
 		if (bPrint) std::cout << "vCenter = " << vCenter << std::endl;
 		// 2. Смещение на позицию вершины цилиндра (согласно направлению сплайна).
 		// 2.1. Нахождение оси X`.
-		Vec3 vOx;  vOx[oX] = 1;  vOx[oY] = dy;  vOx[oZ] = dz;
+		const Val x0 = aKey[iKey    ][oX];
+		const Val x1 = aKey[iKey + 1][oX];
+		const Val dx = x1 - x0;
+		Vec3 vOx;  vOx[oX] = dx;  vOx[oY] = dy;  vOx[oZ] = dz;
 		vOx = glm::normalize(vOx);
 		// 2.2. Нахождение оси Y`.
-		Vec2 vDxy(1, dy);
+		Vec2 vDxy(dx, dy);
 		vDxy = glm::normalize(vDxy);
 		glm::Rotate90(vDxy);
 		vOy[oX] = vDxy.x;  vOy[oY] = vDxy.y;  vOy[oZ] = 0;
@@ -185,7 +204,7 @@ void SplineCalc::CalcDer()
 	// Производная №0 (самая первая).
 	const Vec2 k0( aKey[0][oX],	aKey[0][oY]	);
 	const Vec2 k1( aKey[1][oX],	aKey[1][oY]	);
-	aDer[0] = (k1.y - k0.y) / (k1.x - k0.x);
+	aDer[0] = glm::normalize(k1 - k0).y;
 	if (bPrint) std::cout << "Der 0 = " << aDer[0] << std::endl;
 	// Производная №1+ (стандартные).
 	for (size_t i = 1; i < aKey.size() - 1; ++i)
@@ -211,7 +230,7 @@ void SplineCalc::CalcDer()
 			std::cout << "\tnormalize v1: " << v1 << "; normalize v2: " << v2
 					  << "\n\tv: " << v << std::endl;
 		// Средняя производная (между ней и ключевыми отрезками равные углы).
-		aDer[i] = v.y / v.x;
+		aDer[i] = glm::normalize(v).y;
 		if (bPrint)
 			std::cout << "Der " << i << " = " << aDer[i] << std::endl;
 	}
@@ -220,30 +239,48 @@ void SplineCalc::CalcDer()
 	const size_t l = p + 1;
 	const Vec2 kp( aKey[p][oX],	aKey[p][oY]	);
 	const Vec2 kl( aKey[l][oX],	aKey[l][oY]	);
-	aDer[l] = (kl.y - kp.y) / (kl.x - kp.x);
+	aDer[l] = glm::normalize(kl - kp).y;
 	if (bPrint) std::cout << "Der " << l << " = " << aDer[l] << std::endl;
 }
 bool SplineCalc::SelectLine(Val x)
 {
 	// Поиск начальной ключевой точки (отрезка сплайна).
-	for (iKey = 1; iKey < aKey.size(); ++iKey)
-		if ( x <= aKey[iKey][oX] )
+	const Val dist = x * GetLen();
+	Val distKey = 0;
+	for (iKey = 0; iKey < aLen.size(); ++iKey)
+	{
+		distKey += aLen[iKey];
+		if (dist <= distKey)
 			break;
+	}
 
-	if ( iKey >= aKey.size() )
+	if ( iKey >= aLen.size() )
 	{
 		if (bPrint)
-			std::cout << "Не найден отрезок: x = " << x
-					  << " X_back = " << aKey.back()[oX] << std::endl;
+			std::cerr << "Не найден отрезок: dist = " << dist
+					  << " len = " << GetLen() << std::endl;
 		iKey = aKey.size() - 2;
 		//return false;
-	} else
-		--iKey;
+	}
 
 	// Переменные отрезка.
-	x0      = aKey[iKey][oX];
-	Val x1  = aKey[iKey + 1][oX];
-	lineLen = x1 - x0;
+	lineLen = aLen[iKey];
+	distKey -= lineLen;
+	w = (dist - distKey) / lineLen;
+	if (bPrint)
+	{
+		std::cout	<< " x: " << x
+			<< " iKey: " << iKey
+			<< " distKey: " << distKey
+			<< " lineLen: " << lineLen
+			<< " w: " << w
+			<< std::endl;
+		if (w < 0.0 || w > 1.0)
+		{
+			std::cerr << "w != 0..1, w = " << w << std::endl;
+			assert(0);
+		}
+	}
 
 	GetKD();
 
