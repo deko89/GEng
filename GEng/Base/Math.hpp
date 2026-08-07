@@ -197,6 +197,12 @@ void SplineCalc::SetPlaneXZ()
 		case osZ:	oY = osY;	oZ = osX;	break;
 	}
 }
+inline Val CalcDerVec(const Vec2 v)
+{
+	if ( IsApproxZero(v) )
+		return 0;
+	return glm::normalize(v).y;
+}
 void SplineCalc::CalcDer()
 {
 	vector<Val>& aDer = bXZ? aDerZ: aDerY;
@@ -204,7 +210,7 @@ void SplineCalc::CalcDer()
 	// Производная №0 (самая первая).
 	const Vec2 k0( aKey[0][oX],	aKey[0][oY]	);
 	const Vec2 k1( aKey[1][oX],	aKey[1][oY]	);
-	aDer[0] = glm::normalize(k1 - k0).y;
+	aDer[0] = CalcDerVec(k1 - k0);
 	if (bPrint) std::cout << "Der 0 = " << aDer[0] << std::endl;
 	// Производная №1+ (стандартные).
 	for (size_t i = 1; i < aKey.size() - 1; ++i)
@@ -217,20 +223,37 @@ void SplineCalc::CalcDer()
 		Vec2 v1 = k1 - k0; // До.
 		Vec2 v2 = k2 - k1; // После.
 		if (bPrint)
-		{	std::cout << "Calc Der " << i << std::endl;
+		{	std::cout << "\tCalc Der " << i << std::endl;
 			std::cout << "\tk0 " << k0 << "; k1 " << k1 << "; k2 " << k2
 					  << "\n\tv1 " << v1 << "; v2 " << v2 << std::endl;
 		}
 		// Нормализация. Нужна для нахождения среднего по углу.
-		v1 = glm::normalize(v1);
-		v2 = glm::normalize(v2);
+		if (IsApproxZero(v1) == false)
+			v1 = glm::normalize(v1);
+		if (IsApproxZero(v2) == false)
+			v2 = glm::normalize(v2);
 		// Нахождение среднего вектора.
 		Vec2 v = v1 + v2;
 		if (bPrint)
 			std::cout << "\tnormalize v1: " << v1 << "; normalize v2: " << v2
 					  << "\n\tv: " << v << std::endl;
 		// Средняя производная (между ней и ключевыми отрезками равные углы).
-		aDer[i] = glm::normalize(v).y;
+		if ( IsApproxZero(v) )
+		{
+			if (bPrint)
+				std::cout << "\tIsApproxZero(v)" << std::endl;
+			if ( IsApproxZero(v1) )
+			{
+				if (bPrint)
+					std::cout << "\tIsApproxZero(v1)" << std::endl;
+				if ( IsApproxZero(v2) )
+					aDer[i] = 0;
+				else
+					aDer[i] = v2.x; // x т.к. после поворота на 90 это y.
+			} else
+				aDer[i] = v1.x;
+		} else
+			aDer[i] = glm::normalize(v).y;
 		if (bPrint)
 			std::cout << "Der " << i << " = " << aDer[i] << std::endl;
 	}
@@ -239,7 +262,7 @@ void SplineCalc::CalcDer()
 	const size_t l = p + 1;
 	const Vec2 kp( aKey[p][oX],	aKey[p][oY]	);
 	const Vec2 kl( aKey[l][oX],	aKey[l][oY]	);
-	aDer[l] = glm::normalize(kl - kp).y;
+	aDer[l] = CalcDerVec(kl - kp);
 	if (bPrint) std::cout << "Der " << l << " = " << aDer[l] << std::endl;
 }
 bool SplineCalc::SelectLine(Val x)

@@ -33,8 +33,8 @@ void ModelTrunk::Update()
 	// Расчёт данных.
 	Val len = glm::distance(aKey[0], aKey.back());
 	d = rD * len;
-	sgmL = len * nSgmLen;
-	sgmC = d * nSgmD;
+	sgmL = 2;//db len * nSgmLen;
+	sgmC = 4;//db d * nSgmD;
 	if (sgmC < 2) sgmC = 2;
 
 	if (logLvl)
@@ -65,14 +65,14 @@ ModelTree::ModelTree()
 void ModelTree::Update()
 {
 	// Ствол.
-	Val hStep = h / 4;
+	Val hStep = h / 2;
 	vector<Pos> aTrunk
 	{
 		{0,		0,		0},
 		{0.1,	0,		hStep},
-		{0,		0.1,	hStep * 2},
-		{0.1,	0, 		hStep * 3},
-		{0.1,	0, 		hStep * 4}
+		{0,		0,		hStep * 2},
+		//{0.1,	0, 		hStep * 3},
+		//{0.1,	0, 		hStep * 4}
 	};
 
 /*	SplineCalc trunkCalc(aTrunk, osZ);
