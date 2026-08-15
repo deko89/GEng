@@ -15,7 +15,7 @@ const size_t iModifSpline = 1; // Позиция Modifs::Spline.
 ModelTrunk::ModelTrunk(const vector<Pos>& aKey, Os os)
 {
 	ModelCylinder::os = os;
-	modif.Make<Modifs::Taper>(0.008 / d, os);
+	modif.Make<Modifs::Taper>(1, os);
 	modif.Make<Modifs::Spline>(aKey, os); // Соответствует iModifSpline.
 	Update();
 }
@@ -31,11 +31,11 @@ void ModelTrunk::Update()
 	}
 
 	// Расчёт данных.
-	Val len = glm::distance(aKey[0], aKey.back());
+	len = LengthPolyline(aKey);
 	d = rD * len;
-	sgmL = 2;//db len * nSgmLen;
-	sgmC = 4;//db d * nSgmD;
-	if (sgmC < 2) sgmC = 2;
+	sgmL = len * nSgmLen;
+	sgmC = d * nSgmD;
+	if (sgmC < 4) sgmC = 4;
 
 	if (logLvl)
 		std::cout	<< "ModelTrunk::Update"
@@ -69,7 +69,7 @@ void ModelTree::Update()
 	vector<Pos> aTrunk
 	{
 		{0,		0,		0},
-		{0.1,	0,		hStep},
+		{0.3,	0,		hStep},
 		{0,		0,		hStep * 2},
 		//{0.1,	0, 		hStep * 3},
 		//{0.1,	0, 		hStep * 4}

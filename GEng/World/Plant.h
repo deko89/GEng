@@ -23,7 +23,7 @@ class ModelTrunk : public ModelCylinder
 
 class ModelTree : public Model
 {	public:
-	Val h = 10;		///< Высота.
+	Val h = 1;		///< Высота.
 	Val w = h / 3;	///< Ширина.
 	uint32_t seed = 0;
 	const uint8_t logLvl = 1;	///< Печать отладочной информации.
