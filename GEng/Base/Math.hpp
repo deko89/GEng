@@ -15,6 +15,26 @@ namespace glm
 		v.y = x;
 	}
 
+	/// Поворот 2d вектора v на угол между единичными векторами a и b.
+	/// (угол поворота = угол b - угол a)
+	template<typename T, qualifier Q>
+	GLM_FUNC_QUALIFIER vec<2, T, Q> RotateAVN(
+		vec<2, T, Q> v,
+		vec<2, T, Q> a,
+		vec<2, T, Q> b)
+	{
+		assert(glm::abs(glm::length(a) - T(1)) < T(GEng::epsBase));
+		assert(glm::abs(glm::length(b) - T(1)) < T(GEng::epsBase));
+		// Проекция v на a.
+		const T x = a.x * v.x + a.y * v.y;
+		const T y = a.x * v.y - a.y * v.x;
+		// Проекция v на b.
+		const vec<2, T, Q> vbx = b * x;
+		Rotate90(b);
+		const vec<2, T, Q> vby = b * y;
+		return vbx + vby;
+	}
+
 	template<length_t L, typename T, qualifier Q>
 	GLM_FUNC_QUALIFIER vec<L, T, Q> Normalize(vec<L, T, Q> const v)
 	{
@@ -39,6 +59,7 @@ struct KeySpline
 {
 	Pos pos;	///< Позиция.
 	Vec3 d;		///< Производная нормализованная.
+	Val len;	///< Длина отрезка сплайна (после этой точки до следующей).
 };
 
 inline std::ostream& operator<<(std::ostream& os, const KeySpline& k)
@@ -83,7 +104,6 @@ struct SplineCalc
 	void CalcPos(Pos& vert);
 private:
 	vector<KeySpline> aKey;	///< Ключевые точки.
-	vector<Val> aLen;		///< Длины отрезков (между ключевыми точками).
 	Val len = 0;			///< Длина.
 	size_t iKey = 0;		///< Текущая ключевая точка начала отрезка.
 	Val x = vNaN;			///< Общая позиция сплайна 0..len.
@@ -120,7 +140,6 @@ Val LengthPolyline(const vector<Pos>& aPos)
 // SplineCalc ////////////////////////////////////////////////////////
 SplineCalc::SplineCalc(const vector<Pos>& aKey, Os osMain)
 {
-	aLen.resize( aKey.size() - 1 );
 	this->aKey.resize( aKey.size() );
 	for (size_t k = 0; k < aKey.size(); ++k)
 		this->aKey[k].pos = aKey[k];
@@ -133,10 +152,10 @@ void SplineCalc::Calc()
 {
 	// Расчёт длины.
 	len = 0;
-	for (size_t k = 0; k < aLen.size(); ++k)
+	for (size_t k = 0; k < aKey.size() - 1; ++k)
 	{
-		aLen[k] = glm::distance(aKey[k].pos, aKey[k + 1].pos);
-		len += aLen[k];
+		aKey[k].len = glm::distance(aKey[k].pos, aKey[k + 1].pos);
+		len += aKey[k].len;
 	}
 	// Расчёт производных в ключевых точках.
 	CalcDer();
@@ -242,14 +261,14 @@ bool SplineCalc::SelectLine()
 {
 	// Поиск начальной ключевой точки (отрезка сплайна).
 	Val dist = 0;
-	for (iKey = 0; iKey < aLen.size(); ++iKey)
+	for (iKey = 0; iKey < aKey.size() - 1; ++iKey)
 	{
-		dist += aLen[iKey];
+		dist += aKey[iKey].len;
 		if (x <= dist)
 			break;
 	}
 
-	if ( iKey >= aLen.size() )
+	if (iKey >= aKey.size() - 1)
 	{
 		if (bPrint)
 			std::cerr << "Не найден отрезок: x = " << x
@@ -259,7 +278,7 @@ bool SplineCalc::SelectLine()
 	}
 
 	// Переменные отрезка.
-	const Val lineLen = aLen[iKey];
+	const Val lineLen = aKey[iKey].len;
 	dist -= lineLen;
 	w = (x - dist) / lineLen;
 	if (bPrint)
@@ -282,7 +301,7 @@ bool SplineCalc::SelectLine()
 }
 CoefficientSpline SplineCalc::GetCoefficient(OsType os)
 {
-	const Val lineLen = aLen[iKey];
+	const Val lineLen = aKey[iKey].len;
 	CoefficientSpline c;
 	c.k0 = aKey[iKey].pos[os];
 	c.k1 = aKey[iKey + 1].pos[os];
