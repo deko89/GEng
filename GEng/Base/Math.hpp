@@ -58,13 +58,14 @@ Val LengthPolyline(const vector<Pos>& aPos);
 struct KeySpline
 {
 	Pos pos;	///< Позиция.
-	Vec3 d;		///< Производная нормализованная.
+	Vec3 t;		///< tangent / вперёд / ось x. Производная нормализованная.
+	Vec3 b;		///< binormal / вправо / ось y.
 	Val len;	///< Длина отрезка сплайна (после этой точки до следующей).
 };
 
 inline std::ostream& operator<<(std::ostream& os, const KeySpline& k)
 {
-	return os << "pos " << k.pos << "\td " << k.d;
+	return os << "pos " << k.pos << "\td " << k.t;
 }
 
 /// Коэффициенты для уравнения отрезка сплайна (в 2d).
@@ -104,12 +105,12 @@ struct SplineCalc
 	void CalcPos(Pos& vert);
 private:
 	vector<KeySpline> aKey;	///< Ключевые точки.
-	Val len = 0;			///< Длина.
+	Val len = 0;			///< Длина всего сплайна.
 	size_t iKey = 0;		///< Текущая ключевая точка начала отрезка.
 	Val x = vNaN;			///< Общая позиция сплайна 0..len.
 	Val w;					///< Позиция в текущем отрезке 0..1.
-	Pos vCenter;			///< Последний рассчитаный центр.
-	Vec3 vOy, vOz;			///< Оси производной у последней вершины.
+	Pos vCenter;			///< Текущая позиция на сплайне.
+	Vec3 vOy, vOz;			///< Оси ориентации в текущей позиции.
 	void CalcDer();			///< Рассчитать производные.
 	bool SelectLine();		///< Установить подходящий отрезок для значения x.
 	/// Получить коэффициенты текущего отрезка для оси os.
@@ -221,8 +222,8 @@ void SplineCalc::CalcPos(Pos& vert)
 void SplineCalc::CalcDer()
 {
 	// Производная №0 (самая первая).
-	aKey[0].d = Normalize(aKey[1].pos - aKey[0].pos);
-	if (bPrint) std::cout << "Der 0 = " << aKey[0].d << std::endl;
+	aKey[0].t = Normalize(aKey[1].pos - aKey[0].pos);
+	if (bPrint) std::cout << "Der 0 = " << aKey[0].t << std::endl;
 	// Производная №1+ (стандартные).
 	for (size_t i = 1; i < aKey.size() - 1; ++i)
 	{
@@ -247,15 +248,15 @@ void SplineCalc::CalcDer()
 			std::cout << "	normalize v1: " << v1 << "; normalize v2: " << v2
 					  << "\n	v: " << v << std::endl;
 		// Средняя производная (между ней и ключевыми отрезками равные углы).
-		aKey[i].d = Normalize(v);
+		aKey[i].t = Normalize(v);
 		if (bPrint)
-			std::cout << "Der " << i << " = " << aKey[i].d << std::endl;
+			std::cout << "Der " << i << " = " << aKey[i].t << std::endl;
 	}
 	// Производная №N (самая последняя).
 	const size_t p = aKey.size() - 2;
 	const size_t l = p + 1;
-	aKey[l].d = Normalize(aKey[l].pos - aKey[p].pos);
-	if (bPrint) std::cout << "Der " << l << " = " << aKey[l].d << std::endl;
+	aKey[l].t = Normalize(aKey[l].pos - aKey[p].pos);
+	if (bPrint) std::cout << "Der " << l << " = " << aKey[l].t << std::endl;
 }
 bool SplineCalc::SelectLine()
 {
@@ -305,8 +306,8 @@ CoefficientSpline SplineCalc::GetCoefficient(OsType os)
 	CoefficientSpline c;
 	c.k0 = aKey[iKey].pos[os];
 	c.k1 = aKey[iKey + 1].pos[os];
-	c.d0 = aKey[iKey].d[os] * lineLen;
-	c.d1 = aKey[iKey + 1].d[os] * lineLen;
+	c.d0 = aKey[iKey].t[os] * lineLen;
+	c.d1 = aKey[iKey + 1].t[os] * lineLen;
 	return c;
 }
 
