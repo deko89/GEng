@@ -113,30 +113,29 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 			  *pEnd  = pVert + nVertC;
 	// Цикл создания, по сегментам окружности.
 	const Val rad = d * 0.5;
-	const Val angleStep = 2 * pi / sgmC,	// Шаг угла.
-			  lStep = len / sgmL;			// Шаг длины.
+	const Val angleStep = 2 * pi / sgmC;	// Шаг угла.
 	Val angle = 0;
 	for (; pVert < pEndC; ++pVert, angle += angleStep)
-	{	// Позиция внизу (на остальных уровнях будет аналогично).
+	{	// Позиция в начале (на остальных уровнях будет аналогично).
 		pVert->y = cos(angle) * rad;
 		pVert->z = sin(angle) * rad;
 		pVert->x = 0;
-		// Устанавливаем данные по вертикали (на уровнях выше).
-		Val l = lStep;
+		// Устанавливаем данные на следующих уровнях.
+		ValN l = 1;
 		for (Pos* pVertH = pVert + nVR;
 			 pVertH < pEnd;
-			 pVertH += nVR, l += lStep)
+			 pVertH += nVR, ++l)
 		{	pVertH->y = pVert->y;
 			pVertH->z = pVert->z;
-			pVertH->x = l;
+			pVertH->x = len / sgmL * l;
 		}
 	}
-	// Создание дна.
+	// Закрытие начала.
 	if (bCloseB)
 	{	pVert = data() + (size() - (bCloseE? 2: 1));
 		pVert->x = 0; pVert->y = 0; pVert->z = 0;
 	}
-	// Создание крышки.
+	// Закрытие конца.
 	if (bCloseE)
 	{	pVert = data() + (size() - 1);
 		pVert->x = len; pVert->y = 0; pVert->z = 0;

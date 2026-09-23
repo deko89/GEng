@@ -18,7 +18,7 @@ namespace glm
 	/// Поворот 2d вектора v на угол между единичными векторами a и b.
 	/// (угол поворота = угол b - угол a)
 	template<typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<2, T, Q> RotateAVN(
+	GLM_FUNC_QUALIFIER vec<2, T, Q> RotateFromToN(
 		vec<2, T, Q> v,
 		vec<2, T, Q> a,
 		vec<2, T, Q> b)
@@ -58,14 +58,14 @@ Val LengthPolyline(const vector<Pos>& aPos);
 struct KeySpline
 {
 	Pos pos;	///< Позиция.
-	Vec3 t;		///< tangent / вперёд / ось x. Производная нормализованная.
+	Vec3 t;		///< tangent / вперёд / ось x / производная нормализованная.
 	Vec3 b;		///< binormal / вправо / ось y.
 	Val len;	///< Длина отрезка сплайна (после этой точки до следующей).
 };
 
 inline std::ostream& operator<<(std::ostream& os, const KeySpline& k)
 {
-	return os << "pos " << k.pos << "\td " << k.t;
+	return os << "KeySpline(pos = " << k.pos << "; t = " << k.t << "; b = " << k.b << "; len = " << k.len << ")";
 }
 
 /// Коэффициенты для уравнения отрезка сплайна (в 2d).
@@ -84,7 +84,7 @@ inline std::ostream& operator<<(std::ostream& os, const CoefficientSpline& c)
 /// Калькулятор сплайна (в 3d).
 struct SplineCalc
 {
-	const bool bPrint = 1;	///< Печать отладочной информации.
+	const bool bPrint = 0;	///< Печать отладочной информации.
 	/** @brief Конструктор.
 		param[in] aKey - ключевые точки сплайна.
 		param[in] osMain - основная ось, вдоль которой идёт цилиндр для сплайна. */
@@ -126,6 +126,9 @@ private:
 #ifdef M_IncludeCpp
 
 #include <cmath>
+#include <glm/gtc/quaternion.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 namespace GEng
 {
@@ -165,6 +168,24 @@ Val SplineCalc::GetLen()
 {
 	return len;
 }
+Vec3 CalcBinormal(Vec3 tangent)
+{
+	Vec2 t(tangent.x, tangent.y);
+	if ( IsApproxZero(t) )
+	{
+		return Vec3(0,1,0);
+	}
+	t = glm::normalize(t);
+	glm::Rotate90(t);
+	return Vec3(t.x, t.y, 0);
+}
+Vec3 CalcBinormal(Vec3 binormal1, Vec3 tangent1, Vec3 tangent2)
+{
+    assert(glm::abs(glm::length(tangent1) - 1) < GEng::epsBase);
+    assert(glm::abs(glm::length(tangent2) - 1) < GEng::epsBase);
+    glm::quat q = glm::rotation(tangent1, tangent2);
+    return glm::rotate(q, binormal1);
+}
 void SplineCalc::CalcPos(Pos& vert)
 {
 	if (bPrint) std::cout << "vert (begin) = " << vert << std::endl;
@@ -198,16 +219,7 @@ void SplineCalc::CalcPos(Pos& vert)
 		// 2.1. Нахождение оси X`.
 		vOx = Normalize(vOx);
 		// 2.2. Нахождение оси Y`.
-		Vec2 vDxy(vOx.x, vOx.y);
-		if ( IsApproxZero(vDxy) )
-		{
-			vOy = {0,1,0};
-		} else
-		{
-			vDxy = Normalize(vDxy);
-			glm::Rotate90(vDxy);
-			vOy.x = vDxy.x;  vOy.y = vDxy.y;  vOy.z = 0;
-		}
+		vOy = CalcBinormal(aKey[iKey].b, aKey[iKey].t, vOx);
 		// 2.3. Нахождение оси Z`.
 		vOz = Normalize(glm::cross(vOx, vOy));
 		if (bPrint) std::cout << "	vOx = " << vOx << "; vOy = " << vOy << "; vOz = " << vOz << std::endl;
@@ -223,7 +235,11 @@ void SplineCalc::CalcDer()
 {
 	// Производная №0 (самая первая).
 	aKey[0].t = Normalize(aKey[1].pos - aKey[0].pos);
-	if (bPrint) std::cout << "Der 0 = " << aKey[0].t << std::endl;
+	aKey[0].b = CalcBinormal(aKey[0].t);
+	if (bPrint)
+		std::cout	<< "Calc Der 0\n"
+					<< "	t = " << aKey[0].t
+					<< "; b = " << aKey[0].b << std::endl;
 	// Производная №1+ (стандартные).
 	for (size_t i = 1; i < aKey.size() - 1; ++i)
 	{
@@ -235,9 +251,9 @@ void SplineCalc::CalcDer()
 		Vec3 v1 = k1 - k0; // До.
 		Vec3 v2 = k2 - k1; // После.
 		if (bPrint)
-		{	std::cout << "	Calc Der " << i << std::endl;
-			std::cout << "	k0 " << k0 << "; k1 " << k1 << "; k2 " << k2
-					  << "\n	v1 " << v1 << "; v2 " << v2 << std::endl;
+		{	std::cout << "Calc Der " << i << std::endl;
+			std::cout << "	k0 = " << k0 << "; k1 = " << k1 << "; k2 = " << k2
+					  << "\n	v1 = " << v1 << "; v2 = " << v2 << std::endl;
 		}
 		// Нормализация. Нужна для нахождения среднего по углу.
 		v1 = Normalize(v1);
@@ -245,18 +261,24 @@ void SplineCalc::CalcDer()
 		// Нахождение среднего вектора.
 		Vec3 v = v1 + v2;
 		if (bPrint)
-			std::cout << "	normalize v1: " << v1 << "; normalize v2: " << v2
-					  << "\n	v: " << v << std::endl;
+			std::cout << "	normalize v1 = " << v1 << "; normalize v2 = " << v2
+					  << "\n	v1 + v2 = " << v << std::endl;
 		// Средняя производная (между ней и ключевыми отрезками равные углы).
 		aKey[i].t = Normalize(v);
+		aKey[i].b = CalcBinormal(aKey[i - 1].b, aKey[i - 1].t, aKey[i].t);
 		if (bPrint)
-			std::cout << "Der " << i << " = " << aKey[i].t << std::endl;
+			std::cout	<< "	t = " << aKey[i].t
+						<< "; b = " << aKey[i].b << std::endl;
 	}
 	// Производная №N (самая последняя).
 	const size_t p = aKey.size() - 2;
 	const size_t l = p + 1;
 	aKey[l].t = Normalize(aKey[l].pos - aKey[p].pos);
-	if (bPrint) std::cout << "Der " << l << " = " << aKey[l].t << std::endl;
+	aKey[l].b = CalcBinormal(aKey[p].b, aKey[p].t, aKey[l].t);
+	if (bPrint)
+		std::cout	<< "Calc Der " << l << std::endl
+					<< "	t = " << aKey[l].t
+					<< "; b = " << aKey[l].b << std::endl;
 }
 bool SplineCalc::SelectLine()
 {
@@ -284,18 +306,18 @@ bool SplineCalc::SelectLine()
 	w = (x - dist) / lineLen;
 	if (bPrint)
 	{
-		std::cout	<< "	x: " << x
-			<< " iKey: " << iKey
-			<< " beginKey: " << dist
-			<< " lineLen: " << lineLen
-			<< " w: " << w
-			<< "\n	Key 1: " << aKey[iKey]
-			<< "\n	Key 2: " << aKey[iKey + 1]
+		std::cout	<< "	x = " << x
+			<< "; iKey = " << iKey
+			<< "; beginKey = " << dist
+			<< "; lineLen = " << lineLen
+			<< "; w = " << w
+			<< "\n	Key 1 = " << aKey[iKey]
+			<< "\n	Key 2 = " << aKey[iKey + 1]
 			<< std::endl;
 		if (w < 0.0 || w > 1.0)
 		{
-			std::cerr << "w != 0..1, w = " << w << std::endl;
-			assert(0); //db
+			std::cerr << "w < 0 || w > 1; w = " << w << std::endl;
+			assert(0);
 		}
 	}
 	return true;
