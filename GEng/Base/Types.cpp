@@ -122,13 +122,13 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 		pVert->z = sin(angle) * rad;
 		pVert->x = 0;
 		// Устанавливаем данные на следующих уровнях.
-		Val l = lStep;
+		ValN l = 1;
 		for (Pos* pVertH = pVert + nVR;
 			 pVertH < pEnd;
-			 pVertH += nVR, l += lStep)
+			 pVertH += nVR, ++l)
 		{	pVertH->y = pVert->y;
 			pVertH->z = pVert->z;
-			pVertH->x = l;
+			pVertH->x = lStep * l;
 		}
 	}
 	// Закрытие начала.
