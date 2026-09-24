@@ -117,11 +117,11 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 			  lStep = len / sgmL;			// Шаг длины.
 	Val angle = 0;
 	for (; pVert < pEndC; ++pVert, angle += angleStep)
-	{	// Позиция внизу (на остальных уровнях будет аналогично).
+	{	// Позиция вначале (на остальных уровнях будет аналогично).
 		pVert->y = cos(angle) * rad;
 		pVert->z = sin(angle) * rad;
 		pVert->x = 0;
-		// Устанавливаем данные по вертикали (на уровнях выше).
+		// Устанавливаем данные на следующих уровнях.
 		Val l = lStep;
 		for (Pos* pVertH = pVert + nVR;
 			 pVertH < pEnd;
@@ -131,12 +131,12 @@ void Points::MakeCylinder(Val d, Val len, ValN sgmC, ValN sgmL,
 			pVertH->x = l;
 		}
 	}
-	// Создание дна.
+	// Закрытие начала.
 	if (bCloseB)
 	{	pVert = data() + (size() - (bCloseE? 2: 1));
 		pVert->x = 0; pVert->y = 0; pVert->z = 0;
 	}
-	// Создание крышки.
+	// Закрытие конца.
 	if (bCloseE)
 	{	pVert = data() + (size() - 1);
 		pVert->x = len; pVert->y = 0; pVert->z = 0;
