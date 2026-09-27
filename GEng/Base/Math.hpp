@@ -14,6 +14,31 @@ namespace glm
 		v.x = -v.y;
 		v.y = x;
 	}
+
+	/**	@brief Поворот 2D-вектора v на угол между a и b.
+			Угол поворота = угол b − угол a.
+		@param[in] v - поворачиваемый вектор.
+		@param[in] a - единичный вектор, начало поворота.
+		@param[in] b - единичный вектор, конец поворота.
+		@return Повёрнутый вектор. */
+	template<typename T, qualifier Q>
+	GLM_FUNC_QUALIFIER vec<2, T, Q> RotateFromTo(
+		vec<2, T, Q> v,
+		vec<2, T, Q> a,
+		vec<2, T, Q> b)
+	{
+		assert(glm::abs(glm::length(a) - 1) < GEng::epsBase);
+		assert(glm::abs(glm::length(b) - 1) < GEng::epsBase);
+		// Проекция v на a.
+		const T x = a.x * v.x + a.y * v.y;
+		const T y = a.x * v.y - a.y * v.x;
+		// Проекция v на b.
+		const vec<2, T, Q> vbx = b * x;
+		Rotate90(b);
+		const vec<2, T, Q> vby = b * y;
+		return vbx + vby;
+	}
+
 }
 
 namespace GEng
