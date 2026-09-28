@@ -39,6 +39,13 @@ namespace glm
 		return vbx + vby;
 	}
 
+	template<length_t L, typename T, qualifier Q>
+	GLM_FUNC_QUALIFIER vec<L, T, Q> Normalize(vec<L, T, Q> v)
+	{
+		if ( GEng::IsApproxZero(v) )
+			return vec<L, T, Q>(0);
+		return glm::normalize(v);
+	}
 }
 
 namespace GEng
