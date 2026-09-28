@@ -53,6 +53,11 @@ namespace GEng
 
 using std::vector;
 
+/**	@brief Длина ломаной.
+	@param[in] aPos - массив позиций.
+	@return Длина ломаной. */
+Val LengthPolyline(const vector<Pos>& aPos);
+
 /// Калькулятор сплайна (в 3d).
 struct SplineCalc
 {
@@ -112,6 +117,14 @@ private:
 namespace GEng
 {
 
+Val LengthPolyline(const vector<Pos>& aPos)
+{
+	if (aPos.size() < 2) return 0;
+	Val len = 0;
+	for (size_t i = 0; i < aPos.size() - 1; ++i)
+		len += glm::distance(aPos[i], aPos[i + 1]);
+	return len;
+}
 // SplineCalc ////////////////////////////////////////////////////////
 SplineCalc::SplineCalc(const vector<Pos>& aKey, Os osMain) :
 	aKey(aKey)
