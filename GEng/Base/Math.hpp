@@ -107,7 +107,8 @@ struct SplineCalc
 	const bool bPrint = 0;	///< Печать отладочной информации.
 	/** @brief Конструктор.
 		@param[in] aKey - ключевые точки сплайна.
-		@param[in] osMain - основная ось, вдоль которой идёт цилиндр для сплайна. */
+		@param[in] osMain - основная ось, вдоль которой идёт цилиндр для сплайна.
+		@todo Параметр osMain пока не реализован. */
 	SplineCalc(const vector<Pos>& aKey, Os osMain = osX);
 	bool Check() const;		///< Проверить (правильные ли параметры на входе).
 	void Calc();			///< Рассчитать необходимые общие параметры.
