@@ -1,4 +1,5 @@
 #include "Plant.h"
+#include "GEng/Base/Meta/Meta.h"
 
 namespace GEng
 {
@@ -25,7 +26,7 @@ void ModelTrunk::Update()
 	}
 
 	// Расчёт данных.
-	len = aKey.back()[os];
+	len = LengthPolyline(aKey);
 	d = rD * len;
 	sgmL = len * nSgmLen;
 	sgmC = d * nSgmD;
