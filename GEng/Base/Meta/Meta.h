@@ -41,6 +41,9 @@ using namespace std::chrono;
 	const char* const cPathFont = "fonts/DroidSans.ttf";
 #endif
 
+enum LogLvl : uint8_t {Log0, LogMin, LogStd, LogDebug, LogMax};
+const LogLvl logLvl = LogStd;
+
 // Простейшие типы.
 typedef GLfloat         Val;            ///< Число.
 typedef GLint           ValI;           ///< Целое число.

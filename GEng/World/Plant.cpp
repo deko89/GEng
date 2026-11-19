@@ -1,4 +1,5 @@
 #include "Plant.h"
+#include <iostream>
 #include "GEng/Base/Meta/Meta.h"
 
 namespace GEng
@@ -31,6 +32,14 @@ void ModelTrunk::Update()
 	sgmL = len * nSgmLen;
 	sgmC = d * nSgmD;
 	if (sgmC < 2) sgmC = 2;
+
+	if (logLvl >= LogDebug)
+		std::cout	<< "ModelTrunk::Update:"
+					<< " len = " << len
+					<< ", d = " << d
+					<< ", sgmL = " << sgmL
+					<< ", sgmC = " << sgmC
+					<< std::endl;
 
 	// Построение.
 	ModelCylinder::Update();
