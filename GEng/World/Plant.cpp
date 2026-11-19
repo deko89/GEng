@@ -7,11 +7,10 @@ namespace GEng
 ValN ModelTrunk::nSgmLen = 30;
 ValN ModelTrunk::nSgmD = nSgmLen * pi;
 const size_t iModifSpline = 1; // Позиция Modifs::Spline.
-ModelTrunk::ModelTrunk(const vector<Pos>& aKey, Os os)
+ModelTrunk::ModelTrunk(const vector<Pos>& aKey)
 {
-	ModelCylinder::os = os;
-	modif.Make<Modifs::Taper>(0.008 / d, os);
-	modif.Make<Modifs::Spline>(aKey, os); // Соответствует iModifSpline.
+	modif.Make<Modifs::Taper>(0.008 / d);
+	modif.Make<Modifs::Spline>(aKey); // Соответствует iModifSpline.
 	Update();
 }
 void ModelTrunk::Update()

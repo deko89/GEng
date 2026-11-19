@@ -14,7 +14,7 @@ class ModelTrunk : public ModelCylinder
 	Val rD = 0.04;			///< Коэффициент диаметра на 1 м длины.
 	/** Конструктор.
 		param[in] aKey - ключевые точки (через которые проходит). */
-	ModelTrunk(const vector<Pos>& aKey, Os os = osX);
+	ModelTrunk(const vector<Pos>& aKey);
 	void Update(); ///< Обновить модель (применить новые данные).
 	vector<Pos>& GetKey(); ///< Получить ключевые точки (через которые проходит).
 };
