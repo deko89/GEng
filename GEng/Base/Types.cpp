@@ -50,12 +50,12 @@ void Points::Modifs::Taper::Set(Points::Data& pData)
 	pData.aPoint->Taper(taper, pData.sz[osMain], osMain);
 }
 		// Spline ////////////////////////////////////////////////////
-Points::Modifs::Spline::Spline(const vector<Pos>& aKey, Os osMain) :
-	aKey(aKey), osMain(osMain)
+Points::Modifs::Spline::Spline(const vector<Pos>& aKey) :
+	aKey(aKey)
 {}
 void Points::Modifs::Spline::Set(Points::Data& pData)
 {
-	pData.aPoint->Spline(aKey, osMain);
+	pData.aPoint->Spline(aKey);
 }
 		// ~Spline ///////////////////////////////////////////////////
 void Points::Modifs::Set(Points::Data& pData)
@@ -211,9 +211,9 @@ void Points::Taper(Val t, Val length, Os osMain)
 			break;
 	}
 }
-void Points::Spline(const vector<Pos>& aKey, Os osMain)
+void Points::Spline(const vector<Pos>& aKey)
 {
-	SplineCalc splineCalc(aKey, osMain);
+	SplineCalc splineCalc(aKey);
 	if ( !splineCalc.Check() ) return;
 	splineCalc.Calc();
 	for (Pos& p : *this)
