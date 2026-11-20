@@ -111,6 +111,7 @@ struct SplineCalc
 		@todo Параметр osMain пока не реализован. */
 	SplineCalc(const vector<Pos>& aKey, Os osMain = osX);
 	bool Check() const;		///< Проверить (правильные ли параметры на входе).
+	bool IsCalc() const;
 	void Calc();			///< Рассчитать необходимые общие параметры.
 	Val GetLen();			///< Длина - сумма расстояний между ключевыми.
 	/** @brief Получить позицию.
@@ -172,6 +173,10 @@ SplineCalc::SplineCalc(const vector<Pos>& aKey, Os osMain)
 bool SplineCalc::Check() const
 {
 	return aKey.size() > 1;
+}
+bool SplineCalc::IsCalc() const
+{
+	return len > 0;
 }
 void SplineCalc::Calc()
 {

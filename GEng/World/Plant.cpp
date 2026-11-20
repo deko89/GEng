@@ -44,11 +44,11 @@ void ModelTrunk::Update()
 	// Построение.
 	ModelCylinder::Update();
 }
-vector<Pos>& ModelTrunk::GetKey()
+SplineCalc& ModelTrunk::GetSpline()
 {
 	Modifs::Spline* s = dynamic_cast<Modifs::Spline*>( modif[iModifSpline] );
 	assert(s);
-	return s->aKey;
+	return s->spline;
 }
 // ModelTree /////////////////////////////////////////////////////////
 Texture ModelTree::texBark;

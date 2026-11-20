@@ -76,7 +76,7 @@ class Points : public vector<Pos>
 			Строится из цилиндра идущего по оси X. */
 		struct Spline : public Modif
 		{
-			vector<Pos> aKey; ///< Ключевые точки, через которые проходит линия.
+			SplineCalc spline;
 			Spline(const vector<Pos>& aKey);
 			virtual void Set(Points::Data& pData) override;
 		};
@@ -125,8 +125,10 @@ class Points : public vector<Pos>
 	void Taper(Val t, Val length, Os osMain = osX);
 
 	/** Сплайн. Сделать из точек ("цилиндра") плавную кривую линию, проходящую через заданные точки.
-		param[in] aPoint - точки через которые проходит кривая; */
+		param[in] aPoint - точки через которые проходит кривая;
+		param[in] spline - готовый сплайн, уже Calc(); */
 	void Spline(const vector<Pos>& aKey);
+	void Spline(SplineCalc& spline);
 };
 
 typedef Points::Modifs Modifs;

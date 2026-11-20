@@ -16,7 +16,7 @@ class ModelTrunk : public ModelCylinder
 		param[in] aKey - ключевые точки (через которые проходит). */
 	ModelTrunk(const vector<Pos>& aKey);
 	void Update(); ///< Обновить модель (применить новые данные).
-	vector<Pos>& GetKey(); ///< Получить ключевые точки (через которые проходит).
+	SplineCalc& GetSpline();
 };
 
 class ModelTree : public Model

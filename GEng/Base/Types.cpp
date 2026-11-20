@@ -52,11 +52,18 @@ void Points::Modifs::Taper::Set(Points::Data& pData)
 }
 		// Spline ////////////////////////////////////////////////////
 Points::Modifs::Spline::Spline(const vector<Pos>& aKey) :
-	aKey(aKey)
-{}
+	spline(aKey)
+{
+	if ( !spline.Check() )
+	{
+		std::cerr << "No spline.Check()" << std::endl;
+		return;
+	}
+	spline.Calc();
+}
 void Points::Modifs::Spline::Set(Points::Data& pData)
 {
-	pData.aPoint->Spline(aKey);
+	pData.aPoint->Spline(spline);
 }
 		// ~Spline ///////////////////////////////////////////////////
 void Points::Modifs::Set(Points::Data& pData)
@@ -217,8 +224,13 @@ void Points::Spline(const vector<Pos>& aKey)
 	SplineCalc splineCalc(aKey);
 	if ( !splineCalc.Check() ) return;
 	splineCalc.Calc();
+	Spline(splineCalc);
+}
+void Points::Spline(SplineCalc& spline)
+{
+	assert( spline.IsCalc() );
 	for (Pos& p : *this)
-		splineCalc.CalcPos(p);
+		spline.CalcPos(p);
 }
 // Mesh /////////////////////////////////////////////////////////////
 void Mesh::MakeQuad(Val szX, Val szY)
