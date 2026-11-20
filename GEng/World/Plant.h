@@ -25,7 +25,7 @@ class ModelTree : public Model
 	Val w = 0.2;	///< Ширина.
 	ModelTree();
 	bool IsGroup() const override {return 1;}
-	const Models& GetModels() const override {return models;}
+	Models& GetModels() override {return models;}
 	void Update() override; ///< Обновить модель (применить параметры).
 protected:
 	Models models;

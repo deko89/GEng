@@ -19,7 +19,7 @@ class Model
 	virtual ClassModel* Class() const {return nullptr;}
 	virtual void SetClass(ClassModel* c) {}
 	virtual bool IsGroup() const {return 0;}
-	virtual const Models& GetModels() const;
+	virtual Models& GetModels();
 	virtual void SetTexture(Texture& tex) {}
 	// Позиция.
 	virtual Pos   GetPos() const {return Pos();}		///< Получить позицию.

@@ -14,7 +14,7 @@ void Model::Load(pugi::xml_node ndModel)
 {
 	SetPos( GEng::Load<Pos>( ndModel.child("pos") ) );
 }
-const Models& Model::GetModels() const
+Models& Model::GetModels()
 {
 	static Models a;
 	return a;
