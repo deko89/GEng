@@ -35,9 +35,9 @@ class ClassModelT : public ClassModel
 	Texture tex;
 	/// Создать экземпляр класса.
 	Model* Instance(Models& models) override
-	{	TypeModel* m = models.Make<TypeModel>();
-		m->SetClass(this);
-		return m;
+	{	TypeModel& m = models.Make<TypeModel>();
+		m.SetClass(this);
+		return &m;
 	}
 	bool SetClassPar(Model* m) override
 	{	m->SetTexture(tex);

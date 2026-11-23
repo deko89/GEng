@@ -70,7 +70,7 @@ View* Engine::CreateViewWorld()
 {
     // Создание вида.
     RectI posView {0, 0, gSzWndDef.x, gSzWndDef.y};
-    wnd.view = wnd.aView.Make(&proj.world, posView);
+    wnd.view = &wnd.aView.Make(&proj.world, posView);
     return wnd.view;
 }
 

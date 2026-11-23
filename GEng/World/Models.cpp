@@ -239,8 +239,8 @@ void Models::Load(pugi::xml_node ndModels)
 			m->Load(ndM);
         }
         for (xml_node ndM : ndGrMod.children("GroupLine"))
-        {	GroupLine* m = Make<GroupLine>();
-			m->Load(ndM);
+        {	GroupLine& m = Make<GroupLine>();
+			m.Load(ndM);
         }
     }
 }

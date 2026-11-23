@@ -35,15 +35,15 @@ void ClassModels::Load(const std::filesystem::path& path)
 			// Разбор.
 			Str type = ndSet.attribute("type").value();
 			if (type == ClassModel2d::nameType)
-			{	ClassModel2d* c = Make<ClassModel2d>();
-				c->SetName( dirEntry.path().filename().string() );
+			{	ClassModel2d& c = Make<ClassModel2d>();
+				c.SetName( dirEntry.path().filename().string() );
 				Str title = ndSet.attribute("title").value();
-				c->SetTitle(title.empty()? c->Name(): title);
-				c->size.y = ndSet.child("size").attribute("h").as_double();
-				Image img = c->tex.Load(
+				c.SetTitle(title.empty()? c.Name(): title);
+				c.size.y = ndSet.child("size").attribute("h").as_double();
+				Image img = c.tex.Load(
 					(dirEntry.path() / "img.png").string(),
 					TexPar{.alpha = true});
-				c->size.x = c->size.y * img.X() / img.Y();
+				c.size.x = c.size.y * img.X() / img.Y();
 			}
 		}
 	}
