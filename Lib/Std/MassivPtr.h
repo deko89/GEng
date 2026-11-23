@@ -11,7 +11,8 @@ template<class C> class MassivPtr: public std::vector<C*>
 	~MassivPtr() { clear(); }
 	C* Add() { C* p = new C;   Base::push_back(p);   return p; }
 	C* Add(C* p) { Base::push_back(p);   return p; }
-	template<typename T = C, typename... Arg> T* Make(Arg... arg) { T* p = new T(arg...);   Base::push_back(p);   return p; }
+	template<typename T = C, typename... Arg>
+		T& Make(Arg... arg) {T* p = new T(arg...);   Base::push_back(p);   return *p;}
 	void clear()
 	{
 		for (C* e: *this) delete e;

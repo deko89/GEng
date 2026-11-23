@@ -47,7 +47,7 @@ void TreeGen::Generate()
 {
 	World& world = GetEng().proj.world;
 	world.models.clear();
-	ModelTree* mod = world.models.Make<ModelTree>();
+	world.models.Make<ModelTree>();
 }
 
 Menu* TreeGen::CreateMenu()
