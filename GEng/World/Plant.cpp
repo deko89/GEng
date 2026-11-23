@@ -17,17 +17,8 @@ ModelTrunk::ModelTrunk(const vector<Pos>& aKey)
 }
 void ModelTrunk::Update()
 {
-	vector<Pos>& aKey = GetKey();
-
-	// Проверка.
-	if (aKey.size() < 2)
-	{
-		assert(0);
-		return;
-	}
-
 	// Расчёт данных.
-	len = LengthPolyline(aKey);
+	len = GetSpline().GetLen();
 	d = rD * len;
 	sgmL = len * nSgmLen;
 	sgmC = d * nSgmD;
