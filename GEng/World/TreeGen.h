@@ -19,6 +19,8 @@ class TreeGen
 	void Generate(); ///< Создать дерево / куст по параметрам.
 protected:
     std::filesystem::path path; ///< Путь до растения.
+    ModelTree* tree = nullptr;
+	Texture texBark; //tmp
 };
 
 TreeGen& GetTreeGen();

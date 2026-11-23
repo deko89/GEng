@@ -23,10 +23,9 @@ class ModelTree : public Model
 {	public:
 	Val h = 10;		///< Высота.
 	Val w = 0.2;	///< Ширина.
-	ModelTree();
+	uint32_t seed = 0;
 	bool IsGroup() const override {return 1;}
 	Models& GetModels() override {return models;}
-	void Update() override; ///< Обновить модель (применить параметры).
 protected:
 	Models models;
 	static Texture texBark;

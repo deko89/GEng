@@ -45,9 +45,12 @@ void TreeGen::SaveAs()
 
 void TreeGen::Generate()
 {
-	World& world = GetEng().proj.world;
-	world.models.clear();
-	world.models.Make<ModelTree>();
+	if (!texBark)
+		texBark.Load("Res/Bark.jpg"); //tmp
+
+	Models& models = GetEng().proj.world.models;
+	models.Del(tree);
+	tree = &models.Make<ModelTree>();
 }
 
 Menu* TreeGen::CreateMenu()
