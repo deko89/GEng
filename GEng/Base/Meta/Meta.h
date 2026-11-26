@@ -130,8 +130,8 @@ template<>				Vec3 Load(const FileNode n);
 // Константы.
 static_assert(std::numeric_limits<Val>::has_quiet_NaN);
 static_assert(std::numeric_limits<Val>::has_infinity);
-const Val vNaN = std::numeric_limits<Val>::quiet_NaN();
-const Val vInf = std::numeric_limits<Val>::infinity();
+constexpr Val vNaN = std::numeric_limits<Val>::quiet_NaN();
+constexpr Val vInf = std::numeric_limits<Val>::infinity();
 constexpr Val pi = (Val) M_PI, pi2 = (Val) M_PI_2, pi4 = (Val) M_PI_4;
 	/// Порог погрешности. После него вычисления не устойчивы, поэтому = 0.
 constexpr float epsBase = 1e-6f;
