@@ -132,16 +132,14 @@ void TreeGen::MakeBranch(Pos pos, Val len, Val angleZ, Val angleU, Val bendAmpli
 	aKey.resize(keyCount);
 	aKey[0] = pos;
 
-	std::uniform_real_distribution<Val> distD(
-		(1 - keyPointSpreadFactor) * distKey,
-		(1 + keyPointSpreadFactor) * distKey);
+	ValApprox distK{distKey, Ratio{keyPointSpreadFactor}};
 
 	const Val amplitude = len * bendAmplitude;
 	std::uniform_real_distribution<Val> ampD(-amplitude, amplitude);
 
 	for (size_t k = 1; k < keyCount; ++k)
 	{
-		pos += distD(gen) * dir;
+		pos += distK.Rand(gen) * dir;
 		const Val taper = 1 - (Val)(k - 1) / (keyCount - 2);
 		aKey[k] = pos + oX * (ampD(gen) * taper) + oY * (ampD(gen) * taper);
 		if (logLvl >= LogDebug)
