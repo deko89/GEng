@@ -59,6 +59,16 @@ const GLenum ValId = GL_FLOAT;			///< Код типа чисел (для ком�
 const GLenum IndId = GL_UNSIGNED_SHORT;	///< Код типа индексов вершин (для команд рисования).
 
 // Общие типы.
+/// Примерное число (с разбросом).
+struct ValApprox
+{
+	Val val = 0;		///< Значение.
+	Val spread = 0;		///< Абсолютный разброс (полуширина).
+	/// Случайное число в диапазоне [val - spread, val + spread].
+	template<typename Gen>
+	Val Rand(Gen& gen) const;
+};
+
 /// Цвет.
 struct Color
 {

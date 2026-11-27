@@ -1,9 +1,18 @@
 #include "Meta.h"
+#include <random>
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/string_cast.hpp"
 
 namespace GEng
 {
+
+template<typename Gen>
+Val ValApprox::Rand(Gen& gen) const
+{
+	std::uniform_real_distribution<Val> d(-spread, spread);
+	return val + d(gen);
+}
+template Val ValApprox::Rand(std::mt19937&) const;
 
 bool Rect2::IsIntersect(Ray2 ray) const
 {
