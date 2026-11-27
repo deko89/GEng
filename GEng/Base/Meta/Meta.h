@@ -10,6 +10,7 @@
 
 #include <ostream>
 #include <chrono>
+#include <cassert>
 
 #ifdef __WINDOWS__
 	#include "Galogen/gl.h"
@@ -59,12 +60,26 @@ const GLenum ValId = GL_FLOAT;			///< Код типа чисел (для ком�
 const GLenum IndId = GL_UNSIGNED_SHORT;	///< Код типа индексов вершин (для команд рисования).
 
 // Общие типы.
+/// Относительное число (доля).
+struct Ratio
+{
+	Val r = 0;	///< Доля.
+	Ratio() = default;
+	explicit Ratio(Val r) : r(r) {}
+	operator Val() const {return r;}
+};
+
 /// Примерное число (с разбросом).
 struct ValApprox
 {
 	Val val = 0;		///< Значение.
 	Val spread = 0;		///< Абсолютный разброс (полуширина).
-	/// Случайное число в диапазоне [val - spread, val + spread].
+	ValApprox() = default;
+	/// Конструктор с абсолютным разбросом.
+	ValApprox(Val v, Val spread) : val(v), spread(spread) {assert(spread >= 0);}
+	/// Конструктор с относительным разбросом: spread = |val * r|.
+	ValApprox(Val v, Ratio r) : val(v), spread(std::fabs(v * r.r)) {}
+	/// Случайное число в диапазоне val ± spread.
 	template<typename Gen>
 	Val Rand(Gen& gen) const;
 };
